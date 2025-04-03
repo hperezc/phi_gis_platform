@@ -1,0 +1,612 @@
+{
+  "sarima_departamento_Antioquia": {
+    "mse_mean": 66.76037594966786,
+    "rmse_mean": 7.288370705789006,
+    "mae_mean": 6.292387245931061,
+    "n_observations": 129
+  },
+  "sarima_departamento_Bol\u00edvar": {
+    "mse_mean": 7.855330454769718,
+    "rmse_mean": 2.7893861573168572,
+    "mae_mean": 2.262755732081018,
+    "n_observations": 60
+  },
+  "sarima_departamento_C\u00f3rdoba": {
+    "mse_mean": 3.8794985387406298,
+    "rmse_mean": 1.9182770781620202,
+    "mae_mean": 1.771488462307917,
+    "n_observations": 60
+  },
+  "sarima_departamento_Sucre": {
+    "mse_mean": 16.747991479468837,
+    "rmse_mean": 4.023837566529148,
+    "mae_mean": 3.425584205684622,
+    "n_observations": 60
+  },
+  "sarima_departamento_municipio_Antioquia_Brice\u00f1o": {
+    "mse_mean": 0.48413146751825664,
+    "rmse_mean": 0.6022485744310171,
+    "mae_mean": 0.43005458574961536,
+    "n_observations": 128
+  },
+  "sarima_departamento_municipio_Antioquia_Buritic\u00e1": {
+    "mse_mean": 0.42647864339990743,
+    "rmse_mean": 0.6519746734720879,
+    "mae_mean": 0.41608253642886706,
+    "n_observations": 72
+  },
+  "sarima_departamento_municipio_Antioquia_Caucasia": {
+    "mse_mean": 3.3880160174474043,
+    "rmse_mean": 1.736056299700276,
+    "mae_mean": 1.346881941500263,
+    "n_observations": 91
+  },
+  "sarima_departamento_municipio_Antioquia_C\u00e1ceres": {
+    "mse_mean": 7.589302433555723,
+    "rmse_mean": 2.5142725783431072,
+    "mae_mean": 2.195874314827511,
+    "n_observations": 92
+  },
+  "sarima_departamento_municipio_Antioquia_El Bagre": {
+    "mse_mean": 0.053580603710185665,
+    "rmse_mean": 0.2314748446595994,
+    "mae_mean": 0.1504211046775029,
+    "n_observations": 54
+  },
+  "sarima_departamento_municipio_Antioquia_Ituango": {
+    "mse_mean": 0.9036754656997197,
+    "rmse_mean": 0.9500681516354592,
+    "mae_mean": 0.7477028364035156,
+    "n_observations": 129
+  },
+  "sarima_departamento_municipio_Antioquia_Liborina": {
+    "mse_mean": 0.46212297293804766,
+    "rmse_mean": 0.5912990147996738,
+    "mae_mean": 0.5499053316998737,
+    "n_observations": 73
+  },
+  "sarima_departamento_municipio_Antioquia_Nech\u00ed": {
+    "mse_mean": 2.072434572405003,
+    "rmse_mean": 1.4231314643827295,
+    "mae_mean": 1.2245403315697636,
+    "n_observations": 92
+  },
+  "sarima_departamento_municipio_Antioquia_Olaya": {
+    "mse_mean": 0.17580072587727238,
+    "rmse_mean": 0.40822245279587915,
+    "mae_mean": 0.356046777976819,
+    "n_observations": 73
+  },
+  "sarima_departamento_municipio_Antioquia_Peque": {
+    "mse_mean": 0.3440523956991182,
+    "rmse_mean": 0.5847389184995551,
+    "mae_mean": 0.3952502906054185,
+    "n_observations": 126
+  },
+  "sarima_departamento_municipio_Antioquia_Sabanalarga": {
+    "mse_mean": 0.4422646038191596,
+    "rmse_mean": 0.5934168816985095,
+    "mae_mean": 0.4269962331004738,
+    "n_observations": 122
+  },
+  "sarima_departamento_municipio_Antioquia_San Andr\u00e9s de Cuerquia": {
+    "mse_mean": 0.10889381853437174,
+    "rmse_mean": 0.32913788815990275,
+    "mae_mean": 0.25693153652890666,
+    "n_observations": 122
+  },
+  "sarima_departamento_municipio_Antioquia_Santaf\u00e9 de Antioquia": {
+    "mse_mean": 0.15047422516505252,
+    "rmse_mean": 0.3467181109035609,
+    "mae_mean": 0.29511399187503834,
+    "n_observations": 70
+  },
+  "sarima_departamento_municipio_Antioquia_Taraz\u00e1": {
+    "mse_mean": 3.041124538322531,
+    "rmse_mean": 1.6779846706341985,
+    "mae_mean": 1.3892684801701163,
+    "n_observations": 92
+  },
+  "sarima_departamento_municipio_Antioquia_Toledo": {
+    "mse_mean": 0.3722130277928084,
+    "rmse_mean": 0.6094199132459989,
+    "mae_mean": 0.4554751936967696,
+    "n_observations": 128
+  },
+  "sarima_departamento_municipio_Antioquia_Valdivia": {
+    "mse_mean": 6.203869584227438,
+    "rmse_mean": 2.455251443640342,
+    "mae_mean": 2.0482246197916845,
+    "n_observations": 129
+  },
+  "sarima_departamento_municipio_Antioquia_Yarumal": {
+    "mse_mean": 0.6023572870882177,
+    "rmse_mean": 0.7583768522532504,
+    "mae_mean": 0.6762371975078452,
+    "n_observations": 73
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Ach\u00ed": {
+    "mse_mean": 2.9898683301073725,
+    "rmse_mean": 1.6991093773878188,
+    "mae_mean": 0.9755535728248138,
+    "n_observations": 60
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Cartagena": {
+    "mse_mean": 0.6318872176951414,
+    "rmse_mean": 0.5820021804232131,
+    "mae_mean": 0.4959121399657606,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Cicuco": {
+    "mse_mean": 0.17694982052135264,
+    "rmse_mean": 0.4120439542103172,
+    "mae_mean": 0.27891986414749875,
+    "n_observations": 38
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Magangu\u00e9": {
+    "mse_mean": 1.129813071598373,
+    "rmse_mean": 0.9831737927682079,
+    "mae_mean": 0.7661217207287395,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Momp\u00f3s": {
+    "mse_mean": 1.3225317779085388,
+    "rmse_mean": 1.1274356597608894,
+    "mae_mean": 0.6348757652265827,
+    "n_observations": 39
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Montecristo": {
+    "mse_mean": 0.22508811785611815,
+    "rmse_mean": 0.47436399757250725,
+    "mae_mean": 0.3461397178442812,
+    "n_observations": 42
+  },
+  "sarima_departamento_municipio_Bol\u00edvar_Pinillos": {
+    "mse_mean": 1.114239492915271,
+    "rmse_mean": 1.0555754321294482,
+    "mae_mean": 0.5139745485078485,
+    "n_observations": 42
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_Ayapel": {
+    "mse_mean": 1.429811693026053,
+    "rmse_mean": 1.085125665451887,
+    "mae_mean": 0.6676229593559022,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_Buenavista": {
+    "mse_mean": 0.5974190725187083,
+    "rmse_mean": 0.6663811532103519,
+    "mae_mean": 0.5896810583530779,
+    "n_observations": 39
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_La Apartada": {
+    "mse_mean": 0.5511760184005635,
+    "rmse_mean": 0.707287255634296,
+    "mae_mean": 0.5646756305482477,
+    "n_observations": 40
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_Montel\u00edbano": {
+    "mse_mean": 0.6426880715718357,
+    "rmse_mean": 0.7849458147743618,
+    "mae_mean": 0.6102485323392435,
+    "n_observations": 39
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_Monter\u00eda": {
+    "mse_mean": 0.01503658483708191,
+    "rmse_mean": 0.12194152291475518,
+    "mae_mean": 0.05457571834840559,
+    "n_observations": 60
+  },
+  "sarima_departamento_municipio_C\u00f3rdoba_Pueblo Nuevo": {
+    "mse_mean": 0.18991973875223256,
+    "rmse_mean": 0.4352879604343034,
+    "mae_mean": 0.3281169820190625,
+    "n_observations": 40
+  },
+  "sarima_departamento_municipio_Sucre_Caimito": {
+    "mse_mean": 0.23239941091995064,
+    "rmse_mean": 0.47309826916805714,
+    "mae_mean": 0.3152185336669383,
+    "n_observations": 58
+  },
+  "sarima_departamento_municipio_Sucre_Galeras": {
+    "mse_mean": 0.17478595993585608,
+    "rmse_mean": 0.41807410818640284,
+    "mae_mean": 0.14338308038029177,
+    "n_observations": 39
+  },
+  "sarima_departamento_municipio_Sucre_Guaranda": {
+    "mse_mean": 2.2479426237584343,
+    "rmse_mean": 1.4940918454977303,
+    "mae_mean": 1.2176867976314496,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Sucre_Majagual": {
+    "mse_mean": 9.043279153203395,
+    "rmse_mean": 2.536493099014795,
+    "mae_mean": 2.219953954957409,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Sucre_San Benito Abad": {
+    "mse_mean": 2.307277630570616,
+    "rmse_mean": 1.2679593678743035,
+    "mae_mean": 1.1842357241614403,
+    "n_observations": 58
+  },
+  "sarima_departamento_municipio_Sucre_San Marcos": {
+    "mse_mean": 0.9477848438666988,
+    "rmse_mean": 0.7432688210210409,
+    "mae_mean": 0.45339080996534076,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Sucre_Sincelejo": {
+    "mse_mean": 0.048028379800875036,
+    "rmse_mean": 0.19656135637175365,
+    "mae_mean": 0.12998025583691244,
+    "n_observations": 59
+  },
+  "sarima_departamento_municipio_Sucre_Sucre": {
+    "mse_mean": 4.951772789447551,
+    "rmse_mean": 1.7752465552178112,
+    "mae_mean": 1.6652626555261012,
+    "n_observations": 58
+  },
+  "sarima_zona_geografica_Antioquia": {
+    "mse_mean": 66.76037594966786,
+    "rmse_mean": 7.288370705789006,
+    "mae_mean": 6.292387245931061,
+    "n_observations": 129
+  },
+  "sarima_zona_geografica_La Mojana": {
+    "mse_mean": 37.74144140975272,
+    "rmse_mean": 5.936649033599091,
+    "mae_mean": 5.158055123262952,
+    "n_observations": 60
+  },
+  "sarima_categoria_unica_Divulgaciones": {
+    "mse_mean": 6.198518000584325,
+    "rmse_mean": 2.3755809283957876,
+    "mae_mean": 1.7286994459046248,
+    "n_observations": 79
+  },
+  "sarima_categoria_unica_Kits": {
+    "mse_mean": 6.331737430423931,
+    "rmse_mean": 2.445106049705376,
+    "mae_mean": 1.6653446733510595,
+    "n_observations": 87
+  },
+  "sarima_categoria_unica_Simulacros": {
+    "mse_mean": 9.795887707798155,
+    "rmse_mean": 2.641425987828566,
+    "mae_mean": 2.0648613625184233,
+    "n_observations": 87
+  },
+  "sarima_categoria_unica_Talleres": {
+    "mse_mean": 66.03474579042373,
+    "rmse_mean": 7.838683484561076,
+    "mae_mean": 6.676128608701539,
+    "n_observations": 126
+  },
+  "prophet_departamento_Antioquia": {
+    "mse": 25872.16817089874,
+    "rmse": 160.84827686642697,
+    "mae": 37.36011527272972,
+    "coverage": 0.35612155388471184,
+    "n_forecasts": 199
+  },
+  "prophet_departamento_Bol\u00edvar": {
+    "mse": 26068.16422192049,
+    "rmse": 161.45638489053474,
+    "mae": 78.96059014475878,
+    "coverage": 0.0,
+    "n_forecasts": 42
+  },
+  "prophet_departamento_C\u00f3rdoba": {
+    "mse": 13324.207026146076,
+    "rmse": 115.43052900401209,
+    "mae": 57.62716180587548,
+    "coverage": 0.0,
+    "n_forecasts": 28
+  },
+  "prophet_departamento_Sucre": {
+    "mse": 17489.823080756043,
+    "rmse": 132.24909482017654,
+    "mae": 60.39497944776794,
+    "coverage": 0.0,
+    "n_forecasts": 50
+  },
+  "prophet_departamento_municipio_Antioquia_Brice\u00f1o": {
+    "mse": 2318.8554784408743,
+    "rmse": 48.15449593174945,
+    "mae": 14.309107476393484,
+    "coverage": 0.2099837662337662,
+    "n_forecasts": 76
+  },
+  "prophet_departamento_municipio_Antioquia_Buritic\u00e1": {
+    "mse": 2813.4011165037928,
+    "rmse": 53.04150371646521,
+    "mae": 21.176351763859387,
+    "coverage": 0.0,
+    "n_forecasts": 24
+  },
+  "prophet_departamento_municipio_Antioquia_Caucasia": {
+    "mse": 9365.662792070698,
+    "rmse": 96.77635450909844,
+    "mae": 51.650765162555636,
+    "coverage": 0.04432900432900433,
+    "n_forecasts": 75
+  },
+  "prophet_departamento_municipio_Antioquia_C\u00e1ceres": {
+    "mse": 1115.6739984059552,
+    "rmse": 33.401706519367465,
+    "mae": 20.42120273199722,
+    "coverage": 0.1625180375180375,
+    "n_forecasts": 96
+  },
+  "prophet_departamento_municipio_Antioquia_El Bagre": {
+    "mse": 129.93807437944366,
+    "rmse": 11.399038309412056,
+    "mae": 9.229402646311481,
+    "coverage": 0.95,
+    "n_forecasts": 2
+  },
+  "prophet_departamento_municipio_Antioquia_Ituango": {
+    "mse": 679.9717625693613,
+    "rmse": 26.076268187172822,
+    "mae": 7.242877739124507,
+    "coverage": 0.20421428571428574,
+    "n_forecasts": 101
+  },
+  "prophet_departamento_municipio_Antioquia_Liborina": {
+    "mse": 130.13738311644977,
+    "rmse": 11.40777730833004,
+    "mae": 6.894880222640205,
+    "coverage": 0.0,
+    "n_forecasts": 21
+  },
+  "prophet_departamento_municipio_Antioquia_Nech\u00ed": {
+    "mse": 278754.52499877015,
+    "rmse": 527.9720873292168,
+    "mae": 120.0283733841201,
+    "coverage": 0.047619047619047616,
+    "n_forecasts": 64
+  },
+  "prophet_departamento_municipio_Antioquia_Olaya": {
+    "mse": 33.262356210206065,
+    "rmse": 5.767352617120447,
+    "mae": 3.026298583059888,
+    "coverage": 0.0,
+    "n_forecasts": 19
+  },
+  "prophet_departamento_municipio_Antioquia_Peque": {
+    "mse": 588.1775796433298,
+    "rmse": 24.25237266007864,
+    "mae": 13.763712231448748,
+    "coverage": 0.029411764705882346,
+    "n_forecasts": 37
+  },
+  "prophet_departamento_municipio_Antioquia_Sabanalarga": {
+    "mse": 562.0085757597813,
+    "rmse": 23.706720054865905,
+    "mae": 14.463031091120365,
+    "coverage": 0.0,
+    "n_forecasts": 41
+  },
+  "prophet_departamento_municipio_Antioquia_San Andr\u00e9s de Cuerquia": {
+    "mse": 417.6435800218419,
+    "rmse": 20.43632990587698,
+    "mae": 14.307381059928446,
+    "coverage": 0.0,
+    "n_forecasts": 26
+  },
+  "prophet_departamento_municipio_Antioquia_Santaf\u00e9 de Antioquia": {
+    "mse": 4960.321193368767,
+    "rmse": 70.42954772940664,
+    "mae": 17.29130517211739,
+    "coverage": 0.0,
+    "n_forecasts": 22
+  },
+  "prophet_departamento_municipio_Antioquia_Taraz\u00e1": {
+    "mse": 392.62889682481966,
+    "rmse": 19.814865551520143,
+    "mae": 13.723005132773576,
+    "coverage": 0.15915032679738564,
+    "n_forecasts": 104
+  },
+  "prophet_departamento_municipio_Antioquia_Toledo": {
+    "mse": 58.28620690007969,
+    "rmse": 7.634540385647305,
+    "mae": 3.8480036522415597,
+    "coverage": 0.01851851851851852,
+    "n_forecasts": 51
+  },
+  "prophet_departamento_municipio_Antioquia_Valdivia": {
+    "mse": 443.3837372459801,
+    "rmse": 21.056679159971548,
+    "mae": 11.362176404900111,
+    "coverage": 0.26324786324786326,
+    "n_forecasts": 154
+  },
+  "prophet_departamento_municipio_Antioquia_Yarumal": {
+    "mse": 632.3239663618923,
+    "rmse": 25.1460526994177,
+    "mae": 17.403829390149056,
+    "coverage": 0.0,
+    "n_forecasts": 29
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_Ach\u00ed": {
+    "mse": 2575.216451860936,
+    "rmse": 50.746590544202434,
+    "mae": 36.25716744673464,
+    "coverage": 0.0125,
+    "n_forecasts": 31
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_Cicuco": {
+    "mse": 335.91403294970655,
+    "rmse": 18.327957686270082,
+    "mae": 14.855311005856919,
+    "coverage": 0.95,
+    "n_forecasts": 2
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_Magangu\u00e9": {
+    "mse": 7366.624816257771,
+    "rmse": 85.82904412993175,
+    "mae": 67.48083511086028,
+    "coverage": 0.0,
+    "n_forecasts": 13
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_Montecristo": {
+    "mse": 364.8717184792279,
+    "rmse": 19.101615598666726,
+    "mae": 17.658799746273328,
+    "coverage": 0.0,
+    "n_forecasts": 7
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_Pinillos": {
+    "mse": 815.3894411874819,
+    "rmse": 28.555024797528752,
+    "mae": 18.627789631423557,
+    "coverage": 0.0,
+    "n_forecasts": 7
+  },
+  "prophet_departamento_municipio_Bol\u00edvar_San Jacinto del Cauca": {
+    "mse": 308.17043265118593,
+    "rmse": 17.554783754042255,
+    "mae": 15.414588987677211,
+    "coverage": 0.16666666666666669,
+    "n_forecasts": 4
+  },
+  "prophet_departamento_municipio_C\u00f3rdoba_Ayapel": {
+    "mse": 7610.559336814666,
+    "rmse": 87.23851979953962,
+    "mae": 51.810827249342445,
+    "coverage": 0.0,
+    "n_forecasts": 16
+  },
+  "prophet_departamento_municipio_C\u00f3rdoba_Buenavista": {
+    "mse": 569.6778489985938,
+    "rmse": 23.86792510878551,
+    "mae": 21.07280826317682,
+    "coverage": 0.0,
+    "n_forecasts": 6
+  },
+  "prophet_departamento_municipio_C\u00f3rdoba_La Apartada": {
+    "mse": 574.9139913335749,
+    "rmse": 23.97736414482574,
+    "mae": 20.94812321653753,
+    "coverage": 0.0,
+    "n_forecasts": 7
+  },
+  "prophet_departamento_municipio_C\u00f3rdoba_Montel\u00edbano": {
+    "mse": 94.01159004465063,
+    "rmse": 9.695957407324489,
+    "mae": 4.943693046247052,
+    "coverage": 0.0,
+    "n_forecasts": 5
+  },
+  "prophet_departamento_municipio_C\u00f3rdoba_Pueblo Nuevo": {
+    "mse": 4073.4911975421956,
+    "rmse": 63.82390772698108,
+    "mae": 53.854495934742516,
+    "coverage": 0.0,
+    "n_forecasts": 7
+  },
+  "prophet_departamento_municipio_Sucre_Caimito": {
+    "mse": 772.4979464089231,
+    "rmse": 27.793847276131512,
+    "mae": 24.89715337369448,
+    "coverage": 0.0625,
+    "n_forecasts": 10
+  },
+  "prophet_departamento_municipio_Sucre_Guaranda": {
+    "mse": 1535.2741138641081,
+    "rmse": 39.18257410972521,
+    "mae": 28.60456193599988,
+    "coverage": 0.03125,
+    "n_forecasts": 30
+  },
+  "prophet_departamento_municipio_Sucre_Majagual": {
+    "mse": 6410.492088981562,
+    "rmse": 80.06554870218253,
+    "mae": 42.17761578550644,
+    "coverage": 0.020833333333333336,
+    "n_forecasts": 25
+  },
+  "prophet_departamento_municipio_Sucre_San Benito Abad": {
+    "mse": 7686.227842529732,
+    "rmse": 87.67113460272846,
+    "mae": 54.00239839845592,
+    "coverage": 0.0,
+    "n_forecasts": 19
+  },
+  "prophet_departamento_municipio_Sucre_San Marcos": {
+    "mse": 3062.474587927568,
+    "rmse": 55.339629452387626,
+    "mae": 35.385835476807294,
+    "coverage": 0.039999999999999994,
+    "n_forecasts": 19
+  },
+  "prophet_departamento_municipio_Sucre_Sucre": {
+    "mse": 9361.868126052319,
+    "rmse": 96.75674718619017,
+    "mae": 66.8607430961811,
+    "coverage": 0.035714285714285726,
+    "n_forecasts": 12
+  },
+  "prophet_zona_geografica_Antioquia": {
+    "mse": 25872.16817089874,
+    "rmse": 160.84827686642697,
+    "mae": 37.36011527272972,
+    "coverage": 0.34177631578947376,
+    "n_forecasts": 199
+  },
+  "prophet_zona_geografica_La Mojana": {
+    "mse": 42433.78795980038,
+    "rmse": 205.99463090042028,
+    "mae": 125.74730350389953,
+    "coverage": 0.0,
+    "n_forecasts": 50
+  },
+  "prophet_categoria_unica_Asesor\u00eda especializada": {
+    "mse": 1435.1513717419998,
+    "rmse": 37.883391766604,
+    "mae": 26.99556993122663,
+    "coverage": 0.95,
+    "n_forecasts": 2
+  },
+  "prophet_categoria_unica_Divulgaciones": {
+    "mse": 63532.946005214006,
+    "rmse": 252.05742600688043,
+    "mae": 169.0039603816935,
+    "coverage": 0.0,
+    "n_forecasts": 31
+  },
+  "prophet_categoria_unica_Kits": {
+    "mse": 17570.397493745957,
+    "rmse": 132.55337601791194,
+    "mae": 68.44417763685149,
+    "coverage": 0.0,
+    "n_forecasts": 42
+  },
+  "prophet_categoria_unica_Planes comunitarios": {
+    "mse": 418169.37758860254,
+    "rmse": 646.6601716424188,
+    "mae": 644.2308476281655,
+    "coverage": 0.0,
+    "n_forecasts": 2
+  },
+  "prophet_categoria_unica_Simulacros": {
+    "mse": 4666.0221339710415,
+    "rmse": 68.30828744721273,
+    "mae": 33.69727818723388,
+    "coverage": 0.090007215007215,
+    "n_forecasts": 70
+  },
+  "prophet_categoria_unica_Talleres": {
+    "mse": 1406.8680046907343,
+    "rmse": 37.50823915742692,
+    "mae": 15.504638400805618,
+    "coverage": 0.331993006993007,
+    "n_forecasts": 165
+  }
+}

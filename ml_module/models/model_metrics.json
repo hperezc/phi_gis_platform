@@ -1,0 +1,53 @@
+{
+  "rmse_train": 3.5612896648025765,
+  "rmse_test": 10.655139644028033,
+  "mae_train": 1.8381917537340233,
+  "mae_test": 2.150998623621079,
+  "r2_train": 0.9617903828620911,
+  "r2_test": 0.7601598501205444,
+  "cv_rmse_mean": 5.337057186986724,
+  "cv_rmse_std": 2.539542197899314,
+  "mape_test": 18.08039425499036,
+  "range_metrics": {
+    "(-0.001, 9.0]": {
+      "error_mean": 2.2901,
+      "error_std": 0.6318,
+      "count": 205,
+      "real_mean": 2.8976,
+      "real_min": 0.0,
+      "real_max": 9.0
+    },
+    "(9.0, 20.0]": {
+      "error_mean": 1.3129,
+      "error_std": 0.9213,
+      "count": 217,
+      "real_mean": 16.4332,
+      "real_min": 10.0,
+      "real_max": 20.0
+    },
+    "(20.0, 26.0]": {
+      "error_mean": 0.396,
+      "error_std": 0.3763,
+      "count": 195,
+      "real_mean": 23.4256,
+      "real_min": 21.0,
+      "real_max": 26.0
+    },
+    "(26.0, 35.0]": {
+      "error_mean": 1.0168,
+      "error_std": 0.7459,
+      "count": 183,
+      "real_mean": 30.612,
+      "real_min": 27.0,
+      "real_max": 35.0
+    },
+    "(35.0, 428.0]": {
+      "error_mean": 5.8131,
+      "error_std": 23.3428,
+      "count": 192,
+      "real_mean": 52.401,
+      "real_min": 36.0,
+      "real_max": 428.0
+    }
+  }
+}

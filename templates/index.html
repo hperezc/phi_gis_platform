@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHI - Sistema de Información Geográfica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/globe.gl"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            color: white;
+        }
+
+        #globeViz {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .app-menu {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .app-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .app-card:hover {
+            transform: translateX(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .title-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 3;
+            padding: 15px;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ffffff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+
+        .subtitle {
+            font-size: 1em;
+            margin-top: 3px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInRight 0.8s ease forwards 0.5s;
+            background: linear-gradient(45deg, #cccccc, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="globeViz"></div>
+    
+    <div class="overlay">
+        <div class="title-container">
+            <h1 class="main-title">Sistema de Información Geográfica PHI</h1>
+            <p class="subtitle">Plataforma de Análisis y Predicción</p>
+        </div>
+    </div>
+
+    <div class="app-menu">
+        <div class="app-card" onclick="window.location.href='/dashboard'">
+            <i class="fas fa-chart-line fa-2x mb-3"></i>
+            <h5>Dashboard</h5>
+            <p>Visualización y análisis de datos</p>
+        </div>
+        
+        <div class="app-card" onclick="window.location.href='/geoportal'">
+            <i class="fas fa-map-marked-alt fa-2x mb-3"></i>
+            <h5>Geoportal</h5>
+            <p>Análisis geográfico y espacial</p>
+        </div>
+
+        <div class="app-card" onclick="window.location.href='/prediccion'">
+            <i class="fas fa-brain fa-2x mb-3"></i>
+            <h5>Análisis Predictivo</h5>
+            <p>Modelos predictivos y ML</p>
+        </div>
+    </div>
+
+    <script>
+        // Definir colores constantes para mejor control
+        const PROJECT_COLOR = '#FF0000';  // Rojo brillante para el proyecto
+        const MEDELLIN_COLOR = '#4CAF5088';  // Verde tenue
+        const BOGOTA_COLOR = '#2196F388';   // Azul tenue
+
+        // Coordenadas y configuración
+        const ITUANGO_COORDS = { 
+            lat: 7.1711, 
+            lng: -75.7639,
+            name: 'Proyecto Hidroituango',
+            color: PROJECT_COLOR
+        };
+
+        const CITIES = [
+            {
+                name: 'Medellin',
+                lat: 6.2442,
+                lng: -75.5812,
+                color: MEDELLIN_COLOR,
+                size: 0.08
+            },
+            {
+                name: 'Bogota',
+                lat: 4.7110,
+                lng: -74.0721,
+                color: BOGOTA_COLOR,
+                size: 0.08
+            }
+        ];
+
+        // Crear arcos de conexión
+        const arcsData = CITIES.map(city => ({
+            startLat: ITUANGO_COORDS.lat,
+            startLng: ITUANGO_COORDS.lng,
+            endLat: city.lat,
+            endLng: city.lng,
+            color: `${PROJECT_COLOR}88`  // Color rojo con transparencia para los arcos
+        }));
+
+        // Crear datos para el efecto de atmósfera
+        const atmosphereData = Array.from({ length: 100 }, () => ({
+            lat: ITUANGO_COORDS.lat + (Math.random() - 0.5) * 2,
+            lng: ITUANGO_COORDS.lng + (Math.random() - 0.5) * 2,
+            altitude: Math.random() * 0.1,
+            radius: Math.random() * 0.5,
+            color: `rgba(255, 150, 50, ${Math.random() * 0.5})`
+        }));
+
+        const globe = Globe()
+            .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+            .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+            .backgroundImageUrl('https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/night-sky.png')
+            // Configuración básica
+            .pointOfView({ 
+                lat: ITUANGO_COORDS.lat, 
+                lng: ITUANGO_COORDS.lng, 
+                altitude: 2.5 
+            })
+            // Puntos actualizados con nuevo color
+            .pointsData([
+                {
+                    lat: ITUANGO_COORDS.lat,
+                    lng: ITUANGO_COORDS.lng,
+                    size: 0.15,
+                    color: PROJECT_COLOR,  // Color rojo brillante para el proyecto
+                    altitude: 0.1
+                },
+                ...CITIES.map(city => ({
+                    lat: city.lat,
+                    lng: city.lng,
+                    size: city.size,
+                    color: city.color,
+                    altitude: 0.07
+                }))
+            ])
+            .pointAltitude('altitude')
+            .pointColor('color')
+            .pointRadius('size')
+            .pointsMerge(true)
+            // Anillos pulsantes con nuevo color
+            .ringsData([{
+                lat: ITUANGO_COORDS.lat,
+                lng: ITUANGO_COORDS.lng,
+                maxR: 2,
+                propagationSpeed: 1.5,
+                repeatPeriod: 1000,
+                amplitude: 2
+            }])
+            .ringColor(() => `${PROJECT_COLOR}88`)  // Anillos en rojo
+            // Arcos más delgados
+            .arcsData(arcsData)
+            .arcColor('color')
+            .arcAltitude(0.2)
+            .arcStroke(0.15)
+            .arcDashLength(1)
+            .arcDashGap(2)
+            .arcDashAnimateTime(3000)
+
+            // Nuevos efectos adicionales
+            // Efecto de atmósfera mejorado
+            .atmosphereColor('#ffffff')
+            .atmosphereAltitude(0.15)
+
+            // Efecto de brillo en los puntos de las ciudades
+            .pointLabel('name')
+            .pointColor(() => '#ffffff')
+            .pointAltitude(0.07)
+            .pointRadius(0.12)
+            .pointsMerge(false)
+            .pointsTransitionDuration(1000)
+
+            // Efecto de resaltado al hacer hover
+            .onGlobeClick((lat, lng) => {
+                globe.pointOfView({lat, lng, altitude: 2.5}, 1000);
+            });
+
+        // Montar el globo
+        const globeElement = document.getElementById('globeViz');
+        globe(globeElement);
+
+        // Mostrar menú cuando el globo se acerca a Ituango
+        globe.onZoom(pov => {
+            const menu = document.querySelector('.app-menu');
+            if (pov.altitude < 1.5) {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
+            }
+        });
+
+        // Animación automática mejorada
+        let angle = 0;
+        setInterval(() => {
+            angle += 0.1;
+            const altitude = globe.pointOfView().altitude;
+            if (altitude > 2) {
+                globe.pointOfView({
+                    lat: ITUANGO_COORDS.lat,
+                    lng: ITUANGO_COORDS.lng + angle,
+                    altitude
+                });
+            }
+        }, 100);
+
+        // Labels actualizados
+        const labelsData = [
+            {
+                lat: ITUANGO_COORDS.lat,
+                lng: ITUANGO_COORDS.lng,
+                text: 'Proyecto Hidroituango',
+                size: 0.6,
+                altitude: 0.1,
+                color: '#ffffff',
+                backgroundColor: `${PROJECT_COLOR}dd`,  // Fondo más opaco para el proyecto
+                borderRadius: 5,
+                padding: 5
+            },
+            ...CITIES.map(city => ({
+                lat: city.lat,
+                lng: city.lng,
+                text: city.name,
+                size: 0.4,
+                altitude: 0.1,
+                color: '#ffffff',
+                backgroundColor: `${city.color}99`,
+                borderRadius: 5,
+                padding: 5
+            }))
+        ];
+
+        // Actualizar configuración de labels
+        globe
+            .labelsData(labelsData)
+            .labelColor('color')
+            .labelText('text')
+            .labelSize('size')
+            .labelAltitude('altitude')
+            .labelDotRadius(0.4)
+            .labelDotOrientation(() => 'right')
+            .labelBackground('backgroundColor')
+            .labelPadding('padding')
+            // Agregar efectos de hover a los labels
+            .onLabelHover(label => {
+                if (label) {
+                    const labelElement = label.element;
+                    labelElement.style.transform = 'scale(1.1)';
+                    labelElement.style.transition = 'transform 0.3s ease';
+                }
+            });
+
+        // Efecto de pulso actualizado
+        setInterval(() => {
+            const pulsatingPoints = [
+                {
+                    ...ITUANGO_COORDS,
+                    size: 0.12 + Math.sin(Date.now() / 500) * 0.03,
+                    color: PROJECT_COLOR  // Mantiene el color brillante
+                },
+                ...CITIES.map(city => ({
+                    ...city,
+                    size: city.size + Math.sin(Date.now() / 500) * 0.02,
+                    color: city.color
+                }))
+            ];
+            globe.pointsData(pulsatingPoints);
+        }, 50);
+
+        // Sistema de partículas con colores actualizados
+        function createParticleSystem() {
+            const particles = [];
+            // Partículas para el proyecto en rojo
+            for (let i = 0; i < 20; i++) {
+                particles.push({
+                    lat: ITUANGO_COORDS.lat + (Math.random() - 0.5) * 0.3,
+                    lng: ITUANGO_COORDS.lng + (Math.random() - 0.5) * 0.3,
+                    size: Math.random() * 0.03 + 0.01,
+                    color: `${PROJECT_COLOR}${Math.floor(Math.random() * 99)}`,
+                    altitude: Math.random() * 0.1
+                });
+            }
+            // Partículas más sutiles para las ciudades
+            CITIES.forEach(city => {
+                for (let i = 0; i < 10; i++) {
+                    particles.push({
+                        lat: city.lat + (Math.random() - 0.5) * 0.2,
+                        lng: city.lng + (Math.random() - 0.5) * 0.2,
+                        size: Math.random() * 0.02 + 0.01,
+                        color: `${city.color}${Math.floor(Math.random() * 99)}`,
+                        altitude: Math.random() * 0.08
+                    });
+                }
+            });
+            return particles;
+        }
+
+        // Actualizar partículas con animación suave
+        setInterval(() => {
+            const newParticles = createParticleSystem();
+            globe.pointsData(newParticles);
+        }, 2000);
+
+        // Efecto de resplandor en los arcos
+        function updateArcsColor() {
+            arcsData.forEach(arc => {
+                const opacity = 0.2 + Math.sin(Date.now() / 1000) * 0.1;
+                arc.color = arc.color.replace(/[\d.]+\)$/, `${opacity})`);
+            });
+            globe.arcsData(arcsData);
+        }
+        setInterval(updateArcsColor, 100);
+
+        // Agregar efecto de rotación suave automática cuando no hay interacción
+        let lastInteractionTime = Date.now();
+        let isRotating = true;
+
+        globe.onGlobeClick(() => {
+            lastInteractionTime = Date.now();
+            isRotating = false;
+            setTimeout(() => { isRotating = true; }, 5000);
+        });
+
+        // Rotación automática suave
+        (function animate() {
+            if (isRotating && Date.now() - lastInteractionTime > 5000) {
+                const rotation = globe.getRotation();
+                globe.rotation({x: rotation.x, y: rotation.y + 0.001, z: rotation.z});
+            }
+            requestAnimationFrame(animate);
+        })();
+
+        // Agregar indicadores de distancia
+        const distances = CITIES.map(city => {
+            const distance = calculateDistance(ITUANGO_COORDS, city);
+            return {
+                lat: (ITUANGO_COORDS.lat + city.lat) / 2,
+                lng: (ITUANGO_COORDS.lng + city.lng) / 2,
+                text: `${Math.round(distance)} km`,
+                size: 0.4,
+                altitude: 0.3,
+                color: '#ffffff80'
+            };
+        });
+
+        globe.labelsData([...labelsData, ...distances]);
+
+        // Función auxiliar para calcular distancias
+        function calculateDistance(point1, point2) {
+            const R = 6371; // Radio de la Tierra en km
+            const dLat = (point2.lat - point1.lat) * Math.PI / 180;
+            const dLon = (point2.lng - point1.lng) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(point1.lat * Math.PI / 180) * Math.cos(point2.lat * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Inicializar AOS para animaciones adicionales
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+    </script>
+</body>
+</html> 

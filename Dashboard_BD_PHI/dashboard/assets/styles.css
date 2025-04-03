@@ -1,0 +1,722 @@
+.map-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.map-type-selector,
+.map-level-selector {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.map-fullscreen-btn {
+    margin-left: auto;
+}
+
+/* Estilos para los radio buttons */
+.map-type-selector .form-check,
+.map-level-selector .form-check {
+    margin-right: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .map-fullscreen-btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+.map-section {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-container {
+    width: 100%;
+    height: calc(100% - 40px);
+    position: relative;
+}
+
+.map-section .js-plotly-plot,
+.map-section .js-plotly-plot .plot-container,
+.map-section .js-plotly-plot .plot-container .svg-container,
+.map-section .main-svg {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: unset !important;
+}
+
+.js-plotly-plot {
+    width: 100% !important;
+    height: 400px !important;
+    margin: 0 !important;
+}
+
+.chart-tabs {
+    width: 100%;
+    overflow: hidden;
+}
+
+.js-plotly-plot .plot-container.plotly {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.map-section .legend {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 10px !important;
+    z-index: 1000 !important;
+}
+
+.panel-header {
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+/* Estilos para los controles del mapa */
+.map-controls-container {
+    padding: 15px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+.map-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.control-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.control-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.map-layer-control,
+.map-type-control,
+.basemap-style-control {
+    width: 100%;
+}
+
+/* Contenedor del mapa */
+.map-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.map-graph {
+    width: 100%;
+    height: 600px;
+}
+
+.map-level-selector,
+.map-type-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.map-level-selector .form-check,
+.map-type-selector .form-check {
+    margin: 0;
+    padding: 0.25rem 0;
+}
+
+.basemap-selector {
+    width: 100%;
+}
+
+.map-fullscreen-btn {
+    grid-column: 1 / -1;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Estilos para los radio buttons */
+.map-level-selector input[type="radio"],
+.map-type-selector input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-controls-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-fullscreen-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Estilos para el contenedor del mapa */
+.map-container {
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Contenedor del mapa con controles */
+.map-container-with-controls {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Panel de controles del mapa */
+.map-controls-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    max-width: 300px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.map-controls-panel {
+    padding: 1rem;
+}
+
+.control-panel-title {
+    color: #495057;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.map-level-selector,
+.map-type-selector {
+    margin-bottom: 1rem;
+}
+
+.map-level-selector .form-check,
+.map-type-selector .form-check {
+    margin: 0.25rem 0;
+}
+
+.basemap-selector {
+    margin-bottom: 1rem;
+}
+
+.map-fullscreen-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Estilos para los radio buttons */
+.map-level-selector input[type="radio"],
+.map-type-selector input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .map-controls-container {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        max-width: none;
+        margin-top: 1rem;
+    }
+}
+
+/* Estilos específicos para el gráfico del mapa */
+.map-graph {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Asegurarse de que todos los contenedores internos del mapa se ajusten correctamente */
+.map-graph .js-plotly-plot,
+.map-graph .plot-container,
+.map-graph .plot-container .svg-container,
+.map-graph .main-svg {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.geoportal-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.geoportal-control-panel {
+    width: 250px;
+    min-width: 250px;
+    padding: 15px;
+    background: white;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.geoportal-map-container {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Prevenir scroll horizontal */
+body {
+    overflow-x: hidden;
+}
+
+#main-content {
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Ajustes para las tabs */
+.dash-tabs-container {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.dash-tab-content {
+    height: calc(100% - 40px);
+    overflow: hidden;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Asegurar que el mapa ocupe todo el espacio disponible */
+#geoportal-map {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.layer-checklist {
+    margin-top: 10px;
+}
+
+.selection-info-panel {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.selection-info-content {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.selection-title {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.info-row {
+    margin: 8px 0;
+}
+
+.info-row strong {
+    color: #34495e;
+    margin-right: 5px;
+}
+
+.no-selection-text {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.error-text {
+    color: #e74c3c;
+    font-style: italic;
+}
+
+/* Estilos para los gráficos del dashboard */
+.dashboard .js-plotly-plot {
+    width: 100% !important;
+    height: 400px !important;
+    margin: 0 !important;
+}
+
+.dashboard .js-plotly-plot .plot-container,
+.dashboard .js-plotly-plot .plot-container .svg-container,
+.dashboard .main-svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Normalización de tamaños y estilos base */
+:root {
+    font-size: 16px;  /* Tamaño base de fuente */
+    --primary-color: #004a94;  /* Color EPM */
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #f5f5f5;
+}
+
+/* Ajuste de tamaños de texto */
+h1 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+p {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para los elementos del dashboard */
+.header-title {
+    font-size: 1.75rem;
+    margin: 0;
+    color: white;
+    font-weight: 600;
+}
+
+.header-description {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+/* Ajustes para los filtros */
+.filter-item label {
+    font-size: 0.875rem;
+}
+
+.Select-control {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para los KPIs */
+.kpi-card {
+    padding: 1rem;
+}
+
+.kpi-card h3 {
+    font-size: 1.5rem;
+}
+
+.kpi-card p {
+    font-size: 0.75rem;
+}
+
+/* Ajustes para los gráficos */
+.chart-panel h3 {
+    font-size: 1.125rem;
+}
+
+/* Ajustes para la tabla */
+.dash-table-container {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para los botones */
+.btn {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Ajustes para los iconos */
+.fas {
+    font-size: 1rem;
+}
+
+/* Ajustes para los dropdowns */
+.Select {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para los controles del mapa */
+.map-controls-panel {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para las pestañas */
+.custom-tab {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para el loader */
+.loader-text {
+    font-size: 0.875rem;
+}
+
+/* Ajustes para elementos de búsqueda */
+.search-input {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+    border-radius: 0 0 10px 10px;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header-logo {
+    height: 45px;
+    object-fit: contain;
+    background: white;
+    padding: 0.25rem;
+    border-radius: 4px;
+}
+
+.refresh-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.refresh-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.card-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* KPI cards */
+.kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.kpi-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.kpi-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Filter styles */
+.filter-item {
+    margin-bottom: 1rem;
+}
+
+.filter-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+/* Table styles */
+.data-table-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.table-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Button styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Loader styles */
+.loader-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Graph container styles */
+.visualization-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Tab styles */
+.custom-tabs {
+    margin-bottom: 1rem;
+}
+
+.custom-tab {
+    padding: 0.75rem 1rem;
+}
+
+/* Dropdown styles */
+.Select-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+/* Font Awesome icons */
+.fas {
+    margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .kpi-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .visualization-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Añadir iconos específicos para las cards */
+.card-icon.kpi {
+    background: linear-gradient(45deg, #2196F3, #3F51B5);
+}
+
+.card-icon.chart {
+    background: linear-gradient(45deg, #4CAF50, #8BC34A);
+}
+
+.card-icon.table {
+    background: linear-gradient(45deg, #FF9800, #F44336);
+}
+
+.card-icon.analysis {
+    background: linear-gradient(45deg, #9C27B0, #E91E63);
+} 

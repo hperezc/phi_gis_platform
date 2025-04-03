@@ -1,0 +1,106 @@
+# Archivos de entorno
+.env
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# Node.js (para el frontend del geoportal)
+node_modules/
+.next/
+.nuxt/
+dist/
+build/
+.cache/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Directorios de datos y backups
+backups/
+data/
+*.csv
+*.xlsx
+*.xls
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Sistema
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos sensibles
+*.env
+config/local_settings.py
+
+# Frontend build
+geoportal/frontend/static/build/
+
+# Entorno
+.env.*
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+
+# Datos y backups
+data/
+backups/
+*.csv
+*.xlsx
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Archivos GIS
+*.gdb/
+*.gdb/**
+*.lock
+*.shp
+*.shx
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.fbn
+*.fbx
+*.ain
+*.aih
+*.atx
+*.ixs
+*.mxs
+*.sr.lock
+
+# Datos específicos
+data/data_geoportal_phi.gdb/

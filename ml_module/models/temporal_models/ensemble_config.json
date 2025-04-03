@@ -1,0 +1,22 @@
+{
+  "weights": {
+    "Antioquia_Valdivia": {
+      "sarima": 0.4,
+      "prophet": 0.6
+    }
+  },
+  "filters": {
+    "min_observations": 24,
+    "min_activity": 10,
+    "max_zeros_ratio": 0.5,
+    "min_unique_values": 5
+  },
+  "prophet_config": {
+    "initial_window": 730,
+    "validation_window": 180,
+    "prediction_horizon": 90,
+    "changepoint_prior_scale": 0.05,
+    "seasonality_prior_scale": 10.0,
+    "holidays_prior_scale": 0.1
+  }
+}
