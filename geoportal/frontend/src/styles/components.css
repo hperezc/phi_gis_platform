@@ -1,0 +1,2074 @@
+/* Asegurarse de que estos estilos estén al principio del archivo */
+:root {
+  --background-panel: rgba(255, 255, 255, 0.95);
+  --background-secondary: rgba(248, 250, 252, 0.98);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-light: #ffffff;
+  --text-dark: #1e293b;
+  --border-color: rgba(226, 232, 240, 0.8);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --primary-light: #3b82f6;
+  --z-header: 1000;
+  --z-sidebar: 900;
+  --z-map-controls: 800;
+  --z-map: 0;
+  --accent-color: #3b82f6;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --transition-speed: 0.2s;
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  --hover-gradient: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
+  --blue-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+/* Sidebar y paneles */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  width: 400px;
+  height: calc(100vh - 64px);
+  background: var(--background-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 
+    4px 0 15px rgba(0, 0, 0, 0.05),
+    2px 0 5px rgba(0, 0, 0, 0.05);
+  border-right: 1px solid var(--border-color);
+  z-index: 900;
+  overflow: hidden; /* Previene scroll en el sidebar */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.sidebar-content {
+  @apply h-full p-4;
+  overflow-y: auto;
+}
+
+/* Pestañas */
+.tremor-TabList {
+  @apply sticky top-0 z-10 p-2 flex gap-2 mb-4;
+  background: var(--bg-panel);
+  backdrop-filter: blur(8px);
+}
+
+.tremor-Tab {
+  @apply px-4 py-2 rounded-lg text-sm font-medium flex-1 text-center transition-all duration-200;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
+  transition: all var(--transition-speed) var(--transition-ease);
+  border-radius: 0.5rem;
+}
+
+.tremor-Tab:hover {
+  background-color: var(--background-secondary);
+}
+
+.tremor-Tab[data-headlessui-state="selected"] {
+  background-color: var(--accent-color);
+  color: white !important;
+}
+
+/* Estilos mejorados para el panel de estadísticas */
+.statistics-panel {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* Contenedor de las pestañas */
+.stats-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Lista de pestañas */
+.stats-tab-list {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: var(--background-secondary);
+  border-radius: 0.375rem;
+}
+
+/* Estilos para cada pestaña */
+.stats-tab {
+  flex: 1;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.stats-tab .icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+.stats-tab .text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contenedor del gráfico de categorías */
+.chart-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.chart-container:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Asegurar que las etiquetas sean legibles */
+.chart-container canvas {
+  font-size: 9px !important;
+}
+
+/* Tooltip mejorado para textos largos */
+.recharts-tooltip-wrapper {
+  max-width: 300px;
+}
+
+.recharts-tooltip-item-list {
+  word-wrap: break-word;
+}
+
+/* Descripción del gráfico */
+.chart-description {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.chart-description-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.chart-description-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.chart-description-list {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.chart-description-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0;
+}
+
+.chart-description-list li::before {
+  content: '•';
+  color: var(--primary);
+}
+
+/* Estilos para cada pestaña */
+.stats-tab {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contenedor del ícono y texto */
+.stats-tab > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+.stats-tab .w-4 {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+.stats-tab span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-tab:hover {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.stats-tab[data-state="active"] {
+  color: white;
+  background: var(--primary);
+}
+
+/* Contenido de las estadísticas */
+.stats-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+.stats-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stats-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.stats-content::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+
+/* Tarjetas de estadísticas */
+.stats-card {
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.stats-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.stats-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stats-card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Panel de capas - contenedor principal */
+.layers-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* Encabezado del panel - fijo */
+.panel-header {
+  flex-shrink: 0; /* Evita que el header se encoja */
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 10;
+}
+
+/* Contenedor con scroll */
+.layers-content {
+  flex: 1;
+  overflow-y: auto; /* Habilita el scroll vertical */
+  overflow-x: hidden;
+  padding: 1rem;
+  height: 0; /* Fuerza el scroll cuando el contenido excede el espacio */
+}
+
+/* Estilo del scrollbar */
+.layers-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.layers-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layers-content::-webkit-scrollbar-thumb {
+  background-color: rgba(203, 213, 225, 0.5);
+  border-radius: 3px;
+}
+
+.layers-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(203, 213, 225, 0.7);
+}
+
+/* Para Firefox */
+.layers-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(203, 213, 225, 0.5) transparent;
+}
+
+/* Grupos de capas */
+.layer-group {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.02),
+    0 1px 3px rgba(0, 0, 0, 0.01);
+  margin-bottom: 0.75rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.layer-group:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.group-header {
+  padding: 0.75rem 1rem;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group-content {
+  padding: 0.75rem;
+  background: none;
+}
+
+/* Items de capa */
+.layer-item {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: none;
+}
+
+.layer-item:last-child {
+  border-bottom: none;
+}
+
+/* Leyenda */
+.legend-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+}
+
+/* Control de opacidad */
+.opacity-slider {
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #3b82f6, #60a5fa);
+  outline: none;
+}
+
+.opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.opacity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el scrollbar en webkit */
+.layers-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.layers-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layers-content::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+
+/* Estilo para el wrapper del ícono de información */
+.info-icon-wrapper {
+  position: relative;
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon-wrapper:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.info-icon-wrapper .w-3\.5 {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.info-icon-wrapper:hover .w-3\.5 {
+  color: var(--primary);
+}
+
+/* Estados activos */
+.basemap-item.active .icon,
+.basemap-item.active .label {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Estados hover */
+.basemap-item:hover .icon,
+.basemap-item:hover .label {
+  color: var(--primary);
+}
+
+/* Estilos para los gráficos */
+.chart-container {
+  background: var(--background-panel);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: all var(--transition-speed) var(--transition-ease);
+}
+
+.chart-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.donut-chart {
+  background: transparent !important;
+}
+
+/* Asegurarse de que los textos en fondos oscuros sean blancos */
+.bg-blue-600 *,
+.bg-primary *,
+[class*="bg-blue-"] * {
+  color: white !important;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .layer-group-header,
+  .layer-group-title {
+    color: white !important;
+  }
+  
+  .bg-blue-600 *,
+  .bg-primary *,
+  [class*="bg-blue-"] * {
+    color: white !important;
+  }
+}
+
+/* Asegurarnos que el contenido del mapa también respete el header */
+.map-container {
+  height: calc(100vh - 64px);
+  width: 100%;
+  z-index: var(--z-map);
+}
+
+/* Controles del mapa */
+.map-controls {
+  z-index: var(--z-map-controls);
+}
+
+/* Asegurarse que los controles de Leaflet estén por encima del mapa */
+.leaflet-control-container {
+  z-index: var(--z-map-controls);
+}
+
+/* Actualizar los hover states */
+.panel-tab:not(.active):hover {
+  background: var(--background-secondary);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Actualizar los estilos de los checkboxes y otros controles */
+input[type="checkbox"] {
+  @apply rounded border-gray-300;
+  color: var(--primary) !important;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+input[type="range"] {
+  @apply h-2 rounded-lg appearance-none cursor-pointer bg-gray-200;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background: var(--primary);
+}
+
+/* Asegurar que los textos en fondos azules sean blancos */
+.bg-blue-800 *,
+.bg-primary *,
+[class*="bg-blue-"] * {
+  color: white !important;
+}
+
+.text-blue-200 {
+  color: #bfdbfe !important;
+}
+
+/* Contenedor de pestañas */
+.panel-tabs {
+  @apply flex border-b border-gray-200;
+  background: var(--background-panel);
+  flex-shrink: 0;
+}
+
+/* Contenido del panel con scroll */
+.panel-content {
+  @apply flex-1 overflow-y-auto;
+  height: calc(100% - 48px); /* altura total menos altura de pestañas */
+  padding: 1rem;
+}
+
+/* Estilos para el encabezado del panel */
+.panel-header,
+.statistics-panel .panel-header,
+.tremor-Card .panel-header,
+.sidebar .panel-header {
+  background: var(--background-panel);
+  color: var(--text-dark) !important;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Asegurarse de que todos los títulos dentro de paneles sean oscuros */
+.panel-header h1,
+.panel-header h2,
+.panel-header h3,
+.panel-header .tremor-Title,
+.statistics-panel .tremor-Title,
+.tremor-Card .tremor-Title {
+  color: var(--text-dark) !important;
+  font-weight: 600;
+}
+
+/* Sobrescribir cualquier estilo que pueda estar causando conflicto */
+.tremor-Card[class*="bg-"] *,
+.statistics-panel[class*="bg-"] *,
+.panel-header[class*="bg-"] * {
+  color: var(--text-dark) !important;
+}
+
+/* Asegurarse que los títulos en el panel de estadísticas sean oscuros */
+.statistics-panel .tremor-Card .tremor-Title,
+.statistics-panel h2,
+.statistics-panel .panel-header {
+  color: var(--text-dark) !important;
+  font-weight: 600;
+}
+
+/* Animaciones de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.statistics-panel {
+  animation: slideIn 0.3s ease-out;
+}
+
+.chart-container {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Estilos para el control de mapas base */
+.basemap-control {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  margin: 1rem !important;
+}
+
+.basemap-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.basemap-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.basemap-button:hover {
+  background: var(--background-secondary);
+}
+
+.basemap-button.active {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.basemap-thumbnail {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-color);
+}
+
+/* Asegurarse que el control esté por encima de otros elementos */
+.leaflet-control.basemap-control {
+  z-index: 1000;
+}
+
+/* Agregar al final del archivo */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: 50vh;
+    bottom: 0;
+    top: auto;
+  }
+  
+  .map-container {
+    height: 50vh;
+  }
+  
+  .layer-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Efectos de hover mejorados para las tarjetas */
+.stats-card {
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 100%
+  );
+}
+
+.stats-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+}
+
+/* Efecto de brillo en hover para los botones */
+.button, .tremor-Tab {
+  position: relative;
+  overflow: hidden;
+}
+
+.button::after, .tremor-Tab::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.button:hover::after, .tremor-Tab:hover::after {
+  opacity: 1;
+}
+
+/* Animación de entrada para los paneles */
+.panel-content {
+  animation: slideUpFade 0.4s ease-out;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto de pulso para elementos activos */
+.active-element {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Efecto de ondas para los clicks */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  transform-origin: center;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Mejora en las transiciones de los gráficos */
+.chart-container {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.chart-container:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Efecto de desenfoque para modales y overlays */
+.blur-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.8);
+  animation: blurIn 0.3s ease-out;
+}
+
+@keyframes blurIn {
+  from {
+    backdrop-filter: blur(0);
+    background: rgba(255, 255, 255, 0);
+  }
+  to {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Efecto de brillo para elementos destacados */
+.highlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* Actualizar los estilos del spinner */
+.loading-overlay {
+  position: fixed; /* Cambiado de absolute a fixed */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Aumentado para asegurar que esté por encima de todo */
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner-ring {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--background-secondary);
+  border-top: 4px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Asegurarse de que la animación de pulso no interfiera */
+.active-element.spinner-ring {
+  animation: spin 1s linear infinite;
+}
+
+/* Cabecera del grupo de capas */
+.layer-group button {
+  background: var(--blue-gradient);
+  transition: all 0.3s ease;
+}
+
+.layer-group button:hover {
+  filter: brightness(1.1);
+}
+
+/* Checkbox personalizado */
+.layer-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid rgba(59, 130, 246, 0.4);
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.layer-item input[type="checkbox"]:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.layer-item input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Tooltip para los grupos */
+.group-tooltip {
+  position: fixed;
+  transform: translate(calc(-50% + 1.75rem), 10px);
+  margin-top: 0.5rem;
+  padding: 0.625rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  width: 14rem;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.group-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.1));
+}
+
+.group-tooltip p {
+  line-height: 1.4;
+}
+
+/* Botón de información */
+.info-button {
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.info-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para el tooltip usando portal */
+.tooltip-content {
+  z-index: 9999;
+  position: fixed;
+  background: white;
+  border-radius: 0.5rem;
+  padding: 0.625rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  width: 14rem;
+  animation: fadeIn 0.2s ease-out;
+  font-size: 0.75rem;
+}
+
+.tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.1));
+}
+
+.tooltip-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.tooltip-inner h4 {
+  font-size: 0.8125rem;
+  margin-bottom: 0.375rem;
+}
+
+.tooltip-inner p {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.tooltip-inner .preview-image {
+  border-radius: 0.375rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.tooltip-inner .preview-image img {
+  display: block;
+  width: 100%;
+  height: 5rem;
+  object-fit: cover;
+}
+
+/* Estilos para el ícono de información */
+.info-icon-wrapper {
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon-wrapper:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.info-icon-wrapper .w-3\.5 {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.info-icon-wrapper:hover .w-3\.5 {
+  color: var(--primary);
+}
+
+/* Animación de fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+/* Panel header fijo */
+.panel-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Mejorar la visibilidad del scroll */
+.layers-content {
+  padding-right: 1rem;
+}
+
+/* Espaciado entre grupos */
+.space-y-3 > * + * {
+  margin-top: 0.5rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 0.75rem;
+}
+
+/* Descripción debajo del gráfico */
+.bg-gray-50 {
+  background-color: rgba(249, 250, 251, 0.8);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-top: 0.5rem;
+}
+
+.text-sm.text-gray-600 {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.text-xs.text-gray-500 {
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.text-xs.text-gray-500 li {
+  position: relative;
+  padding-left: 1rem;
+  list-style-type: none !important;
+  margin-bottom: 0.25rem;
+}
+
+.text-xs.text-gray-500 li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+/* Ajustar el contenedor para que no se desborde */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 400px;
+  padding: 1rem;
+}
+
+.chart-container > div:first-child {
+  flex: 1;
+}
+
+/* Tooltip del mapa */
+.leaflet-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+/* Asegurar que todo el texto dentro del tooltip sea oscuro */
+.leaflet-tooltip,
+.leaflet-tooltip *,
+.leaflet-tooltip p,
+.leaflet-tooltip span,
+.leaflet-tooltip div {
+  color: var(--text-primary) !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Flecha del tooltip */
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Asegurar que no haya estilos que sobreescriban */
+.leaflet-tooltip[class*="leaflet-tooltip"] {
+  color: var(--text-primary) !important;
+}
+
+/* Actualizar los estilos del header */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: var(--z-header);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Mejorar los logos */
+.logos-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0 2rem;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Mejorar el título */
+.header-title-container {
+  margin-left: 2rem;
+  position: relative;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 800px;
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Botones del header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #0f766e, #0d9488);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 6px rgba(13, 148, 136, 0.2),
+    0 2px 4px rgba(13, 148, 136, 0.1);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.dashboard-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.dashboard-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 12px rgba(13, 148, 136, 0.2),
+    0 4px 6px rgba(13, 148, 136, 0.1);
+}
+
+.dashboard-icon {
+  transition: transform 0.3s ease;
+}
+
+.dashboard-button:hover .dashboard-icon {
+  transform: translateY(-2px);
+}
+
+.download-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 6px rgba(59, 130, 246, 0.2),
+    0 2px 4px rgba(59, 130, 246, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.download-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 12px rgba(59, 130, 246, 0.2),
+    0 4px 6px rgba(59, 130, 246, 0.1);
+}
+
+.download-icon {
+  transition: transform 0.3s ease;
+}
+
+.download-button:hover .download-icon {
+  transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes shimmer {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+}
+
+/* Animaciones */
+@keyframes shimmer {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+}
+
+/* Añadir estos estilos para las rutas de evacuación */
+.ruta-evacuacion-line {
+  stroke: #f97316;
+  stroke-width: 4;
+  stroke-dasharray: 15, 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: dash 30s linear infinite;
+  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.3));
+}
+
+.ruta-evacuacion-line:hover {
+  stroke-width: 6;
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
+  transition: all 0.3s ease;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+/* Ajustar los estilos de los puntos de encuentro */
+.punto-encuentro-marker {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(22, 163, 74, 0.3));
+}
+
+.punto-encuentro-marker:hover {
+  filter: drop-shadow(0 0 6px rgba(22, 163, 74, 0.5));
+}
+
+/* Quitar el efecto hover */
+.punto-encuentro-marker:hover {
+  /* Removemos las transformaciones */
+}
+
+/* Mejorar el estilo del tooltip */
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  max-width: 300px !important;
+  pointer-events: none !important;
+  z-index: 1000 !important;
+}
+
+.custom-tooltip strong {
+  color: #1e40af !important;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+}
+
+.custom-tooltip div {
+  color: #334155 !important;
+  margin: 4px 0;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Asegurar que el tooltip esté por encima de otros elementos */
+.leaflet-tooltip {
+  z-index: 1000 !important;
+}
+
+/* Estilos para el panel de información */
+.info-panel {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3); /* Mucho más transparente */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.info-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.info-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.info-section {
+  margin-bottom: 3rem;
+}
+
+.info-subtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(30, 64, 175, 0.2);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.info-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.highlight {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.info-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #1e293b;
+  line-height: 1.6;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.info-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #3b82f6;
+  font-size: 1.5rem;
+  line-height: 1;
+  top: -0.125rem;
+}
+
+.tech-list li {
+  color: #1e293b;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #1e293b;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.contact-link:hover {
+  transform: translateX(0.5rem);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.contact-icon {
+  font-size: 1.25rem;
+  color: #3b82f6;
+}
+
+/* Personalizar scrollbar */
+.info-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.info-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 3px;
+}
+
+.info-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* Asegurar que los textos sean legibles */
+.chart-title,
+.stats-card-title,
+.info-text {
+  color: #1e293b;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Mensaje cuando no hay datos */
+.statistics-message {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  margin: 2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para el tooltip de puntos de encuentro */
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  max-width: 250px !important;
+}
+
+.custom-tooltip strong {
+  color: #1e40af !important;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.custom-tooltip br {
+  margin: 4px 0;
+}
+
+/* Estilos para la información del punto de encuentro */
+.punto-encuentro-info {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.info-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(30, 64, 175, 0.2);
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.info-row:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateX(4px);
+}
+
+.info-icon {
+  color: #3b82f6;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.info-row label {
+  font-weight: 500;
+  color: #1e293b;
+  margin-right: 0.5rem;
+}
+
+.info-row span {
+  color: #334155;
+}
+
+/* Estilos para el panel de búsqueda */
+.search-panel {
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.search-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.punto-encuentro-info {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-row {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.info-row:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(4px);
+}
+
+.info-row label {
+  font-weight: 500;
+  color: #1e40af;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.info-row span {
+  color: #334155;
+}
+
+.senal-evacuacion-info {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ruta-evacuacion-line {
+  stroke: #f97316;
+  stroke-width: 4;
+  stroke-dasharray: 15, 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: dash 30s linear infinite;
+  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.3));
+}
+
+.ruta-evacuacion-line:hover {
+  stroke-width: 6;
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
+  transition: all 0.3s ease;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+.rios-principales-line {
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: drop-shadow(0 0 2px rgba(14, 165, 233, 0.3));
+  transition: all 0.3s ease;
+}
+
+.rios-principales-line:hover {
+  stroke-width: 4 !important;
+  filter: drop-shadow(0 0 4px rgba(14, 165, 233, 0.5));
+}
+
+.vias-line {
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: drop-shadow(0 0 1px rgba(245, 158, 11, 0.2));
+  transition: all 0.2s ease;
+  vector-effect: non-scaling-stroke;
+}
+
+.vias-line:hover {
+  filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.4));
+}
+
+.rios-tooltip,
+.vias-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.rios-tooltip strong {
+  color: #0ea5e9 !important;
+}
+
+.vias-tooltip strong {
+  color: #f59e0b !important;
+}
+
+/* Estilos para los diferentes tipos de vías */
+.vias-line.tipo-1 {
+  stroke-width: 5px !important;
+}
+
+.vias-line.tipo-2 {
+  stroke-width: 4px !important;
+}
+
+.vias-line.tipo-3 {
+  stroke-width: 3px !important;
+}
+
+.vias-line.tipo-4 {
+  stroke-width: 2px !important;
+}
+
+.vias-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.vias-tooltip strong {
+  color: #f59e0b !important;
+}
+
+/* Asegurar que el tooltip siga suavemente al cursor */
+.leaflet-tooltip-pane {
+  pointer-events: none;
+}
+
+.leaflet-tooltip {
+  transition: transform 0.1s ease;
+}
+
+.tooltip-inner ul {
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.tooltip-inner ul li {
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+.tooltip-inner ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: currentColor;
+}
+
+.tooltip-inner .details-section {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar el panel principal */
+.filter-panel {
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  padding: 1.5rem; /* Aumentar el padding general del panel */
+}
+
+/* Ajustar los selects y inputs */
+.filter-panel select,
+.filter-panel input {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #1e293b !important;
+  font-weight: 500;
+}
+
+.filter-panel select option {
+  background: rgba(255, 255, 255, 0.98);
+  color: #1e293b;
+}
+
+/* Ajustar el contenedor de resultados */
+.results-container {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0.5rem;
+}
+
+/* Ajustar los items de resultados */
+.result-item {
+  background: rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.result-item:hover {
+  background: rgba(59, 130, 246, 0.25);
+}
+
+/* Ajustar el botón de filtro */
+.filter-button {
+  margin-top: 2rem; /* Aumentar el espacio antes del botón */
+  background: rgba(37, 99, 235, 0.9) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem 1rem; /* Aumentar el padding del botón */
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+  background: rgba(37, 99, 235, 0.95) !important;
+  box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.filter-button:active {
+  transform: translateY(0);
+}
+
+/* Restaurar los estilos de las notificaciones */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.notification.error {
+  background-color: rgba(254, 226, 226, 0.9);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #b91c1c;
+}
+
+.notification.success {
+  background-color: rgba(220, 252, 231, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #15803d;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification button {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: currentColor;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.notification button:hover {
+  opacity: 1;
+}
+
+/* Ajustar el espaciado del botón de filtro */
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-panel .space-y-4 > * + * {
+  margin-top: 1.5rem; /* Aumentar el espacio entre elementos */
+} 

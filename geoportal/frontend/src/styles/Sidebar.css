@@ -1,0 +1,942 @@
+.statistics-panel {
+    padding: 15px;
+}
+
+.statistics-message {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+
+.statistics-error {
+    padding: 15px;
+    color: #dc3545;
+    text-align: center;
+}
+
+.sidebar-section {
+    @apply mb-6 rounded-lg;
+    background: var(--background-panel);
+    border: 1px solid var(--border-color);
+}
+
+.sidebar-section h2 {
+    @apply mb-4 px-4;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.sidebar-section .header {
+    background: var(--primary);
+    color: white !important;
+}
+
+.sidebar-section .header * {
+    color: white !important;
+}
+
+/* Sidebar base con glassmorphism más transparente */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  width: 400px;
+  height: calc(100vh - 64px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.panel-closed .sidebar {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Navegación del sidebar con glassmorphism */
+.sidebar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+/* Botones de navegación mejorados */
+.nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #1e40af;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav-button:hover::before {
+  opacity: 1;
+  animation: shine 1s infinite;
+}
+
+.nav-button.active {
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
+  border: none;
+}
+
+/* Header del panel */
+.panel-header {
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Panel de contenido con glassmorphism */
+.layers-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: transparent;
+}
+
+/* Contenido del panel */
+.layers-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* Grupos de capas con glassmorphism permanente */
+.layer-group {
+  position: relative;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.group-header {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  color: #1e40af;
+  font-size: 0.9rem;
+}
+
+.group-header .title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.group-content {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 0.85rem;
+}
+
+/* Elementos de capa individuales más blancos */
+.layer-item {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Solo el efecto de movimiento en hover */
+.layer-item:hover {
+  transform: translateX(4px);
+}
+
+.layer-group:hover {
+  transform: translateY(-2px);
+}
+
+/* Control de opacidad */
+.opacity-slider {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.2)
+  );
+  border-radius: 0.25rem;
+  height: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.opacity-slider::-webkit-slider-thumb {
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Scrollbar personalizada más sutil */
+.layers-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.layers-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.layers-content::-webkit-scrollbar-thumb {
+  background: rgba(30, 64, 175, 0.2);
+  border-radius: 3px;
+}
+
+.layers-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 64, 175, 0.3);
+}
+
+/* Estilos para los mapas base */
+.basemap-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Estilo para el radio button */
+.form-radio {
+  border: 2px solid rgba(59, 130, 246, 0.5);
+  cursor: pointer;
+}
+
+.form-radio:checked {
+  background-color: #1e40af;
+  border-color: #1e40af;
+}
+
+/* Eliminar subrayado y otros estilos por defecto */
+.basemap-item:focus {
+  outline: none;
+}
+
+.basemap-item.active .icon,
+.basemap-item.active .label {
+  color: inherit;
+  font-weight: normal;
+}
+
+/* Ajustar el hover */
+.basemap-item:hover {
+  background: transparent;
+}
+
+/* Asegurar que los items de mapa base tengan el mismo estilo que los layer items */
+.layer-item input[type="radio"] {
+  margin: 0;
+  padding: 0;
+}
+
+/* Leyenda con glassmorphism */
+.legend-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Asegurar que los textos en la barra de navegación sean blancos cuando están activos */
+.panel-tab {
+  @apply transition-colors duration-200;
+}
+
+.panel-tab.active {
+  background-color: var(--primary);
+  color: var(--text-light);
+}
+
+.panel-tab:not(.active) {
+  color: var(--text-secondary);
+}
+
+.panel-tab:not(.active):hover {
+  background-color: var(--background-secondary);
+}
+
+/* Sobrescribir estilos del panel header */
+.panel-header {
+  background: var(--background-panel) !important;
+  color: var(--text-dark) !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem;
+  z-index: 10;
+}
+
+/* Asegurar que los títulos sean oscuros */
+.tremor-Title,
+h1, h2, h3, h4, h5, h6,
+.panel-header * {
+  color: var(--text-dark) !important;
+}
+
+/* Ajustar el contraste de los textos en las pestañas */
+.tremor-Tab {
+  color: var(--text-dark) !important;
+}
+
+.tremor-Tab-selected {
+  color: var(--primary) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    background: var(--background-dark) !important;
+    color: var(--text-dark) !important;
+    box-shadow: var(--shadow-dark);
+  }
+
+  .sidebar-section {
+    background: var(--background-dark);
+  }
+
+  .sidebar-section h2 {
+    color: var(--text-dark);
+  }
+
+  .tremor-Tab {
+    color: var(--text-dark) !important;
+  }
+
+  .tremor-Card {
+    background: var(--background-dark) !important;
+    color: var(--text-dark) !important;
+  }
+}
+
+/* Header principal con efecto de cristal mejorado */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 250, 252, 0.8)
+  );
+  backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  z-index: 50;
+}
+
+.main-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.main-header:hover::before {
+  opacity: 1;
+  animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.header-content {
+  max-width: 100%;
+  height: 100%;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Contenedor de logos mejorado */
+.logos-container {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 0.75rem;
+  position: relative;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.logo-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.logo-wrapper:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.logo-wrapper:hover::before {
+  opacity: 1;
+  animation: shine 1s infinite;
+}
+
+.header-logo {
+  object-fit: contain;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Contenedor del título mejorado */
+.header-title-container {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.header-title-container::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 70%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(30, 64, 175, 0.8),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(30, 64, 175, 0.3);
+}
+
+.header-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.01em;
+  background: linear-gradient(
+    45deg,
+    #1e40af,
+    #3b82f6,
+    #1e40af
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 8s linear infinite;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Botones mejorados */
+.menu-button,
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: #1e40af;
+  background: rgba(30, 64, 175, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-button::before,
+.header-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-button:hover,
+.header-button:hover {
+  background: rgba(30, 64, 175, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 6px rgba(30, 64, 175, 0.1),
+    0 2px 4px rgba(30, 64, 175, 0.06);
+}
+
+.menu-button:hover::before,
+.header-button:hover::before {
+  opacity: 1;
+  animation: shine 1s infinite;
+}
+
+.menu-button:active,
+.header-button:active {
+  transform: translateY(0);
+}
+
+/* Contenedor derecho */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Animación de brillo */
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+/* Botón de menú mejorado */
+.menu-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #1e40af;
+  background: rgba(30, 64, 175, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.menu-button svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-button-closed svg {
+  transform: rotate(180deg);
+}
+
+.menu-button:hover {
+  background: rgba(30, 64, 175, 0.1);
+  transform: translateY(-2px);
+}
+
+.menu-button:active {
+  transform: translateY(0);
+}
+
+/* Contenedor principal de la aplicación */
+.app-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Contenedor del mapa */
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+/* Ajustar el contenido principal */
+main.relative.h-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Ajustar el contenedor del mapa */
+.flex-1.relative {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.absolute.inset-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Asegurar que el mapa Leaflet ocupe todo el espacio */
+.leaflet-container {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Ajustes globales para eliminar márgenes y padding por defecto */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Mejorar contraste del texto */
+.layer-item,
+.group-header,
+.sidebar-content {
+  color: #1e293b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Estilos para las cards de la leyenda con glassmorphism */
+.statistics-panel .sidebar-section,
+.legend-card,
+.stats-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Header de las cards de leyenda */
+.statistics-panel .header,
+.legend-card .header,
+.stats-card-header {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  color: #1e40af;
+}
+
+/* Contenido de las cards de leyenda */
+.statistics-panel .content,
+.legend-card .content,
+.stats-card-content {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Efecto hover suave */
+.statistics-panel .sidebar-section:hover,
+.legend-card:hover,
+.stats-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Mejorar contraste del texto */
+.statistics-panel,
+.legend-card,
+.stats-card {
+  color: #1e293b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Iconos personalizados para las cards */
+.infrastructure-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url('/icons/infrastructure.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.evacuation-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url('/icons/evacuation.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Estilos modernos para checkboxes */
+.layer-item input[type="checkbox"] {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  border: 2px solid rgba(30, 64, 175, 0.4);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Estilo cuando está checked */
+.layer-item input[type="checkbox"]:checked {
+  background-color: #1e40af;
+  border-color: #1e40af;
+}
+
+/* Ícono de check */
+.layer-item input[type="checkbox"]:checked::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Efecto hover */
+.layer-item input[type="checkbox"]:hover {
+  border-color: #1e40af;
+  background-color: rgba(30, 64, 175, 0.1);
+}
+
+/* Efecto focus */
+.layer-item input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.2);
+}
+
+/* Contenedor del checkbox y etiqueta */
+.layer-item .checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Estilo para el slider de opacidad cuando está activo */
+.layer-item input[type="range"] {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #1e40af, #3b82f6);
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.layer-item input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #1e40af;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.layer-item input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: #f8fafc;
+}
+
+/* Estilos para el ícono de información */
+.info-icon-wrapper {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.info-icon-wrapper:hover {
+  background-color: rgba(30, 64, 175, 0.1);
+}
+
+/* Estilos para el tooltip */
+.tooltip-inner {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 1000;
+} 

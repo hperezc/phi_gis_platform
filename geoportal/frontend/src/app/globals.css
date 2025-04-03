@@ -1,0 +1,575 @@
+@import 'leaflet/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+}
+
+.leaflet-control-container {
+  z-index: 800 !important;
+}
+
+.leaflet-control-zoom {
+  z-index: 800 !important;
+  margin: 12px !important;
+  box-shadow: var(--shadow-md) !important;
+  border: none !important;
+}
+
+.leaflet-control-zoom a {
+  background: white !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--background-secondary) !important;
+}
+
+.leaflet-control-scale {
+  margin: 12px !important;
+}
+
+.leaflet-map-pane {
+  z-index: 0 !important;
+}
+
+.leaflet-popup {
+  z-index: 950 !important;
+}
+
+:root {
+  /* Paleta de colores moderna */
+  --blue-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  --panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  --hover-gradient: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
+  
+  /* Colores existentes mejorados */
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  
+  /* Sombras refinadas */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Fondos con efectos glassmorphism */
+  --bg-main: #f8fafc;
+  --bg-panel: rgba(255, 255, 255, 0.2);
+  --bg-sidebar: rgba(255, 255, 255, 0.98);
+  
+  /* Textos */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-light: #f8fafc;
+  
+  /* Efectos */
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --text-dark: #1e293b;
+  --text-secondary-dark: #334155;
+  --background-panel: transparent;
+  --background-secondary: rgba(248, 250, 252, 0.98);
+  --accent-color: #3b82f6;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --border-color: rgba(255, 255, 255, 0.4);
+  --transition-speed: 0.2s;
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-card: rgba(255, 255, 255, 0.35);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-main: #0f172a;
+    --bg-panel: rgba(15, 23, 42, 0.95);
+    --bg-sidebar: rgba(17, 24, 39, 0.98);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+  }
+}
+
+/* Estilos base */
+body {
+  @apply antialiased;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+.custom-tooltip {
+  background: var(--background-light);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: var(--shadow-light);
+  color: var(--text-light);
+}
+
+/* Mejoras visuales para los controles */
+.leaflet-control-layers {
+  background: var(--background-light);
+  border-radius: 8px;
+  box-shadow: var(--shadow-light);
+}
+
+.leaflet-control-layers-list {
+  margin: 0;
+  padding: 0;
+}
+
+/* Transiciones */
+.panel-transition {
+  transition: all 0.3s ease;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .leaflet-control-layers,
+  .custom-tooltip {
+    background: var(--background-dark);
+    color: var(--text-dark);
+  }
+}
+
+/* Estilos para los paneles */
+.panel-tab {
+  @apply transition-colors duration-200;
+  color: var(--text-light);
+}
+
+.panel-tab.active {
+  background: var(--primary);
+  color: var(--text-dark);
+}
+
+.panel-tab:not(.active) {
+  @apply text-gray-600 hover:bg-gray-100;
+}
+
+/* Estilos para los popups */
+.custom-popup {
+  @apply p-3 rounded-lg shadow-lg;
+}
+
+.custom-popup h3 {
+  @apply text-blue-600 font-bold mb-2;
+}
+
+.custom-popup p {
+  @apply text-gray-600 text-sm;
+}
+
+/* Estilos para el control de capas */
+.leaflet-control-layers,
+.leaflet-control-layers-list {
+  background: var(--background-light) !important;
+  color: var(--text-dark) !important;
+}
+
+.leaflet-control-layers label {
+  color: var(--text-dark) !important;
+  font-weight: 500 !important;
+}
+
+/* Estilos para los títulos del panel de capas */
+.sidebar-section h2,
+.sidebar h2,
+.layer-group-title,
+.statistics-panel h2 {
+  color: var(--text-dark) !important;
+  font-weight: 600 !important;
+}
+
+/* Estilos para los iconos y textos del panel de capas */
+.layer-item,
+.layer-control,
+.layer-toggle {
+  color: var(--text-secondary-dark) !important;
+}
+
+/* Estilos para tooltips */
+.custom-tooltip {
+  @apply bg-white p-3 rounded-lg shadow-lg;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .panel-tab:not(.active) {
+    @apply text-gray-300 hover:bg-gray-800;
+  }
+  
+  .custom-popup,
+  .custom-tooltip {
+    @apply bg-gray-800 text-white;
+  }
+  
+  .custom-popup h3 {
+    @apply text-blue-400;
+  }
+  
+  .custom-popup p {
+    @apply text-gray-300;
+  }
+}
+
+/* Estilos para el panel de estadísticas */
+.statistics-panel {
+  @apply bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg p-6;
+}
+
+.stats-title {
+  @apply text-2xl font-bold text-gray-800 dark:text-white mb-6 border-b pb-3;
+}
+
+.stats-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+.stats-card-title {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-300 mb-2;
+}
+
+.stats-card-value {
+  @apply text-3xl font-bold text-blue-600 dark:text-blue-400;
+}
+
+.stats-tabs {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-1 mb-4 shadow-md;
+}
+
+.stats-tab {
+  @apply px-6 py-3 rounded-md text-sm font-medium transition-all duration-200;
+}
+
+.stats-tab-active {
+  @apply bg-blue-500 text-white shadow-md transform scale-105;
+}
+
+.stats-tab-inactive {
+  @apply text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700;
+}
+
+.stats-chart-container {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+.stats-chart-title {
+  @apply text-lg font-semibold text-gray-800 dark:text-white mb-4 border-b pb-2;
+}
+
+.recharts-wrapper {
+  @apply font-sans;
+}
+
+.recharts-default-tooltip {
+  @apply rounded-lg shadow-lg border-none !important;
+  background: var(--background-panel) !important;
+  border: 1px solid var(--border-color) !important;
+  padding: 1rem !important;
+}
+
+.recharts-tooltip-label {
+  @apply font-semibold text-sm !important;
+  color: var(--text-primary) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .recharts-default-tooltip {
+    background-color: rgba(26, 26, 26, 0.95) !important;
+    color: #e5e7eb !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .temporal-chart {
+    background: #1f2937;
+  }
+  
+  .temporal-chart .recharts-cartesian-grid-horizontal line,
+  .temporal-chart .recharts-cartesian-grid-vertical line {
+    stroke: #374151;
+  }
+  
+  .temporal-chart .recharts-xaxis-tick-value,
+  .temporal-chart .recharts-yaxis-tick-value {
+    fill: #e5e7eb;
+  }
+  
+  .temporal-chart-tooltip {
+    background: rgba(31, 41, 55, 0.98);
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+}
+
+.panel-content {
+  width: 500px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
+  .panel-content {
+    width: 500px;
+  }
+}
+
+/* Componentes comunes */
+.panel-base {
+  @apply rounded-lg;
+  background: var(--bg-panel);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.panel-base:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Utilidades de transición */
+.hover-effect {
+  transition: var(--transition);
+}
+
+.hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.button-effect {
+  @apply transition-all duration-200 hover:scale-105;
+}
+
+/* Ocultar otros controles que no necesitamos */
+.leaflet-control-layers,
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Asegurar que los tooltips del mapa tengan buen contraste */
+.leaflet-tooltip {
+  color: var(--text-dark) !important;
+  background: var(--background-panel) !important;
+}
+
+/* Estilos para el loader */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos para el header */
+.app-header {
+  @apply bg-white/80 backdrop-blur-md border-b border-gray-200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(247, 248, 253, 0.8) 100%
+  );
+}
+
+.app-header:hover {
+  @apply shadow-lg;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(247, 248, 253, 0.9) 100%
+  );
+}
+
+.header-content {
+  @apply container mx-auto px-4 py-2 flex justify-between items-center;
+  max-width: 1920px;
+}
+
+.header-left {
+  @apply flex items-center gap-4;
+}
+
+.header-logos {
+  @apply flex items-center gap-6;
+}
+
+.logo-container {
+  @apply flex items-center justify-center transition-transform duration-200;
+  height: 40px; /* Altura fija para todos los contenedores */
+}
+
+/* Estilos específicos para cada logo */
+.logo-container:first-child img {
+  height: 36px; /* Para el logo de EPM */
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-container:last-child img {
+  height: 32px; /* Para el logo de Cruz Roja */
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-container img {
+  @apply transition-transform duration-200;
+}
+
+.logo-container:hover img {
+  transform: scale(1.05);
+}
+
+.header-title {
+  @apply flex items-center gap-3 border-l border-gray-200/50 pl-6 ml-6;
+}
+
+.header-title h1 {
+  @apply text-xl font-bold;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.header-title h1::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.header-title:hover h1::after {
+  opacity: 1;
+}
+
+.menu-button {
+  @apply p-2 rounded-lg transition-all duration-200;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.menu-button:hover {
+  @apply transform scale-105 shadow-md;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.download-button {
+  @apply px-4 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center gap-2;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+.download-button:hover {
+  @apply transform scale-105 shadow-lg;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+}
+
+/* Estilos para el panel de información */
+.info-panel {
+  @apply p-6 max-h-[calc(100vh-180px)] overflow-y-auto;
+}
+
+.info-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.info-panel::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+  @apply bg-blue-200 rounded-full hover:bg-blue-300 transition-colors;
+}
+
+.info-panel section {
+  @apply transition-all duration-200;
+}
+
+.info-panel section:hover {
+  @apply transform translate-x-1;
+}
+
+/* Reset de estilos para todas las cards */
+.layer-group,
+.layer-item,
+.group-header,
+.group-content,
+.statistics-panel .sidebar-section,
+.legend-card,
+.stats-card {
+  background: var(--bg-card) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.sidebar {
+  background: var(--bg-panel) !important;
+}
