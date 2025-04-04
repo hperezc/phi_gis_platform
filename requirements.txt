@@ -1,6 +1,8 @@
 numpy==1.24.3
 pandas==1.5.3
 geopandas==0.13.2
+folium==0.15.1
+branca==0.7.1
 dash==2.9.3
 dash-bootstrap-components==1.4.1
 fastapi==0.95.0
