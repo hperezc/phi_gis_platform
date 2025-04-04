@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: phi-platform
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        value: postgresql://hperezc97:geoHCP97@postgresql-hperezc97.alwaysdata.net:5432/hperezc97_actividades_phi
+      - key: MAPBOX_TOKEN
+        value: pk.eyJ1IjoiaHBlcmV6Yzk3IiwiYSI6ImNtNXljaDc0cjBpNDMya3E1aGdzcjdpZnkifQ.9FBtIVaj52w2yw-7ewLU6Q
+      - key: PYTHON_VERSION
+        value: 3.8.0

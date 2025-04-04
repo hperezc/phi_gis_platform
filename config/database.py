@@ -9,11 +9,11 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 # Configuración de la base de datos
 if ENVIRONMENT == 'production':
-    # Configuración para VPS
-    DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:0000@db:5432/bd_actividades_historicas')
+    # Configuración para AlwaysData
+    DATABASE_URL = 'postgresql://hperezc97:geoHCP97@postgresql-hperezc97.alwaysdata.net:5432/hperezc97_actividades_phi'
 else:
     # Configuración local
-    DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:0000@localhost:5432/bd_actividades_historicas')
+    DATABASE_URL = 'postgresql://postgres:0000@localhost:5432/bd_actividades_historicas'
 
 # Mantener tus configuraciones de mapbox
 MAPBOX_TOKEN = os.getenv(

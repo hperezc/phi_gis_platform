@@ -59,6 +59,7 @@ geoportal/frontend/static/build/
 
 # Entorno
 .env.*
+!.env.example
 
 # Python
 *.pyc
