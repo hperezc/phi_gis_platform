@@ -10,8 +10,10 @@ load_dotenv()
 # Determinar el entorno y configurar DATABASE_URL
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'production':
-    # Usar la URL de AlwaysData en producción
+    # Usar la URL de AlwaysData en producción con los parámetros correctos
     DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://hperezc97:geoHCP97@postgresql-hperezc97.alwaysdata.net:5432/hperezc97_actividades_phi')
+    # Agregar parámetros adicionales para la conexión
+    DATABASE_URL += "?sslmode=require"
 else:
     # URL local para desarrollo
     DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:0000@localhost:5432/bd_actividades_historicas')
@@ -21,7 +23,17 @@ def get_db_engine():
     Crea y retorna el engine de SQLAlchemy para la conexión a la base de datos
     """
     try:
-        engine = create_engine(DATABASE_URL)
+        # Agregar opciones de conexión específicas para producción
+        if ENVIRONMENT == 'production':
+            engine = create_engine(
+                DATABASE_URL,
+                pool_size=5,
+                max_overflow=10,
+                pool_timeout=30,
+                pool_recycle=1800
+            )
+        else:
+            engine = create_engine(DATABASE_URL)
         return engine
     except Exception as e:
         print(f"Error creando engine de base de datos: {str(e)}")
