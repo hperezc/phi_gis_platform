@@ -1872,3 +1872,35 @@ def register_callbacks(app):
         if n_clicks is None:
             return True
         return False
+
+    @app.callback(
+        [Output("departamento-dropdown", "options"),
+         Output("ano-dropdown", "options")],
+        [Input("url", "pathname")]
+    )
+    def load_filter_options(pathname):
+        try:
+            # Consulta para departamentos
+            depto_query = """
+                SELECT DISTINCT departamento as value, departamento as label
+                FROM actividades
+                WHERE departamento IS NOT NULL
+                ORDER BY departamento
+            """
+            deptos = pd.read_sql(depto_query, get_db_engine())
+            depto_options = [{'label': str(x), 'value': x} for x in deptos['value']]
+
+            # Consulta para años
+            ano_query = """
+                SELECT DISTINCT EXTRACT(YEAR FROM fecha) as value
+                FROM actividades
+                WHERE fecha IS NOT NULL
+                ORDER BY value DESC
+            """
+            anos = pd.read_sql(ano_query, get_db_engine())
+            ano_options = [{'label': str(int(x)), 'value': int(x)} for x in anos['value']]
+
+            return depto_options, ano_options
+        except Exception as e:
+            print(f"Error obteniendo opciones de filtros: {str(e)}")
+            return [], []
