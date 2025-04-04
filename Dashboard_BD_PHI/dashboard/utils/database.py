@@ -1,6 +1,6 @@
 import pandas as pd
 import geopandas as gpd
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
 
@@ -10,32 +10,31 @@ load_dotenv()
 # Determinar el entorno y configurar DATABASE_URL
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'production':
+    # Usar la URL de AlwaysData en producción con los parámetros correctos
     DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://hperezc97:geoHCP97@postgresql-hperezc97.alwaysdata.net:5432/hperezc97_actividades_phi')
-    # Configuración específica para producción
-    engine_kwargs = {
-        'pool_size': 5,
-        'max_overflow': 10,
-        'pool_timeout': 30,
-        'pool_recycle': 1800,
-        'pool_pre_ping': True,  # Verificar conexión antes de usar
-        'connect_args': {
-            'sslmode': 'require',
-            'connect_timeout': 60
-        }
-    }
+    # Agregar parámetros adicionales para la conexión
+    if '?' not in DATABASE_URL:
+        DATABASE_URL += "?sslmode=require"
 else:
+    # URL local para desarrollo
     DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:0000@localhost:5432/bd_actividades_historicas')
-    engine_kwargs = {}
 
 def get_db_engine():
     """
     Crea y retorna el engine de SQLAlchemy para la conexión a la base de datos
     """
     try:
-        engine = create_engine(DATABASE_URL, **engine_kwargs)
-        # Verificar la conexión
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
+        if ENVIRONMENT == 'production':
+            # Solo en producción agregamos configuraciones especiales
+            engine = create_engine(
+                DATABASE_URL,
+                pool_pre_ping=True,  # Verificar conexión antes de usar
+                pool_size=5,
+                max_overflow=10
+            )
+        else:
+            # En desarrollo mantener exactamente igual
+            engine = create_engine(DATABASE_URL)
         return engine
     except Exception as e:
         print(f"Error creando engine de base de datos: {str(e)}")
@@ -46,9 +45,9 @@ def execute_query(query, params=None):
         engine = get_db_engine()
         with engine.connect() as connection:
             if params:
-                result = connection.execute(text(query), params)
+                result = connection.execute(query, params)
             else:
-                result = connection.execute(text(query))
+                result = connection.execute(query)
             return result
     except Exception as e:
         print(f"Error ejecutando query: {str(e)}")
@@ -60,11 +59,11 @@ def get_filter_options():
     try:
         with engine.connect() as conn:
             options = {
-                'anos': pd.read_sql(text("""
-                    SELECT DISTINCT EXTRACT(YEAR FROM fecha)::integer as ano 
+                'anos': pd.read_sql("""
+                    SELECT DISTINCT ano 
                     FROM actividades 
-                    WHERE fecha IS NOT NULL 
-                    ORDER BY ano DESC"""), conn),
+                    WHERE ano IS NOT NULL 
+                    ORDER BY ano DESC""", conn),
                     
                 'meses': pd.read_sql("""
                     SELECT DISTINCT EXTRACT(MONTH FROM fecha) as mes,
