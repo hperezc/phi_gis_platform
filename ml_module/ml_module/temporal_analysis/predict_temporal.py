@@ -87,13 +87,29 @@ class TemporalPredictor:
             if not model_key:
                 raise ValueError("No se encontró un modelo adecuado para la predicción")
             
+            # Calcular meses adicionales necesarios para llegar a la fecha actual
+            last_historical_date = pd.to_datetime(historical_data['dates'][-1])
+            # Obtener el primer día del mes actual de manera más robusta
+            now = datetime.now()
+            current_date = pd.Timestamp(year=now.year, month=now.month, day=1)
+            
+            months_to_current = max(0, ((current_date.year - last_historical_date.year) * 12 + 
+                                      current_date.month - last_historical_date.month))
+                       
+            # Ajustar el período de predicción para incluir la fecha actual + período solicitado
+            adjusted_period = months_to_current + input_data['periodo']
+            logger.info(f"Período ajustado: {adjusted_period} meses (incluyendo {months_to_current} meses hasta fecha actual)")
+            
             # Realizar predicción según el tipo de modelo
             if 'sarima' in model_key:
-                predictions = self._predict_sarima(model_key, input_data['periodo'])
+                predictions = self._predict_sarima(model_key, adjusted_period)
             else:  # prophet
-                predictions = self._predict_prophet(model_key, input_data['periodo'])
+                predictions = self._predict_prophet(model_key, adjusted_period)
             
             logger.info(f"Predicciones generadas: {len(predictions.get('values', []))} valores")
+            
+            # Guardar información sobre la predicción para usarla en visualización
+            predictions['months_to_current'] = months_to_current
             
             # Calcular métricas adicionales
             stats = self._calculate_enhanced_statistics(historical_data, predictions)
@@ -415,7 +431,17 @@ class TemporalPredictor:
         """Calcula estadísticas mejoradas de la predicción"""
         try:
             historical_values = np.array(historical_data['activities'])
-            predicted_values = np.array(predictions['values'])
+            
+            # Usar solo predicciones futuras
+            months_to_current = predictions.get('months_to_current', 0)
+            if months_to_current < len(predictions['values']):
+                predicted_values = np.array(predictions['values'][months_to_current:])
+                lower_values = np.array(predictions['lower'][months_to_current:]) if 'lower' in predictions else None
+                upper_values = np.array(predictions['upper'][months_to_current:]) if 'upper' in predictions else None
+            else:
+                # No hay predicciones futuras
+                predicted_values = np.array([])
+                lower_values = upper_values = None
             
             # Calcular tendencia
             x = np.arange(len(historical_values))
@@ -436,14 +462,28 @@ class TemporalPredictor:
             # Calcular variabilidad mensual
             variabilidad = np.std(historical_values) / np.mean(historical_values) if len(historical_values) > 0 else 0
             
+            # Información sobre las predicciones futuras
+            if len(predicted_values) > 0:
+                prediccion_promedio = f"{float(np.mean(predicted_values)):.2f} actividades/mes"
+                confiabilidad = f"{min(95, 100 * (1 - np.std(predicted_values)/np.mean(predicted_values))):.1f}%" if np.mean(predicted_values) > 0 else "N/A"
+                
+                if lower_values is not None and upper_values is not None:
+                    rango_prediccion = f"{np.min(lower_values):.1f} - {np.max(upper_values):.1f}"
+                else:
+                    rango_prediccion = "No disponible"
+            else:
+                prediccion_promedio = "No hay predicciones futuras"
+                confiabilidad = "N/A"
+                rango_prediccion = "N/A"
+            
             stats = {
                 'Promedio histórico': f"{float(np.mean(historical_values)):.2f} actividades/mes",
                 'Tendencia': f"{'Creciente' if tendencia > 0 else 'Decreciente'} ({abs(tendencia):.2f}/mes)",
                 'Estacionalidad': estacionalidad_desc,
                 'Variabilidad mensual': f"{variabilidad * 100:.1f}%",
-                'Predicción promedio': f"{float(np.mean(predicted_values)):.2f} actividades/mes",
-                'Confiabilidad': f"{min(95, 100 * (1 - np.std(predicted_values)/np.mean(predicted_values))):.1f}%",
-                'Rango de predicción': f"{np.min(predictions['lower']):.1f} - {np.max(predictions['upper']):.1f}"
+                'Predicción promedio': prediccion_promedio,
+                'Confiabilidad': confiabilidad,
+                'Rango de predicción': rango_prediccion
             }
             
             return stats
@@ -481,31 +521,61 @@ class TemporalPredictor:
             
             # Predicciones
             if predictions and 'values' in predictions:
-                # Calcular fechas futuras desde el último dato histórico
+                # Calcular fechas futuras desde la fecha actual en lugar del último dato histórico
                 last_historical_date = pd.to_datetime(historical_dates[-1])
-                future_dates = pd.date_range(
+                # Obtener el primer día del mes actual de manera más robusta
+                now = datetime.now()
+                current_date = pd.Timestamp(year=now.year, month=now.month, day=1)
+                
+                # Si el último dato histórico es más reciente que la fecha actual, usarlo como inicio
+                start_date = max(last_historical_date + pd.DateOffset(months=1), current_date)
+                
+                # Calcular las fechas futuras desde la fecha de inicio determinada
+                total_periods = len(predictions['values'])
+                all_future_dates = pd.date_range(
                     start=last_historical_date + pd.DateOffset(months=1),
-                    periods=len(predictions['values']),
-                    freq='ME'  # Usar 'ME' en lugar de 'M'
+                    periods=total_periods,
+                    freq='MS'  # Usar 'MS' en lugar de 'ME'
                 )
                 
-                fig.add_trace(go.Scatter(
-                    x=future_dates,
-                    y=predictions['values'],
-                    name='Predicción',
-                    line=dict(color='red', dash='dash')
-                ))
+                # Determinar cuáles predicciones son realmente futuras (a partir de la fecha actual)
+                months_to_current = predictions.get('months_to_current', 0)
                 
-                # Intervalo de confianza si está disponible
-                if 'lower' in predictions and 'upper' in predictions:
+                # Usar solo las predicciones futuras (a partir del índice months_to_current)
+                future_dates = all_future_dates[months_to_current:]
+                future_values = predictions['values'][months_to_current:] if months_to_current < total_periods else []
+                
+                if len(future_values) > 0:
                     fig.add_trace(go.Scatter(
-                        x=future_dates.tolist() + future_dates.tolist()[::-1],
-                        y=predictions['lower'] + predictions['upper'][::-1],
-                        fill='toself',
-                        fillcolor='rgba(255,0,0,0.2)',
-                        line=dict(color='rgba(255,0,0,0)'),
-                        name='Intervalo de Confianza'
+                        x=future_dates,
+                        y=future_values,
+                        name='Predicción',
+                        line=dict(color='red', dash='dash')
                     ))
+                    
+                    # Intervalo de confianza si está disponible
+                    if 'lower' in predictions and 'upper' in predictions:
+                        lower_values = predictions['lower'][months_to_current:] if months_to_current < total_periods else []
+                        upper_values = predictions['upper'][months_to_current:] if months_to_current < total_periods else []
+                        
+                        if len(lower_values) > 0 and len(upper_values) > 0:
+                            fig.add_trace(go.Scatter(
+                                x=future_dates.tolist() + future_dates.tolist()[::-1],
+                                y=lower_values + upper_values[::-1],
+                                fill='toself',
+                                fillcolor='rgba(255,0,0,0.2)',
+                                line=dict(color='rgba(255,0,0,0)'),
+                                name='Intervalo de Confianza'
+                            ))
+                else:
+                    # Añadir anotación si no hay predicciones futuras (solo históricas)
+                    fig.add_annotation(
+                        text="Todos los períodos solicitados son pasados. Aumente el período de predicción.",
+                        xref="paper", yref="paper",
+                        x=0.5, y=0.9,
+                        showarrow=False,
+                        font=dict(color="yellow", size=14)
+                    )
             
             # Mejorar el layout
             titulo = f"Pronóstico de Actividades - {input_data['departamento']}"
@@ -515,7 +585,10 @@ class TemporalPredictor:
                 titulo += f" - {input_data['categoria']}"
             
             # Agregar período de predicción al título
-            titulo += f"\n(Predicción: {len(predictions['values'])} meses)"
+            now = datetime.now()
+            current_month_name = now.strftime('%B')
+            current_year = now.year
+            titulo += f"\n(Predicción a partir de {current_month_name} {current_year})"
             
             fig.update_layout(
                 title=titulo,

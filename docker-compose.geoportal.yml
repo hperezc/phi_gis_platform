@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Geoportal Backend
+  geoportal-backend:
+    build: 
+      context: ./geoportal/backend
+      dockerfile: Dockerfile
+    container_name: phi_geoportal_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    restart: always
+    networks:
+      - phi-network
+
+  # Geoportal Frontend
+  geoportal-frontend:
+    build:
+      context: ./geoportal/frontend
+      dockerfile: Dockerfile
+    container_name: phi_geoportal_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://geoportal-backend:8000
+    depends_on:
+      - geoportal-backend
+    restart: always
+    networks:
+      - phi-network
+
+networks:
+  phi-network:
+    external: true 

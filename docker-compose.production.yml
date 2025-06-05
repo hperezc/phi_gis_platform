@@ -1,0 +1,130 @@
+version: '3.8'
+
+services:
+  # Aplicación principal
+  main_app:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8050:8050"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=${DATABASE_URL}
+      - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+      - SECRET_KEY=${SECRET_KEY}
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - phi_network
+
+  # Servicio Nginx mejorado
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./static:/app/static
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - main_app
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+  # Certbot para SSL gratuito
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./nginx/webroot:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email ${SSL_EMAIL} --agree-tos --no-eff-email --force-renewal -d ${DOMAIN} -d www.${DOMAIN}
+
+  # Redis para cache y sesiones
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+  # Geoportal Backend
+  geoportal-backend:
+    build: 
+      context: ./geoportal/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+  # Geoportal Frontend
+  geoportal-frontend:
+    build:
+      context: ./geoportal/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://geoportal-backend:8000
+      - NODE_ENV=production
+    depends_on:
+      - geoportal-backend
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+  # Servicio para monitoreo
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"  # Cambiado a 3001 para evitar conflicto con geoportal
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - phi_network
+
+volumes:
+  grafana-storage:
+  certbot-etc:
+  certbot-var:
+
+networks:
+  phi_network:
+    driver: bridge 

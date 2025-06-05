@@ -22,8 +22,16 @@ root_dir = Path(__file__).parent.parent.parent
 sys.path.append(str(root_dir))
 
 # Actualizar las importaciones
-from ml_module.geographic_analysis.predict_geographic import GeographicPredictor
-from utils.data_loader import DataLoader
+try:
+    from ml_module.geographic_analysis.predict_geographic import GeographicPredictor
+except ImportError:
+    from geographic_analysis.predict_geographic import GeographicPredictor
+
+try:
+    from utils.data_loader import DataLoader
+except ImportError:
+    sys.path.append(str(Path(__file__).parent.parent))
+    from utils.data_loader import DataLoader
 
 logger = logging.getLogger(__name__)
 

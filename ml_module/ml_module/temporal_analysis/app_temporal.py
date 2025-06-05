@@ -67,10 +67,17 @@ def get_municipios(departamento: str) -> list:
 def calculate_comparison_metrics(historical_data: dict) -> tuple:
     """Calcula métricas de comparación"""
     try:
+        if not historical_data or not historical_data.get('dates') or not historical_data.get('activities'):
+            logger.warning("No hay suficientes datos para calcular métricas de comparación")
+            return 0, 0, 0
+            
         df = pd.DataFrame({
             'fecha': pd.to_datetime(historical_data['dates']),
             'actividades': historical_data['activities']
         })
+        
+        if df.empty:
+            return 0, 0, 0
         
         # Valor actual (promedio últimos 3 meses)
         current_value = df['actividades'].tail(3).mean()
@@ -81,7 +88,7 @@ def calculate_comparison_metrics(historical_data: dict) -> tuple:
         
         last_year_same_period = df[
             (df['fecha'].dt.year == current_year - 1) & 
-            (df['fecha'].dt.month.isin([m for m in range(current_month-2, current_month+1)]))
+            (df['fecha'].dt.month.isin([m for m in range(current_month-2, current_month+1) if m > 0]))
         ]
         
         if not last_year_same_period.empty:
@@ -103,10 +110,33 @@ def calculate_comparison_metrics(historical_data: dict) -> tuple:
 def create_comparison_chart(historical_data: dict) -> go.Figure:
     """Crea gráfico de comparación temporal avanzado"""
     try:
+        if not historical_data or not historical_data.get('dates') or not historical_data.get('activities'):
+            # Si no hay datos, devolver un gráfico vacío con mensaje
+            fig = go.Figure()
+            fig.add_annotation(
+                text="No hay suficientes datos para mostrar el análisis comparativo",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(color="white", size=14)
+            )
+            return fig
+            
         df = pd.DataFrame({
             'fecha': pd.to_datetime(historical_data['dates']),
             'actividades': historical_data['activities']
         })
+        
+        if df.empty or len(df) < 3:  # Necesitamos al menos 3 registros para un análisis significativo
+            fig = go.Figure()
+            fig.add_annotation(
+                text="No hay suficientes datos para mostrar el análisis comparativo",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(color="white", size=14)
+            )
+            return fig
         
         # Crear figura con subplots
         fig = make_subplots(
@@ -137,27 +167,39 @@ def create_comparison_chart(historical_data: dict) -> go.Figure:
             )
         
         # 2. Evolución por Períodos
-        df['periodo'] = pd.cut(
-            df['fecha'].dt.year,
-            bins=3,
-            labels=['Inicial', 'Intermedio', 'Reciente']
-        )
-        
-        period_stats = df.groupby('periodo')['actividades'].agg(['mean', 'std']).reset_index()
-        
-        fig.add_trace(
-            go.Bar(
-                x=period_stats['periodo'],
-                y=period_stats['mean'],
-                error_y=dict(
-                    type='data',
-                    array=period_stats['std'],
-                    visible=True
+        # Verificar que tenemos suficientes datos para hacer cortes significativos
+        if len(df['fecha'].dt.year.unique()) >= 2:
+            df['periodo'] = pd.cut(
+                df['fecha'].dt.year,
+                bins=min(3, len(df['fecha'].dt.year.unique())),
+                labels=['Inicial', 'Intermedio', 'Reciente'][:min(3, len(df['fecha'].dt.year.unique()))]
+            )
+            
+            period_stats = df.groupby('periodo')['actividades'].agg(['mean', 'std']).reset_index()
+            
+            fig.add_trace(
+                go.Bar(
+                    x=period_stats['periodo'],
+                    y=period_stats['mean'],
+                    error_y=dict(
+                        type='data',
+                        array=period_stats['std'],
+                        visible=True
+                    ),
+                    name='Promedio por Período'
                 ),
-                name='Promedio por Período'
-            ),
-            row=2, col=1
-        )
+                row=2, col=1
+            )
+        else:
+            # Si no hay suficientes años, mostrar un mensaje
+            fig.add_annotation(
+                text="Se requieren datos de múltiples años para mostrar evolución por períodos",
+                xref="x", yref="y",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(color="white", size=12),
+                row=2, col=1
+            )
         
         # Actualizar layout
         fig.update_layout(
@@ -183,7 +225,15 @@ def create_comparison_chart(historical_data: dict) -> go.Figure:
         
     except Exception as e:
         logger.error(f"Error creando gráfico de comparación: {str(e)}")
-        return go.Figure()
+        fig = go.Figure()
+        fig.add_annotation(
+            text=f"Error al crear gráfico comparativo: {str(e)}",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font=dict(color="red", size=14)
+        )
+        return fig
 
 def create_trend_analysis(historical_data: dict) -> go.Figure:
     """Crea análisis de tendencias y ciclos"""
@@ -345,6 +395,13 @@ def main():
             # Realizar predicción
             resultados = predictor.predict(input_data)
             
+            # Verificar si hay predicciones futuras
+            tiene_predicciones_futuras = False
+            if resultados.get('predicciones') and 'months_to_current' in resultados['predicciones']:
+                months_to_current = resultados['predicciones']['months_to_current']
+                if months_to_current < len(resultados['predicciones'].get('values', [])):
+                    tiene_predicciones_futuras = True
+            
             # Mostrar resultados en pestañas
             tab1, tab2, tab3, tab4, tab5 = st.tabs([
                 "📈 Pronóstico", 
@@ -356,6 +413,10 @@ def main():
             
             with tab1:
                 st.plotly_chart(resultados['grafico'], use_container_width=True)
+                
+                # Mostrar información adicional sobre las predicciones
+                if not tiene_predicciones_futuras and 'predicciones' in resultados and resultados['predicciones']:
+                    st.warning("⚠️ Los datos históricos son antiguos. Se recomienda aumentar el período de predicción para visualizar predicciones actuales.")
                 
                 with st.expander("ℹ️ Cómo interpretar este gráfico"):
                     st.markdown("""

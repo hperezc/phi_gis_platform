@@ -57,11 +57,108 @@
             cursor: pointer;
             transition: all 0.3s ease;
             pointer-events: auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .app-card:hover {
-            transform: translateX(-10px);
-            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-10px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Efecto de borde brillante al hacer hover */
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, 
+                transparent 25%, 
+                rgba(255, 215, 0, 0.5) 50%, 
+                transparent 75%);
+            z-index: -1;
+            transform: scale(0.98);
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .app-card:hover::before {
+            opacity: 1;
+            transform: scale(1.03);
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 360% 0%;
+            }
+        }
+        
+        /* Efecto de partículas en el hover */
+        .app-card .card-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .app-card:hover .card-particles {
+            opacity: 1;
+        }
+        
+        .card-particle {
+            position: absolute;
+            background-color: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Efecto de ondas al hacer clic */
+        .app-card .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 215, 0, 0.4);
+            transform: scale(0);
+            animation: rippleEffect 0.8s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes rippleEffect {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Animación para iconos */
+        .app-card:hover i {
+            animation: iconPulse 1.5s infinite alternate;
+        }
+        
+        @keyframes iconPulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px currentColor;
+            }
+            100% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;
+            }
         }
 
         .title-container {
@@ -111,6 +208,48 @@
             );
             animation: shine 3s infinite;
         }
+        
+        /* Reemplazar efecto glitch por un efecto elegante de gradiente animado */
+        .elegant-title {
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            background: linear-gradient(
+                90deg, 
+                #ffffff, 
+                #ffd700 25%, 
+                #ffcc00 50%, 
+                #ffd700 75%, 
+                #ffffff
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 8s linear infinite;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        /* Borde dorado sutil */
+        .elegant-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            animation: border-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes border-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
 
         @keyframes shine {
             to {
@@ -136,43 +275,507 @@
                 transform: translateX(0);
             }
         }
+
+        /* Efecto de perspectiva 3D para tarjetas */
+        .tilt-effect {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .tilt-effect .app-card {
+            transition: transform 0.5s ease;
+            transform: translateZ(0);
+        }
+        
+        .tilt-effect:hover .app-card {
+            transform: translateZ(20px);
+        }
+        
+        /* Efecto de paralaje para el fondo - MEJORADO */
+        .parallax-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .parallax-star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.3;
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* Panel de estadísticas */
+        .stats-panel {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            z-index: 20;
+            width: 280px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+            pointer-events: none;
+        }
+        
+        .stats-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stats-title {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 4px;
+        }
+        
+        .stats-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .stats-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .stats-bar {
+            height: 3px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .stats-progress {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            animation: stats-loading 8s infinite ease-in-out;
+        }
+        
+        @keyframes stats-loading {
+            0% { width: 10%; }
+            50% { width: 70%; }
+            100% { width: 10%; }
+        }
+        
+        /* Scanlines para efecto de pantalla */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.03) 51%,
+                transparent 51%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        
+        /* Botón Acerca de */
+        .about-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(50, 30, 0, 0.9);
+            border: 2px solid rgba(255, 215, 0, 0.9);
+            border-radius: 50%;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            animation: pulse-button 2s infinite alternate;
+        }
+        
+        @keyframes pulse-button {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+            100% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
+        }
+        
+        .about-button:hover {
+            transform: scale(1.2) !important;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.9) !important;
+        }
+        
+        .about-button i {
+            font-size: 24px;
+            color: rgba(255, 215, 0, 1);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        
+        /* Modal Acerca de */
+        .about-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 9000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        
+        .about-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .about-content {
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+        }
+        
+        .about-modal.visible .about-content {
+            transform: translateY(0);
+        }
+        
+        .about-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .about-title {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+        
+        .about-subtitle {
+            font-size: 1em;
+            color: #e6e6e6;
+        }
+        
+        .about-section {
+            margin-bottom: 20px;
+        }
+        
+        .about-section-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .about-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .about-close:hover {
+            background: rgba(50, 50, 50, 0.7);
+        }
+        
+        .about-feature {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .about-feature-icon {
+            flex: 0 0 40px;
+            height: 40px;
+            margin-right: 15px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffd700;
+        }
+        
+        .about-feature-content {
+            flex: 1;
+        }
+        
+        .about-feature-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #e6e6e6;
+        }
+
+        /* Efectos de iluminación para ubicaciones */
+        .location-glow {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.8;
+            pointer-events: none;
+            animation: pulse-location 2s infinite alternate;
+            filter: blur(8px);
+            z-index: 1000;
+        }
+        
+        .project-glow {
+            background: radial-gradient(circle, rgba(255, 26, 26, 0.9) 0%, rgba(255, 26, 26, 0) 70%);
+            box-shadow: 0 0 30px rgba(255, 26, 26, 0.9);
+            animation-delay: 0s;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .medellin-glow {
+            background: radial-gradient(circle, rgba(0, 255, 85, 0.9) 0%, rgba(0, 255, 85, 0) 70%);
+            box-shadow: 0 0 30px rgba(0, 255, 85, 0.9);
+            animation-delay: 0.5s;
+        }
+        
+        .bogota-glow {
+            background: radial-gradient(circle, rgba(0, 204, 255, 0.9) 0%, rgba(0, 204, 255, 0) 70%);
+            box-shadow: 0 0 30px rgba(0, 204, 255, 0.9);
+            animation-delay: 1s;
+        }
+        
+        @keyframes pulse-location {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
     </style>
 </head>
 <body>
     <div id="globeViz"></div>
     
+    <div class="parallax-stars" id="parallaxStars"></div>
+    <div class="scanlines"></div>
+    
     <div class="overlay">
         <div class="title-container">
-            <h1 class="main-title">Sistema de Información Geográfica PHI</h1>
+            <h1 class="main-title">
+                <span class="elegant-title">Sistema de Información Geográfica PHI</span>
+            </h1>
             <p class="subtitle">Plataforma de Análisis y Predicción</p>
         </div>
     </div>
 
-    <div class="app-menu">
+    <div class="app-menu tilt-effect">
         <div class="app-card" onclick="window.location.href='/dashboard'">
+            <div class="card-particles"></div>
             <i class="fas fa-chart-line fa-2x mb-3"></i>
             <h5>Dashboard</h5>
             <p>Visualización y análisis de datos</p>
         </div>
         
         <div class="app-card" onclick="window.location.href='/geoportal'">
+            <div class="card-particles"></div>
             <i class="fas fa-map-marked-alt fa-2x mb-3"></i>
             <h5>Geoportal</h5>
             <p>Análisis geográfico y espacial</p>
         </div>
 
-        <div class="app-card" onclick="window.location.href='/prediccion'">
+        <div class="app-card" onclick="window.location.href='/predictivos'">
+            <div class="card-particles"></div>
             <i class="fas fa-brain fa-2x mb-3"></i>
             <h5>Análisis Predictivo</h5>
             <p>Modelos predictivos y ML</p>
         </div>
     </div>
+    
+    <div class="stats-panel" id="statsPanel">
+        <div class="stats-title">Monitoreo del Sistema</div>
+        <div class="stats-item">
+            <span class="stats-label">Cobertura espacial:</span>
+            <span class="stats-value stats-counter">98.3%</span>
+        </div>
+        <div class="stats-item">
+            <span class="stats-label">Precisión modelos:</span>
+            <span class="stats-value stats-counter">94.7%</span>
+        </div>
+        <div class="stats-item">
+            <span class="stats-label">Puntos de monitoreo:</span>
+            <span class="stats-value stats-counter">1,842</span>
+        </div>
+        <div class="stats-item">
+            <span class="stats-label">Estado del sistema:</span>
+            <span class="stats-value">Activo</span>
+        </div>
+        <div class="stats-bar">
+            <div class="stats-progress"></div>
+        </div>
+    </div>
+    
+    <!-- Botón Acerca de -->
+    <div class="about-button" id="aboutButton" onclick="showModal()">
+        <i class="fas fa-info" style="color: #ffd700;"></i>
+    </div>
+    
+    <!-- Modal Acerca de -->
+    <div class="about-modal" id="aboutModal">
+        <div class="about-content">
+            <div class="about-close" id="aboutClose" onclick="hideModal()">
+                <i class="fas fa-times" style="color: #ffd700;"></i>
+            </div>
+            
+            <div class="about-header">
+                <h2 class="about-title">Sistema de Información Geográfica PHI</h2>
+                <p class="about-subtitle">Plataforma integral para análisis geoespacial del Proyecto Hidroituango</p>
+            </div>
+            
+            <div class="about-section">
+                <h3 class="about-section-title">Acerca del Sistema</h3>
+                <p>El Sistema de Información Geográfica PHI es una plataforma avanzada diseñada específicamente para el Proyecto Hidroituango, que integra datos geoespaciales, análisis predictivo y visualización interactiva para facilitar la toma de decisiones basada en datos. Esta herramienta estratégica permite monitorear, analizar y predecir diversos factores relacionados con el proyecto, desde la gestión ambiental hasta la planificación de actividades comunitarias.</p>
+            </div>
+            
+            <div class="about-section">
+                <h3 class="about-section-title">Componentes Principales</h3>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Dashboard Analítico</div>
+                        <p>Panel centralizado que presenta indicadores clave de desempeño, tendencias históricas y métricas esenciales del proyecto en tiempo real. Proporciona una visión integral de todas las operaciones con visualizaciones personalizables y filtros avanzados.</p>
+                    </div>
+                </div>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Geoportal Interactivo</div>
+                        <p>Plataforma de mapeo avanzada que permite visualizar datos geoespaciales en múltiples capas, realizar análisis espaciales complejos y generar mapas temáticos. Incluye funcionalidades de filtrado, medición, y superposición de capas para análisis detallado.</p>
+                    </div>
+                </div>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Módulos Predictivos</div>
+                        <p>Suite de herramientas de inteligencia artificial y aprendizaje automático que analizan patrones históricos para predecir tendencias futuras. Incluye modelos de predicción para asistencia a actividades, análisis temporal y distribución geográfica.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <h3 class="about-section-title">Aplicaciones Específicas</h3>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Predicción de Asistencia</div>
+                        <p>Modelos estadísticos avanzados que estiman la participación esperada en actividades comunitarias basándose en datos históricos, ubicación, tipo de actividad y factores contextuales.</p>
+                    </div>
+                </div>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-chart-area"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Análisis Temporal</div>
+                        <p>Herramientas para identificar tendencias, patrones estacionales y anomalías en series temporales relacionadas con las actividades del proyecto a lo largo del tiempo.</p>
+                    </div>
+                </div>
+                
+                <div class="about-feature">
+                    <div class="about-feature-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="about-feature-content">
+                        <div class="about-feature-title">Análisis Geográfico</div>
+                        <p>Funcionalidades para analizar la distribución espacial de actividades, identificar clusters, hotspots y generar mapas de calor para visualizar concentraciones de actividades o recursos.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <h3 class="about-section-title">Beneficios Clave</h3>
+                <ul>
+                    <li>Toma de decisiones informada basada en datos geoespaciales precisos</li>
+                    <li>Optimización de recursos mediante predicciones de asistencia y participación</li>
+                    <li>Mejor planificación territorial y gestión de actividades comunitarias</li>
+                    <li>Monitoreo en tiempo real de indicadores clave del proyecto</li>
+                    <li>Análisis histórico para identificar patrones y tendencias a largo plazo</li>
+                    <li>Visualización intuitiva de datos complejos para facilitar su interpretación</li>
+                </ul>
+            </div>
+            
+            <div class="about-section">
+                <h3 class="about-section-title">Tecnologías Implementadas</h3>
+                <p>Esta plataforma integra tecnologías de vanguardia en análisis de datos, inteligencia artificial y visualización geoespacial, incluyendo:</p>
+                <ul>
+                    <li>Algoritmos de aprendizaje automático para predicciones precisas</li>
+                    <li>Visualización de datos 3D interactiva basada en WebGL</li>
+                    <li>Procesamiento y análisis geoespacial avanzado</li>
+                    <li>Interfaces de usuario modernas y adaptativas</li>
+                    <li>Bases de datos espaciales para consultas geográficas eficientes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Definir colores constantes para mejor control
-        const PROJECT_COLOR = '#FF0000';  // Rojo brillante para el proyecto
-        const MEDELLIN_COLOR = '#4CAF5088';  // Verde tenue
-        const BOGOTA_COLOR = '#2196F388';   // Azul tenue
+        // Definir colores constantes para mejor control - COLORES MÁS INTENSOS Y CONTRASTANTES
+        const PROJECT_COLOR = '#ff1a1a';  // Rojo más intenso para el proyecto
+        const MEDELLIN_COLOR = '#00dd00';  // Verde más brillante (ligeramente modificado)
+        const BOGOTA_COLOR = '#0088ff';   // Azul más brillante (ligeramente modificado)
 
         // Coordenadas y configuración
         const ITUANGO_COORDS = { 
@@ -188,14 +791,14 @@
                 lat: 6.2442,
                 lng: -75.5812,
                 color: MEDELLIN_COLOR,
-                size: 0.08
+                size: 0.10  // Aumentado
             },
             {
                 name: 'Bogota',
                 lat: 4.7110,
                 lng: -74.0721,
                 color: BOGOTA_COLOR,
-                size: 0.08
+                size: 0.10  // Aumentado
             }
         ];
 
@@ -205,7 +808,7 @@
             startLng: ITUANGO_COORDS.lng,
             endLat: city.lat,
             endLng: city.lng,
-            color: `${PROJECT_COLOR}88`  // Color rojo con transparencia para los arcos
+            color: city.name === 'Medellin' ? `${MEDELLIN_COLOR}88` : `${BOGOTA_COLOR}88`  // Arcos del color de la ciudad
         }));
 
         // Crear datos para el efecto de atmósfera
@@ -227,37 +830,52 @@
                 lng: ITUANGO_COORDS.lng, 
                 altitude: 2.5 
             })
-            // Puntos actualizados con nuevo color
+            // Puntos actualizados con colores más distintivos y tamaños más diferenciados
             .pointsData([
                 {
                     lat: ITUANGO_COORDS.lat,
                     lng: ITUANGO_COORDS.lng,
-                    size: 0.15,
-                    color: PROJECT_COLOR,  // Color rojo brillante para el proyecto
-                    altitude: 0.1
+                    size: 0.25,  // Más grande que las ciudades
+                    color: PROJECT_COLOR,
+                    altitude: 0.15  // Más alto que las ciudades
                 },
-                ...CITIES.map(city => ({
-                    lat: city.lat,
-                    lng: city.lng,
-                    size: city.size,
-                    color: city.color,
-                    altitude: 0.07
-                }))
+                {
+                    lat: CITIES[0].lat,  // Medellín
+                    lng: CITIES[0].lng,
+                    size: 0.18,  // Ligeramente mayor para más visibilidad
+                    color: MEDELLIN_COLOR,
+                    altitude: 0.10  
+                },
+                {
+                    lat: CITIES[1].lat,  // Bogotá
+                    lng: CITIES[1].lng,
+                    size: 0.18,  // Ligeramente mayor para más visibilidad
+                    color: BOGOTA_COLOR,
+                    altitude: 0.10
+                }
             ])
             .pointAltitude('altitude')
             .pointColor('color')
             .pointRadius('size')
-            .pointsMerge(true)
-            // Anillos pulsantes con nuevo color
-            .ringsData([{
-                lat: ITUANGO_COORDS.lat,
-                lng: ITUANGO_COORDS.lng,
-                maxR: 2,
-                propagationSpeed: 1.5,
-                repeatPeriod: 1000,
-                amplitude: 2
-            }])
-            .ringColor(() => `${PROJECT_COLOR}88`)  // Anillos en rojo
+            .pointsMerge(false)  // Importante: false para que no se fusionen
+            // Solo anillo pulsante para el Proyecto Hidroituango
+            .ringsData([
+                {
+                    lat: ITUANGO_COORDS.lat,
+                    lng: ITUANGO_COORDS.lng,
+                    maxR: 3.0,
+                    propagationSpeed: 1.5,
+                    repeatPeriod: 1000,
+                    amplitude: 3.5,
+                    color: PROJECT_COLOR  // Color explícito
+                }
+            ])
+            .ringColor(d => d.color)  // Usar el color definido en cada dato
+            // Personalizar ring opacity y altitudes para mejor visualización
+            .ringAltitude(0.1)
+            .ringMaxRadius('maxR')
+            .ringPropagationSpeed('propagationSpeed')
+            .ringRepeatPeriod('repeatPeriod')
             // Arcos más delgados
             .arcsData(arcsData)
             .arcColor('color')
@@ -319,23 +937,23 @@
                 lat: ITUANGO_COORDS.lat,
                 lng: ITUANGO_COORDS.lng,
                 text: 'Proyecto Hidroituango',
-                size: 0.6,
-                altitude: 0.1,
+                size: 0.7,  // Más grande
+                altitude: 0.12,
                 color: '#ffffff',
-                backgroundColor: `${PROJECT_COLOR}dd`,  // Fondo más opaco para el proyecto
+                backgroundColor: `${PROJECT_COLOR}ee`,  // Más opaco
                 borderRadius: 5,
-                padding: 5
+                padding: 8  // Más padding
             },
             ...CITIES.map(city => ({
                 lat: city.lat,
                 lng: city.lng,
                 text: city.name,
-                size: 0.4,
+                size: 0.5,  // Más grande
                 altitude: 0.1,
                 color: '#ffffff',
-                backgroundColor: `${city.color}99`,
+                backgroundColor: `${city.color}cc`,  // Más opaco
                 borderRadius: 5,
-                padding: 5
+                padding: 6  // Más padding
             }))
         ];
 
@@ -359,19 +977,30 @@
                 }
             });
 
-        // Efecto de pulso actualizado
+        // Efecto de pulso actualizado para los puntos - más distintivo
         setInterval(() => {
             const pulsatingPoints = [
                 {
-                    ...ITUANGO_COORDS,
-                    size: 0.12 + Math.sin(Date.now() / 500) * 0.03,
-                    color: PROJECT_COLOR  // Mantiene el color brillante
+                    lat: ITUANGO_COORDS.lat,
+                    lng: ITUANGO_COORDS.lng,
+                    size: 0.25 + Math.sin(Date.now() / 400) * 0.05,
+                    color: PROJECT_COLOR,
+                    altitude: 0.15 + Math.sin(Date.now() / 500) * 0.02  // Altura variable
                 },
-                ...CITIES.map(city => ({
-                    ...city,
-                    size: city.size + Math.sin(Date.now() / 500) * 0.02,
-                    color: city.color
-                }))
+                {
+                    lat: CITIES[0].lat,  // Medellín - Sin efecto de pulso
+                    lng: CITIES[0].lng,
+                    size: 0.18,
+                    color: MEDELLIN_COLOR,
+                    altitude: 0.10
+                },
+                {
+                    lat: CITIES[1].lat,  // Bogotá - Sin efecto de pulso
+                    lng: CITIES[1].lng,
+                    size: 0.18,
+                    color: BOGOTA_COLOR,
+                    altitude: 0.10
+                }
             ];
             globe.pointsData(pulsatingPoints);
         }, 50);
@@ -379,25 +1008,26 @@
         // Sistema de partículas con colores actualizados
         function createParticleSystem() {
             const particles = [];
-            // Partículas para el proyecto en rojo
-            for (let i = 0; i < 20; i++) {
+            // Partículas para el proyecto - más y más brillantes
+            for (let i = 0; i < 30; i++) {
                 particles.push({
-                    lat: ITUANGO_COORDS.lat + (Math.random() - 0.5) * 0.3,
-                    lng: ITUANGO_COORDS.lng + (Math.random() - 0.5) * 0.3,
-                    size: Math.random() * 0.03 + 0.01,
-                    color: `${PROJECT_COLOR}${Math.floor(Math.random() * 99)}`,
-                    altitude: Math.random() * 0.1
+                    lat: ITUANGO_COORDS.lat + (Math.random() - 0.5) * 0.4,
+                    lng: ITUANGO_COORDS.lng + (Math.random() - 0.5) * 0.4,
+                    size: Math.random() * 0.04 + 0.02,  // Más grandes
+                    color: `${PROJECT_COLOR}${Math.floor(Math.random() * 50 + 50)}`,  // Más brillantes
+                    altitude: Math.random() * 0.12
                 });
             }
-            // Partículas más sutiles para las ciudades
+            
+            // Partículas para las ciudades - más destacadas
             CITIES.forEach(city => {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 15; i++) {
                     particles.push({
-                        lat: city.lat + (Math.random() - 0.5) * 0.2,
-                        lng: city.lng + (Math.random() - 0.5) * 0.2,
-                        size: Math.random() * 0.02 + 0.01,
-                        color: `${city.color}${Math.floor(Math.random() * 99)}`,
-                        altitude: Math.random() * 0.08
+                        lat: city.lat + (Math.random() - 0.5) * 0.3,
+                        lng: city.lng + (Math.random() - 0.5) * 0.3,
+                        size: Math.random() * 0.03 + 0.015,  // Más grandes
+                        color: `${city.color}${Math.floor(Math.random() * 50 + 50)}`,  // Más brillantes
+                        altitude: Math.random() * 0.1
                     });
                 }
             });
@@ -471,7 +1101,430 @@
             duration: 1000,
             once: true
         });
+        
+        // Funciones para efectos de tarjetas
+        initCardEffects();
+        
+        // Crear efecto de paralaje y estrellas
+        createParallaxStars();
+        
+        // Mostrar panel de estadísticas
+        setTimeout(() => {
+            document.getElementById('statsPanel').classList.add('visible');
+            initStatsCounters();
+        }, 1500);
+        
+        // Inicializar funcionalidad del botón y modal Acerca de
+        initAboutModal();
+        
+        // Crear efecto de paralaje estelar MEJORADO
+        function createParallaxStars() {
+            const starsContainer = document.getElementById('parallaxStars');
+            const starsCount = 100; // Reducido de 150 a 100 para menos densidad
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'parallax-star';
+                
+                // Tamaño y posición aleatoria
+                const size = Math.random() * 2 + 0.5; // Reducido el tamaño máximo de 3+1 a 2+0.5
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                
+                // Profundidad para paralaje - más variada
+                const depth = Math.random();
+                star.style.opacity = 0.1 + (depth * 0.3); // Reducido de 0.3+(depth*0.7) a 0.1+(depth*0.3)
+                star.setAttribute('data-depth', depth);
+                
+                starsContainer.appendChild(star);
+            }
+            
+            // Evento de movimiento para paralaje - MEJORADO
+            document.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                const stars = document.querySelectorAll('.parallax-star');
+                stars.forEach(star => {
+                    const depth = parseFloat(star.getAttribute('data-depth'));
+                    // Mayor rango de movimiento para más visibilidad
+                    const moveX = (mouseX - 0.5) * 50 * depth;
+                    const moveY = (mouseY - 0.5) * 50 * depth;
+                    
+                    // Transición más suave
+                    star.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+            });
+            
+            // Añadir movimiento automático sutil cuando no hay movimiento del ratón
+            let lastActivity = Date.now();
+            let autoMoveX = 0;
+            let autoMoveY = 0;
+            const autoMoveSpeed = 0.05;
+            
+            document.addEventListener('mousemove', () => {
+                lastActivity = Date.now();
+            });
+            
+            // Función de movimiento automático
+            function autoMoveStars() {
+                // Si han pasado más de 3 segundos sin movimiento del ratón
+                if (Date.now() - lastActivity > 3000) {
+                    // Movimiento circular suave
+                    autoMoveX = Math.sin(Date.now() * 0.001) * 0.5;
+                    autoMoveY = Math.cos(Date.now() * 0.001) * 0.5;
+                    
+                    const stars = document.querySelectorAll('.parallax-star');
+                    stars.forEach(star => {
+                        const depth = parseFloat(star.getAttribute('data-depth'));
+                        const moveX = autoMoveX * 50 * depth;
+                        const moveY = autoMoveY * 50 * depth;
+                        
+                        star.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                    });
+                }
+                
+                requestAnimationFrame(autoMoveStars);
+            }
+            
+            // Iniciar movimiento automático
+            autoMoveStars();
+        }
+        
+        // Funciones globales para mostrar/ocultar el modal
+        function showModal() {
+            const modal = document.getElementById('aboutModal');
+            if (!modal) return;
+            
+            console.log("Mostrando modal mediante función global");
+            modal.style.display = 'flex';
+            
+            // Pequeño retraso para permitir que se aplique el display: flex antes de añadir la clase
+            setTimeout(() => {
+                modal.classList.add('visible');
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+            }, 10);
+        }
+        
+        function hideModal() {
+            const modal = document.getElementById('aboutModal');
+            if (!modal) return;
+            
+            console.log("Ocultando modal mediante función global");
+            modal.classList.remove('visible');
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+            
+            // Esperar a que termine la transición antes de ocultar
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 400);
+        }
+        
+        // Inicializar eventos adicionales para el modal
+        function initModalEvents() {
+            const aboutModal = document.getElementById('aboutModal');
+            
+            // Cerrar al hacer clic fuera del contenido
+            if (aboutModal) {
+                aboutModal.addEventListener('click', function(e) {
+                    if (e.target === aboutModal) {
+                        hideModal();
+                    }
+                });
+            }
+            
+            // Cerrar con tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideModal();
+                }
+            });
+            
+            // También podemos asegurarnos que el botón sea interactivo
+            const aboutButton = document.getElementById('aboutButton');
+            if (aboutButton) {
+                aboutButton.style.cursor = 'pointer';
+                aboutButton.style.pointerEvents = 'auto';
+            }
+        }
+        
+        // Funciones para efectos de tarjetas
+        function initCardEffects() {
+            // Inicializar efectos de partículas en tarjetas
+            initCardParticles();
+            
+            // Añadir evento de clic para efectos de ondas
+            document.querySelectorAll('.app-card').forEach(card => {
+                card.addEventListener('click', createRippleEffect);
+            });
+        }
+        
+        // Inicializar partículas de tarjetas
+        function initCardParticles() {
+            document.querySelectorAll('.card-particles').forEach(container => {
+                // Crear partículas iniciales
+                for (let i = 0; i < 15; i++) {
+                    createCardParticle(container);
+                }
+                
+                // Animar partículas continuamente
+                animateCardParticles(container);
+            });
+        }
+        
+        // Crear una partícula para la tarjeta
+        function createCardParticle(container) {
+            const particle = document.createElement('div');
+            particle.className = 'card-particle';
+            
+            // Posición aleatoria dentro del contenedor
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            particle.style.left = `${x}%`;
+            particle.style.top = `${y}%`;
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 6 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Color aleatorio entre dorado y amarillo
+            const hue = 45 + Math.random() * 10;
+            const lightness = 50 + Math.random() * 20;
+            particle.style.backgroundColor = `hsla(${hue}, 100%, ${lightness}%, 0.8)`;
+            
+            // Añadir información para animación
+            particle.dataset.directionX = Math.random() * 2 - 1;
+            particle.dataset.directionY = Math.random() * 2 - 1;
+            particle.dataset.speed = 0.2 + Math.random() * 0.3;
+            
+            // Añadir al contenedor
+            container.appendChild(particle);
+            
+            return particle;
+        }
+        
+        // Animar partículas de tarjetas
+        function animateCardParticles(container) {
+            const particles = container.querySelectorAll('.card-particle');
+            const rect = container.getBoundingClientRect();
+            
+            particles.forEach(particle => {
+                // Solo animar si la tarjeta está en hover
+                if (container.parentElement.matches(':hover')) {
+                    // Obtener posición actual
+                    let x = parseFloat(particle.style.left) || 0;
+                    let y = parseFloat(particle.style.top) || 0;
+                    
+                    // Mover partícula
+                    x += parseFloat(particle.dataset.directionX) * parseFloat(particle.dataset.speed);
+                    y += parseFloat(particle.dataset.directionY) * parseFloat(particle.dataset.speed);
+                    
+                    // Comprobar límites
+                    if (x < 0 || x > 100) {
+                        particle.dataset.directionX = -parseFloat(particle.dataset.directionX);
+                    }
+                    if (y < 0 || y > 100) {
+                        particle.dataset.directionY = -parseFloat(particle.dataset.directionY);
+                    }
+                    
+                    // Actualizar posición
+                    particle.style.left = `${x}%`;
+                    particle.style.top = `${y}%`;
+                    
+                    // Mostrar partícula con animación
+                    if (parseFloat(particle.style.opacity || 0) < 0.8) {
+                        particle.style.opacity = Math.min(parseFloat(particle.style.opacity || 0) + 0.05, 0.8);
+                    }
+                } else {
+                    // Ocultar partícula gradualmente
+                    if (parseFloat(particle.style.opacity || 0) > 0) {
+                        particle.style.opacity = Math.max(parseFloat(particle.style.opacity || 0) - 0.05, 0);
+                    }
+                }
+            });
+            
+            requestAnimationFrame(() => animateCardParticles(container));
+        }
+        
+        // Crear efecto de ondas al hacer clic
+        function createRippleEffect(event) {
+            const card = this;
+            
+            // Eliminar cualquier efecto previo
+            const existingRipples = card.querySelectorAll('.ripple');
+            existingRipples.forEach(ripple => {
+                ripple.remove();
+            });
+            
+            // Crear nuevo efecto
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            
+            // Posicionar el efecto donde ocurrió el clic
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            // Tamaño debe ser al menos el ancho o alto del elemento
+            const maxDim = Math.max(rect.width, rect.height);
+            const rippleSize = maxDim * 2;
+            
+            ripple.style.width = ripple.style.height = `${rippleSize}px`;
+            ripple.style.left = `${x - rippleSize/2}px`;
+            ripple.style.top = `${y - rippleSize/2}px`;
+            
+            card.appendChild(ripple);
+            
+            // Eliminar el efecto después de la animación
+            setTimeout(() => {
+                ripple.remove();
+            }, 800);
+            
+            // No detener el evento de clic para que siga funcionando la navegación
+        }
 
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el globo
+            initGlobe();
+            
+            // Inicializar AOS para animaciones
+            AOS.init({
+                duration: 1000,
+                once: false
+            });
+            
+            // Mostrar la transición inicial
+            showIntro();
+            
+            // Inicializar efectos de las tarjetas
+            initCardEffects();
+            
+            // Inicializar el modal Acerca de
+            initModalEvents();
+            
+            // Inicializar efectos de clima
+            initWeatherEffects();
+            
+            // Añadir efectos especiales a las ubicaciones
+            addLocationEffects();
+        });
+
+        // Efectos adicionales de iluminación para puntos importantes
+        function addLocationEffects() {
+            // Para el proyecto
+            const projectGlow = document.createElement('div');
+            projectGlow.className = 'location-glow project-glow';
+            projectGlow.style.position = 'absolute';
+            projectGlow.style.pointerEvents = 'none';
+            document.body.appendChild(projectGlow);
+            
+            // Para Medellín
+            const medellinGlow = document.createElement('div');
+            medellinGlow.className = 'location-glow medellin-glow';
+            medellinGlow.style.position = 'absolute';
+            medellinGlow.style.pointerEvents = 'none';
+            document.body.appendChild(medellinGlow);
+            
+            // Para Bogotá
+            const bogotaGlow = document.createElement('div');
+            bogotaGlow.className = 'location-glow bogota-glow';
+            bogotaGlow.style.position = 'absolute';
+            bogotaGlow.style.pointerEvents = 'none';
+            document.body.appendChild(bogotaGlow);
+            
+            // Actualizar posiciones
+            setInterval(() => {
+                try {
+                    // Convertir coordenadas geográficas a coordenadas de pantalla
+                    const canvasRect = globeElement.getBoundingClientRect();
+                    const globeRadius = Math.min(canvasRect.width, canvasRect.height) / 2;
+                    const globeCenterX = canvasRect.left + canvasRect.width / 2;
+                    const globeCenterY = canvasRect.top + canvasRect.height / 2;
+                    
+                    // Obtener rotación actual para calcular posiciones visibles
+                    const rotation = globe.getRotation ? globe.getRotation() : {x: 0, y: 0, z: 0};
+                    
+                    // Verificar visibilidad del proyecto
+                    const projectVisible = isLocationVisible(ITUANGO_COORDS, rotation);
+                    if (projectVisible) {
+                        const projectCoords = geoToScreenCoords(ITUANGO_COORDS, globeCenterX, globeCenterY, globeRadius);
+                        projectGlow.style.left = `${projectCoords.x}px`;
+                        projectGlow.style.top = `${projectCoords.y}px`;
+                        projectGlow.style.display = 'block';
+                    } else {
+                        projectGlow.style.display = 'none';
+                    }
+                    
+                    // Verificar visibilidad de Medellín
+                    const medellinVisible = isLocationVisible(CITIES[0], rotation);
+                    if (medellinVisible) {
+                        const medellinCoords = geoToScreenCoords(CITIES[0], globeCenterX, globeCenterY, globeRadius);
+                        medellinGlow.style.left = `${medellinCoords.x}px`;
+                        medellinGlow.style.top = `${medellinCoords.y}px`;
+                        medellinGlow.style.display = 'block';
+                    } else {
+                        medellinGlow.style.display = 'none';
+                    }
+                    
+                    // Verificar visibilidad de Bogotá
+                    const bogotaVisible = isLocationVisible(CITIES[1], rotation);
+                    if (bogotaVisible) {
+                        const bogotaCoords = geoToScreenCoords(CITIES[1], globeCenterX, globeCenterY, globeRadius);
+                        bogotaGlow.style.left = `${bogotaCoords.x}px`;
+                        bogotaGlow.style.top = `${bogotaCoords.y}px`;
+                        bogotaGlow.style.display = 'block';
+                    } else {
+                        bogotaGlow.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.log("Error actualizando posiciones:", e);
+                }
+            }, 50);
+            
+            // Función auxiliar para convertir coordenadas geográficas a coordenadas de pantalla
+            function geoToScreenCoords(geoLocation, centerX, centerY, radius) {
+                // Convertir coordenadas geográficas a radianes
+                const lat = geoLocation.lat * Math.PI / 180;
+                const lng = geoLocation.lng * Math.PI / 180;
+                
+                // Calcular posición 3D en esfera
+                const x = Math.cos(lat) * Math.sin(lng);
+                const y = Math.sin(lat);
+                const z = Math.cos(lat) * Math.cos(lng);
+                
+                // Ajustar según rotación actual
+                // Simplificación: solo verificamos si el punto está "frente" al globo (z > 0)
+                if (z > 0) {
+                    // Proyectar a coordenadas 2D
+                    return {
+                        x: centerX + x * radius,
+                        y: centerY - y * radius
+                    };
+                }
+                return { x: -1000, y: -1000 }; // Fuera de la pantalla si no es visible
+            }
+            
+            // Función para verificar si una ubicación es visible dada la rotación actual
+            function isLocationVisible(geoLocation, rotation) {
+                // Simplificación: siempre devolvemos true para esta demo
+                // En una implementación real, se calcularía en base a la rotación
+                return true;
+            }
+        }
+        
+        // Inicializar efecto de clima visual
+        function initWeatherEffects() {
+            // Efecto sutil de nubes o clima - opcional
+        }
     </script>
 </body>
 </html> 
