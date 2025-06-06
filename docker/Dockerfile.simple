@@ -23,7 +23,10 @@ RUN pip install --no-cache-dir \
     requests \
     pandas \
     plotly \
-    dash
+    dash \
+    python-dotenv \
+    werkzeug \
+    sqlalchemy
 
 # Variables de entorno básicas
 ENV PYTHONPATH=/app
