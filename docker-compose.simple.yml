@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Solo Redis y la aplicación principal
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+
+  main_app:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8050:8050"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://doadmin:AVNS_nAsg-fcAlH1dOF3pzB_@db-postgresql-nyc1-96388-do-user-22908693-0.l.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+      - MAPBOX_TOKEN=pk.eyJ1IjoiaHBlcmV6Yzk3IiwiYSI6ImNtNXljaDc0cjBpNDMya3E1aGdzcjdpZnkifQ.9FBt1VDj52w2yw-7ewLU6Q
+      - SECRET_KEY=phi-gis-production-2024
+      - DEPLOY_MODE=vps
+      - FORCE_STREAMLIT_INIT=true
+      - DB_HOST=db-postgresql-nyc1-96388-do-user-22908693-0.l.db.ondigitalocean.com
+      - DB_USER=doadmin
+      - DB_PASSWORD=AVNS_nAsg-fcAlH1dOF3pzB_
+      - DB_PORT=25060
+      - DB_NAME=defaultdb
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  geoportal-backend:
+    build: 
+      context: ./geoportal/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db-postgresql-nyc1-96388-do-user-22908693-0.l.db.ondigitalocean.com
+      - DB_USER=doadmin
+      - DB_PASSWORD=AVNS_nAsg-fcAlH1dOF3pzB_
+      - DB_PORT=25060
+      - DB_NAME=defaultdb
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  geoportal-frontend:
+    build:
+      context: ./geoportal/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://45.55.212.201:8000
+      - NODE_ENV=production
+      - NODE_OPTIONS=--max-old-space-size=400
+    depends_on:
+      - geoportal-backend
+    restart: unless-stopped 

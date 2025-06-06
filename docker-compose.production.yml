@@ -23,14 +23,9 @@ services:
     networks:
       - phi_network
     # LÍMITES AJUSTADOS PARA 4GB RAM
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.5'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
+    mem_limit: 2G
+    cpus: 1.5
+    mem_reservation: 1G
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8050/health"]
       interval: 30s
@@ -47,14 +42,9 @@ services:
     networks:
       - phi_network
     # LÍMITES REDIS - MÍNIMOS
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-          cpus: '0.25'
-        reservations:
-          memory: 64M
-          cpus: '0.1'
+    mem_limit: 256M
+    cpus: 0.25
+    mem_reservation: 64M
     command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru
 
   # Geoportal Backend LIVIANO
@@ -77,14 +67,9 @@ services:
     networks:
       - phi_network
     # LÍMITES GEOPORTAL BACKEND - REDUCIDOS
-    deploy:
-      resources:
-        limits:
-          memory: 800M
-          cpus: '0.5'
-        reservations:
-          memory: 256M
-          cpus: '0.25'
+    mem_limit: 800M
+    cpus: 0.5
+    mem_reservation: 256M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
@@ -109,14 +94,9 @@ services:
     networks:
       - phi_network
     # LÍMITES FRONTEND - MUY REDUCIDOS
-    deploy:
-      resources:
-        limits:
-          memory: 600M
-          cpus: '0.5'
-        reservations:
-          memory: 256M
-          cpus: '0.25'
+    mem_limit: 600M
+    cpus: 0.5
+    mem_reservation: 256M
 
   # Servicio Nginx OPTIMIZADO
   nginx:
@@ -136,14 +116,9 @@ services:
     networks:
       - phi_network
     # LÍMITES NGINX - MÍNIMOS
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-          cpus: '0.25'
-        reservations:
-          memory: 64M
-          cpus: '0.1'
+    mem_limit: 128M
+    cpus: 0.25
+    mem_reservation: 64M
 
   # MONITOREO BÁSICO - Solo cuando sea necesario
   prometheus:
@@ -156,14 +131,9 @@ services:
     networks:
       - phi_network
     # LÍMITES PROMETHEUS - REDUCIDOS
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.25'
-        reservations:
-          memory: 128M
-          cpus: '0.1'
+    mem_limit: 512M
+    cpus: 0.25
+    mem_reservation: 128M
     profiles:
       - monitoring  # Solo ejecutar cuando se solicite
 
