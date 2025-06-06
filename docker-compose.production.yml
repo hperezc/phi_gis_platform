@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Aplicación principal
+  # Aplicación principal - OPTIMIZADA PARA 4GB RAM
   main_app:
     build: 
       context: .
@@ -13,6 +13,8 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - MAPBOX_TOKEN=${MAPBOX_TOKEN}
       - SECRET_KEY=${SECRET_KEY}
+      - DEPLOY_MODE=vps
+      - FORCE_STREAMLIT_INIT=true
     env_file:
       - .env.production
     restart: unless-stopped
@@ -20,8 +22,103 @@ services:
       - redis
     networks:
       - phi_network
+    # LÍMITES AJUSTADOS PARA 4GB RAM
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.5'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8050/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
-  # Servicio Nginx mejorado
+  # Redis OPTIMIZADO - MUY LIVIANO
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - phi_network
+    # LÍMITES REDIS - MÍNIMOS
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru
+
+  # Geoportal Backend LIVIANO
+  geoportal-backend:
+    build: 
+      context: ./geoportal/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    networks:
+      - phi_network
+    # LÍMITES GEOPORTAL BACKEND - REDUCIDOS
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+
+  # Geoportal Frontend LIVIANO
+  geoportal-frontend:
+    build:
+      context: ./geoportal/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://geoportal-backend:8000
+      - NODE_ENV=production
+      - NODE_OPTIONS=--max-old-space-size=512
+    depends_on:
+      - geoportal-backend
+    restart: unless-stopped
+    networks:
+      - phi_network
+    # LÍMITES FRONTEND - MUY REDUCIDOS
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  # Servicio Nginx OPTIMIZADO
   nginx:
     image: nginx:alpine
     ports:
@@ -38,63 +135,17 @@ services:
     restart: unless-stopped
     networks:
       - phi_network
+    # LÍMITES NGINX - MÍNIMOS
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
 
-  # Certbot para SSL gratuito
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - ./nginx/webroot:/var/www/html
-    depends_on:
-      - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email ${SSL_EMAIL} --agree-tos --no-eff-email --force-renewal -d ${DOMAIN} -d www.${DOMAIN}
-
-  # Redis para cache y sesiones
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-    networks:
-      - phi_network
-
-  # Geoportal Backend
-  geoportal-backend:
-    build: 
-      context: ./geoportal/backend
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    environment:
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_PORT=${DB_PORT}
-      - DB_NAME=${DB_NAME}
-    env_file:
-      - .env.production
-    restart: unless-stopped
-    networks:
-      - phi_network
-
-  # Geoportal Frontend
-  geoportal-frontend:
-    build:
-      context: ./geoportal/frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://geoportal-backend:8000
-      - NODE_ENV=production
-    depends_on:
-      - geoportal-backend
-    restart: unless-stopped
-    networks:
-      - phi_network
-
-  # Servicio para monitoreo
+  # MONITOREO BÁSICO - Solo cuando sea necesario
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -104,24 +155,33 @@ services:
     restart: unless-stopped
     networks:
       - phi_network
+    # LÍMITES PROMETHEUS - REDUCIDOS
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+        reservations:
+          memory: 128M
+          cpus: '0.1'
+    profiles:
+      - monitoring  # Solo ejecutar cuando se solicite
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3001:3000"  # Cambiado a 3001 para evitar conflicto con geoportal
+  # Certbot SOLO cuando sea necesario
+  certbot:
+    image: certbot/certbot
     volumes:
-      - grafana-storage:/var/lib/grafana
-      - ./monitoring/grafana:/etc/grafana/provisioning
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./nginx/webroot:/var/www/html
     depends_on:
-      - prometheus
-    restart: unless-stopped
-    networks:
-      - phi_network
+      - nginx
+    restart: "no"
+    profiles:
+      - ssl
+    command: certonly --webroot --webroot-path=/var/www/html --email ${SSL_EMAIL} --agree-tos --no-eff-email --force-renewal -d ${DOMAIN}
 
 volumes:
-  grafana-storage:
   certbot-etc:
   certbot-var:
 

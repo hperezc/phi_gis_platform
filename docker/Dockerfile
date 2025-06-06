@@ -54,20 +54,28 @@ USER app
 # Asegurar que el directorio local de Python esté en PATH
 ENV PATH=/home/app/.local/bin:$PATH
 
-# Variables de entorno para Python
+# Variables de entorno para Python OPTIMIZADAS
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONHASHSEED=random
+# Optimizaciones de memoria Python
+ENV MALLOC_ARENA_MAX=2
+ENV PYTHONGC=1
+# Streamlit optimizations
+ENV STREAMLIT_SERVER_HEADLESS=true
+ENV STREAMLIT_SERVER_ENABLE_CORS=false
+ENV STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
 
 # Crear directorio para logs
 RUN mkdir -p /app/logs
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8050/health || exit 1
 
 # Exponer puertos
 EXPOSE 8050 8501 8502 8503
 
-# Comando por defecto
-CMD ["gunicorn", "--bind", "0.0.0.0:8050", "--workers", "4", "--timeout", "120", "--worker-class", "sync", "main:application"] 
+# Comando por defecto OPTIMIZADO para producción
+CMD ["gunicorn", "--bind", "0.0.0.0:8050", "--workers", "2", "--threads", "4", "--timeout", "120", "--worker-class", "gthread", "--max-requests", "1000", "--max-requests-jitter", "100", "--preload", "main:application"] 
