@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  main_app:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.simple
+    ports:
+      - "8050:8050"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://doadmin:AVNS_nAsg-fcAlH1dOF3pzB_@db-postgresql-nyc1-96388-do-user-22908693-0.l.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+      - MAPBOX_TOKEN=pk.eyJ1IjoiaHBlcmV6Yzk3IiwiYSI6ImNtNXljaDc0cjBpNDMya3E1aGdzcjdpZnkifQ.9FBt1VDj52w2yw-7ewLU6Q
+      - SECRET_KEY=phi-gis-production-2024
+    depends_on:
+      - redis 
