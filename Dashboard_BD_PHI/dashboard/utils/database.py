@@ -3,6 +3,10 @@ import geopandas as gpd
 from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
+from functools import lru_cache
+import redis
+import json
+import hashlib
 
 # Cargar variables de entorno
 load_dotenv()
@@ -10,35 +14,111 @@ load_dotenv()
 # Determinar el entorno y configurar DATABASE_URL
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'production':
-    # Usar la URL de AlwaysData en producción con los parámetros correctos
-    DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://hperezc97:geoHCP97@postgresql-hperezc97.alwaysdata.net:5432/hperezc97_actividades_phi')
-    # Agregar parámetros adicionales para la conexión
-    if '?' not in DATABASE_URL:
-        DATABASE_URL += "?sslmode=require"
+    # Configuración optimizada para DigitalOcean
+    import urllib.parse
+    DB_USER = urllib.parse.quote_plus(os.getenv('DB_USER', 'doadmin'))
+    DB_PASSWORD = urllib.parse.quote_plus(os.getenv('DB_PASSWORD', ''))
+    DB_HOST = os.getenv('DB_HOST', 'localhost')
+    DB_PORT = os.getenv('DB_PORT', '25060')
+    DB_NAME = os.getenv('DB_NAME', 'defaultdb')
+    DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=require&connect_timeout=10&statement_timeout=30000"
 else:
     # URL local para desarrollo
     DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:0000@localhost:5432/bd_actividades_historicas')
 
+# Configurar Redis para cache (si está disponible)
+try:
+    redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True, socket_timeout=5)
+    redis_client.ping()
+    CACHE_ENABLED = True
+    print("✅ Cache Redis habilitado")
+except:
+    redis_client = None
+    CACHE_ENABLED = False
+    print("⚠️ Cache Redis no disponible, usando cache en memoria")
+
+@lru_cache(maxsize=1)
 def get_db_engine():
     """
-    Crea y retorna el engine de SQLAlchemy para la conexión a la base de datos
+    Crea y retorna el engine de SQLAlchemy con optimizaciones para DigitalOcean
     """
     try:
         if ENVIRONMENT == 'production':
-            # Solo en producción agregamos configuraciones especiales
+            # Configuración optimizada para DigitalOcean con pooling agresivo
             engine = create_engine(
                 DATABASE_URL,
                 pool_pre_ping=True,  # Verificar conexión antes de usar
-                pool_size=5,
-                max_overflow=10
+                pool_size=3,         # Reducido para 4GB RAM
+                max_overflow=2,      # Reducido para 4GB RAM  
+                pool_recycle=1800,   # Reciclar conexiones cada 30 min
+                pool_timeout=10,     # Timeout de pool
+                echo=False,          # Sin logs SQL en producción
+                connect_args={
+                    'connect_timeout': 10,
+                    'command_timeout': 30,
+                    'application_name': 'phi_dashboard'
+                }
             )
         else:
-            # En desarrollo mantener exactamente igual
-            engine = create_engine(DATABASE_URL)
+            # En desarrollo mantener simple
+            engine = create_engine(DATABASE_URL, pool_pre_ping=True)
         return engine
     except Exception as e:
         print(f"Error creando engine de base de datos: {str(e)}")
         raise
+
+def get_cache_key(query, params=None):
+    """Genera una clave única para el cache basada en la query y parámetros"""
+    key_data = f"{query}_{str(params) if params else ''}"
+    return f"phi_cache_{hashlib.md5(key_data.encode()).hexdigest()}"
+
+def get_from_cache(cache_key, ttl=300):
+    """Obtiene datos del cache con TTL (Time To Live) en segundos"""
+    if not CACHE_ENABLED:
+        return None
+    try:
+        if redis_client:
+            cached_data = redis_client.get(cache_key)
+            if cached_data:
+                return json.loads(cached_data)
+    except:
+        pass
+    return None
+
+def set_to_cache(cache_key, data, ttl=300):
+    """Guarda datos en el cache con TTL"""
+    if not CACHE_ENABLED:
+        return
+    try:
+        if redis_client:
+            redis_client.setex(cache_key, ttl, json.dumps(data, default=str))
+    except:
+        pass
+
+def execute_cached_query(query, params=None, ttl=300):
+    """Ejecuta una query con cache automático"""
+    cache_key = get_cache_key(query, params)
+    
+    # Intentar obtener del cache primero
+    cached_result = get_from_cache(cache_key, ttl)
+    if cached_result is not None:
+        return pd.DataFrame(cached_result)
+    
+    # Si no está en cache, ejecutar query
+    try:
+        engine = get_db_engine()
+        with engine.connect() as connection:
+            if params:
+                result = pd.read_sql(query, connection, params=params)
+            else:
+                result = pd.read_sql(query, connection)
+            
+            # Guardar en cache
+            set_to_cache(cache_key, result.to_dict('records'), ttl)
+            return result
+    except Exception as e:
+        print(f"Error ejecutando query: {str(e)}")
+        return pd.DataFrame()
 
 def execute_query(query, params=None):
     try:
@@ -133,8 +213,7 @@ def get_filter_options():
 
 def get_kpi_data(start_date=None, end_date=None, ano=None, zona=None, 
                  depto=None, municipio=None, categoria=None, grupo=None, contrato=None):
-    """Obtiene los datos para los KPIs con los filtros aplicados"""
-    engine = get_db_engine()
+    """Obtiene los datos para los KPIs con los filtros aplicados - CON CACHE"""
     query = """
         SELECT 
             COUNT(*) as total_actividades,
@@ -176,18 +255,18 @@ def get_kpi_data(start_date=None, end_date=None, ano=None, zona=None,
         params.append(contrato)
     
     try:
-        with engine.connect() as conn:
-            df = pd.read_sql(query, conn, params=tuple(params) if params else None)
-            return df.iloc[0].to_dict() if not df.empty else {
-                'total_actividades': 0,
-                'total_asistentes': 0,
-                'total_municipios': 0,
-                'total_meses_activos': 0,
-                'total_zonas': 0,
-                'total_grupos_interes': 0,
-                'promedio_asistentes': 0,
-                'total_contratos': 0
-            }
+        # Usar cache de 3 minutos para KPIs (son consultas costosas)
+        df = execute_cached_query(query, tuple(params) if params else None, ttl=180)
+        return df.iloc[0].to_dict() if not df.empty else {
+            'total_actividades': 0,
+            'total_asistentes': 0,
+            'total_municipios': 0,
+            'total_meses_activos': 0,
+            'total_zonas': 0,
+            'total_grupos_interes': 0,
+            'promedio_asistentes': 0,
+            'total_contratos': 0
+        }
     except Exception as e:
         print(f"Error obteniendo KPIs: {str(e)}")
         return {
@@ -202,103 +281,58 @@ def get_kpi_data(start_date=None, end_date=None, ano=None, zona=None,
         }
 
 def get_map_data(start_date=None, end_date=None, ano=None, zona=None, 
-                 depto=None, municipio=None, categoria=None, grupo=None, 
-                 contrato=None, nivel='municipios'):
-    """Obtiene los datos geográficos para el mapa según el nivel seleccionado"""
+                depto=None, municipio=None, categoria=None, grupo=None):
+    """
+    Obtiene datos del mapa con optimizaciones específicas
+    """
     engine = get_db_engine()
     
-    # Consulta base según el nivel
-    if nivel == 'departamentos':
-        query = """
-            SELECT 
-                departamento as nombre,
-                departamento,
-                COUNT(*) as total_actividades,
-                SUM(total_asistentes) as total_asistentes,
-                ROUND(AVG(total_asistentes)::numeric, 2) as promedio_asistentes,
-                COUNT(DISTINCT grupo_interes) as total_grupos,
-                geometry
-            FROM actividades_departamentos
-            WHERE 1=1
-        """
-        group_by = "GROUP BY departamento, geometry"
-    elif nivel == 'municipios':
-        query = """
-            SELECT 
-                municipio as nombre,
-                departamento,
-                municipio,
-                COUNT(*) as total_actividades,
-                SUM(total_asistentes) as total_asistentes,
-                ROUND(AVG(total_asistentes)::numeric, 2) as promedio_asistentes,
-                COUNT(DISTINCT grupo_interes) as total_grupos,
-                geometry
-            FROM actividades_municipios
-            WHERE 1=1
-        """
-        group_by = "GROUP BY municipio, departamento, geometry"
-    else:  # veredas o cabeceras
-        query = """
-            SELECT 
-                ubicacion as nombre,
-                departamento,
-                municipio,
-                tipo_geometria,
-                COUNT(*) as total_actividades,
-                SUM(total_asistentes) as total_asistentes,
-                ROUND(AVG(total_asistentes)::numeric, 2) as promedio_asistentes,
-                COUNT(DISTINCT grupo_interes) as total_grupos,
-                geometry
-            FROM actividades
-            WHERE geometry IS NOT NULL
-            AND tipo_geometria = %s
-        """
-        params = [nivel[:-1]]  # 'veredas' -> 'vereda' o 'cabeceras' -> 'cabecera'
-        group_by = "GROUP BY ubicacion, departamento, municipio, tipo_geometria, geometry"
+    # Query optimizada con índices específicos
+    query = """
+        SELECT 
+            departamento,
+            municipio,
+            COUNT(*) as total_actividades,
+            SUM(total_asistentes) as total_asistentes,
+            ROUND(AVG(total_asistentes)::numeric, 2) as promedio_asistentes,
+            geometry
+        FROM actividades 
+        WHERE geometry IS NOT NULL
+    """
     
-    # Aplicar filtros comunes
-    params = [] if nivel in ['departamentos', 'municipios'] else [nivel[:-1]]
+    # Construir filtros dinámicamente
+    conditions = []
+    params = []
+    
     if start_date and end_date:
-        query += " AND fecha BETWEEN %s AND %s"
+        conditions.append("fecha BETWEEN %s AND %s")
         params.extend([start_date, end_date])
     if ano:
-        query += " AND ano = %s"
+        conditions.append("ano = %s")
         params.append(ano)
     if zona:
-        query += " AND zona_geografica = %s"
+        conditions.append("zona_geografica = %s")
         params.append(zona)
     if depto:
-        query += " AND departamento = %s"
+        conditions.append("departamento = %s")
         params.append(depto)
     if municipio:
-        query += " AND municipio = %s"
+        conditions.append("municipio = %s")
         params.append(municipio)
     if categoria:
-        query += " AND categoria_unica = %s"
+        conditions.append("categoria_unica = %s")
         params.append(categoria)
     if grupo:
-        query += " AND grupo_interes = %s"
+        conditions.append("grupo_interes = %s")
         params.append(grupo)
-    if contrato:
-        query += " AND contrato = %s"
-        params.append(contrato)
     
-    # Agregar el GROUP BY
-    query += " " + group_by
+    if conditions:
+        query += " AND " + " AND ".join(conditions)
+    
+    query += " GROUP BY departamento, municipio, geometry ORDER BY total_actividades DESC LIMIT 1000"
     
     try:
-        with engine.connect() as conn:
-            gdf = gpd.read_postgis(query, conn, params=tuple(params) if params else None, geom_col='geometry')
-            
-            # Convertir geometrías a centroides para mapas de puntos y calor
-            if nivel in ['veredas', 'cabeceras']:
-                gdf['centroid'] = gdf['geometry'].centroid
-                gdf['geometry_original'] = gdf['geometry']  # Guardar geometría original
-            
-            # Asegurar que las coordenadas están en el formato correcto
-            gdf = gdf.to_crs(epsg=4326)
-            
-            return gdf
+        return gpd.read_postgis(query, engine, geom_col='geometry', params=tuple(params) if params else None)
     except Exception as e:
         print(f"Error obteniendo datos del mapa: {str(e)}")
         return gpd.GeoDataFrame()

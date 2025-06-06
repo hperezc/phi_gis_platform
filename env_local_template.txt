@@ -1,0 +1,24 @@
+# Configuración para ejecutar PHI GIS con Base de Datos Local
+# Copia este archivo como .env y modifica los valores según tu configuración
+
+ENVIRONMENT=development
+
+# Configuración de Base de Datos Local
+DATABASE_URL=postgresql://postgres:0000@localhost:5432/bd_actividades_historicas
+DB_USER=postgres
+DB_PASSWORD=0000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=bd_actividades_historicas
+
+# Configuración de la aplicación
+SECRET_KEY=phi-gis-local-development
+MAPBOX_TOKEN=pk.eyJ1IjoiaHBlcmV6Yzk3IiwiYSI6ImNtNXljaDc0cjBpNDMya3E1aGdzcjdqZnkifQ.9FBt1VDj52w2yw-7ewLU6Q
+
+# Configuración de puertos (opcional)
+MAIN_APP_PORT=8050
+GEOPORTAL_API_PORT=8000
+GEOPORTAL_FRONTEND_PORT=3000
+ML_ASISTENTES_PORT=8501
+ML_TEMPORAL_PORT=8502
+ML_GEOGRAFICO_PORT=8503 
