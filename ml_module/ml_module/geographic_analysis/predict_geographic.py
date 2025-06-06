@@ -19,7 +19,7 @@ root_dir = Path(__file__).parent.parent.parent
 sys.path.append(str(root_dir))
 
 from utils.data_loader import DataLoader
-from ml_module.geographic_analysis.analysis_utils import calculate_municipal_metrics, generate_municipal_recommendations
+from analysis_utils import calculate_municipal_metrics, generate_municipal_recommendations
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
