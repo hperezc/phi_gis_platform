@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://45.55.212.201:8000/api',
+  baseURL: 'https://aplicativosgrd.crantioquia.org.co/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

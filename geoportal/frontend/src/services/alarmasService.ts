@@ -12,7 +12,7 @@ export interface SistemaAlarma {
     LONGITUD: string;
 }
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://aplicativosgrd.crantioquia.org.co/api';
 
 export const alarmasService = {
     async getAlarmas(filters?: any): Promise<SistemaAlarma[]> {
