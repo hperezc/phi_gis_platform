@@ -11,7 +11,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://45.55.212.201:8000/api/:path*'
+        destination: 'https://aplicativosgrd.crantioquia.org.co/api/:path*'
       }
     ];
   },

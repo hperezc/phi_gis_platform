@@ -24,7 +24,12 @@ export const alarmasService = {
             if (filters?.estado) params.append('estado', filters.estado);
             if (filters?.tipo_activ) params.append('tipo_activ', filters.tipo_activ);
 
-            const response = await fetch(`${API_BASE_URL}/alarmas/sistema_alarmas?${params}`);
+            const response = await fetch(`${API_BASE_URL}/alarmas/sistema_alarmas?${params}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -37,7 +42,12 @@ export const alarmasService = {
 
     async getFilterOptions(): Promise<any> {
         try {
-            const response = await fetch(`${API_BASE_URL}/alarmas/sistema_alarmas/filters`);
+            const response = await fetch(`${API_BASE_URL}/alarmas/sistema_alarmas?${params}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
