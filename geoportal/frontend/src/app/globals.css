@@ -573,3 +573,64 @@ body {
 .sidebar {
   background: var(--bg-panel) !important;
 }
+
+/* Estilos para las estrellas de alarmas */
+.alarma-star-icon {
+  transition: all 0.3s ease;
+}
+
+.alarma-star-icon:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+.alarma-popup {
+  @apply p-4;
+  min-width: 250px;
+}
+
+.alarma-popup h3 {
+  @apply text-lg font-bold mb-3;
+  color: #1e40af;
+  border-bottom: 2px solid #fbbf24;
+  padding-bottom: 0.5rem;
+}
+
+.alarma-popup p {
+  @apply mb-2;
+  line-height: 1.4;
+}
+
+.alarma-popup strong {
+  color: #374151;
+}
+
+/* Animación de parpadeo para estrellas operativas */
+@keyframes starPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.alarma-star-icon[data-estado="operativo"] {
+  animation: starPulse 2s ease-in-out infinite;
+}
+
+/* Estilos para el estado en el popup */
+.alarma-popup .estado-badge {
+  @apply inline-block px-2 py-1 rounded text-xs font-medium;
+  transition: all 0.2s ease;
+}
+
+.alarma-popup .estado-badge.operativo {
+  @apply bg-green-100 text-green-800;
+}
+
+.alarma-popup .estado-badge.no-operativo {
+  @apply bg-red-100 text-red-800;
+}

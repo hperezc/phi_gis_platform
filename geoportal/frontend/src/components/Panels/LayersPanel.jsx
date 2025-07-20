@@ -578,6 +578,25 @@ export const LayersPanel = ({ layers, onLayerToggle, onOpacityChange, onBaseMapC
                       ));
                   }
                   
+                  // Renderizado especial para alarmas (estrellas)
+                  if (id === 'sistema_alarmas') {
+                    return (
+                      <div key={id} className="flex items-center space-x-2">
+                        <div
+                          className="w-4 h-4 flex items-center justify-center"
+                          style={{ 
+                            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))'
+                          }}
+                        >
+                          <svg viewBox="0 0 24 24" fill="#fbbf24" style={{ width: '100%', height: '100%' }}>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-600">{layer.name}</span>
+                      </div>
+                    );
+                  }
+
                   // Renderizado especial para puntos
                   if (['puntos_encuentro', 'senales_evacuacion'].includes(id)) {
                     return (
