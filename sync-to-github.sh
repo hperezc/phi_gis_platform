@@ -4,6 +4,12 @@ echo " Syncing changes to GitHub..."
 
 cd /opt/phi_gis_platform
 
+# Clean up temporary files first
+rm -rf next
+rm -rf temp_*
+rm -f *.backup*
+rm -f .tar.gz
+
 # Check if there are changes
 if [[ -n $(git status --porcelain) ]]; then
     echo "📝 Changes detected, committing..."
