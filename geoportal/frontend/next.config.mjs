@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: '/geoportal',
+  assetPrefix: '/geoportal',
   output: 'standalone',
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
+  outputFileTracingRoot: '/opt/phi_gis_platform/geoportal/frontend',
   env: {
     NEXT_PUBLIC_API_URL: 'https://aplicativosgrd.crantioquia.org.co/api'
   },
@@ -15,9 +15,6 @@ const nextConfig = {
       }
     ];
   },
-  // Agregar configuración para servir archivos estáticos
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://aplicativosgrd.crantioquia.org.co' : '',
-  basePath: '',
   trailingSlash: false
 };
 
