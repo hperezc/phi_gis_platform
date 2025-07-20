@@ -105,3 +105,23 @@ Thumbs.db
 
 # Datos específicos
 data/data_geoportal_phi.gdb/
+# Temporary files from server
+*.backup*
+*.temp*
+*.tar.gz
+temp_*
+next/
+
+# System files
+aux | grep
+e up -d
+udo systemctl
+ystemctl stop
+
+# Frontend temporary files
+frontend@0.1.0
+next.config.mjsY
+EXTRA:
+udo systemctl status nginx
+ystemctl stop geoportal.service
+temp_mapupdater.jsx
