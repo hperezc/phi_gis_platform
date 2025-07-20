@@ -25,7 +25,7 @@ const Header = ({ isPanelOpen, onTogglePanel }) => {
             <div className="logo-wrapper">
               <div className="logo-glow"></div>
               <Image
-                src="/epm-logo.png"
+                src="/geoportal/epm-logo.png"
                 alt="Logo EPM"
                 width={52}
                 height={52}
@@ -37,7 +37,7 @@ const Header = ({ isPanelOpen, onTogglePanel }) => {
             <div className="logo-wrapper">
               <div className="logo-glow"></div>
               <Image
-                src="/cruz-roja-logo.png"
+                src="/geoportal/cruz-roja-logo.png"
                 alt="Logo Cruz Roja"
                 width={52}
                 height={52}

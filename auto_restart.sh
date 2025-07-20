@@ -3,6 +3,7 @@
 # Configuración
 MEMORY_LIMIT=1400000  # 1.4GB en KB (límite seguro)
 SERVICE_NAME="phi-dashboard.service"
+GEOPORTAL_SERVICE="geoportal.service"
 LOG_FILE="/var/log/phi_auto_restart.log"
 
 # Obtener memoria actual del proceso main.py
@@ -32,4 +33,10 @@ if [ "$CURRENT_MEMORY" -gt "$MEMORY_LIMIT" ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S'): Servicio reiniciado. Nueva memoria: ${NEW_MEMORY}KB" >> $LOG_FILE
 else
     echo "$(date '+%Y-%m-%d %H:%M:%S'): Memoria dentro del límite normal" >> $LOG_FILE
+fi
+# Verificar y reiniciar geoportal si es necesario
+if ! systemctl is-active --quiet $GEOPORTAL_SERVICE; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S'): ADVERTENCIA - Geoportal no está activo. Reiniciando..." >> $LOG_FILE
+    systemctl restart $GEOPORTAL_SERVICE
+    echo "$(date '+%Y-%m-%d %H:%M:%S'): Geoportal reiniciado" >> $LOG_FILE
 fi
