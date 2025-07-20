@@ -1768,19 +1768,8 @@ def register_callbacks(app):
             columns = [{"name": i, "id": i} for i in df.columns]
             
             # Crear el gráfico animado
-            # Verificar si hay filtros aplicados
-            has_filters = any([ano, mes, zona, depto, municipio, categoria, grupo, grupo_intervencion, contrato, start_date, end_date])
-            
-            if not has_filters:
-                # Sin filtros: crear gráficos vacíos con mensaje
-                animated_fig = go.Figure()
-                animated_fig.update_layout(title="Selecciona filtros para ver el análisis animado")
-                bar_race_fig = go.Figure()
-                bar_race_fig.update_layout(title="Aplica filtros para ver evolución temporal")
-            else:
-                # Con filtros: crear gráficos normales
-                animated_fig = create_animated_chart(df)
-                bar_race_fig = create_bar_race_chart(df)
+            animated_fig = create_animated_chart(df)
+            bar_race_fig = create_bar_race_chart(df)
             
             # Combinar todos los componentes en una lista
             all_components = (

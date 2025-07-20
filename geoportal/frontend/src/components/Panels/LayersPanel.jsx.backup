@@ -502,7 +502,7 @@ export const LayersPanel = ({ layers, onLayerToggle, onOpacityChange, onBaseMapC
               groupId="evac"
               icon={<FaRoute className="w-4 h-4 text-blue-700" />}
             >
-              {['senales_evacuacion', 'puntos_encuentro', 'rutas_evacuacion', 'sistema_alarmas'].map(layerId => 
+              {['senales_evacuacion', 'puntos_encuentro', 'rutas_evacuacion'].map(layerId => 
                 layers[layerId] && (
                   <LayerItem
                     key={layerId}

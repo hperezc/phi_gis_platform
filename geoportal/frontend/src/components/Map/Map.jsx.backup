@@ -3,9 +3,8 @@ import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 're
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Marker, Popup, useMap, ScaleControl } from 'react-leaflet'
 import { getGeometries } from '../../services/api'
 import 'leaflet/dist/leaflet.css'
-import BaseMapControl from './BaseMapControl'
-import LoadingSpinner from '../LoadingSpinner'
 import AlarmasLayer from '../AlarmasLayer/AlarmasLayer'
+import LoadingSpinner from '../LoadingSpinner'
 import L from 'leaflet'
 
 // Necesitamos importar los íconos por defecto de Leaflet
@@ -144,7 +143,7 @@ const GeometryLayer = ({ feature, layerId, style, onEachFeature }) => {
           style={style}
           onEachFeature={(feature, layer) => onEachFeature(feature, layer, layerId)}
         />
-      )
+          )
   }
 }
 
@@ -178,7 +177,6 @@ const MapUpdater = ({ layers, geometries, getLayerStyle, onEachFeature }) => {
                   click: (e) => onEachFeature(feature, e.target, layerId)
                 }}
               />
-            ));
           }
 
           return (
@@ -188,8 +186,7 @@ const MapUpdater = ({ layers, geometries, getLayerStyle, onEachFeature }) => {
               style={(feature) => getLayerStyle(layerId, feature)}
               onEachFeature={(feature, layer) => onEachFeature(feature, layer, layerId)}
               pane="vias"
-            />
-          );
+            />;
         }
         return null;
       })}
@@ -206,8 +203,7 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   
   // Estado inicial del mapa base
   const [activeBaseMap, setActiveBaseMap] = useState('satellite')
-
-  const mapRef = useRef(null);
+  const [showAlarmas, setShowAlarmas] = useState(false)
   
   // Exponer la referencia del mapa al componente padre
   useImperativeHandle(ref, () => ({
@@ -246,7 +242,7 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
         loadingRef.current[layerId] = true
         setLoading(prev => ({ ...prev, [layerId]: true }))
         
-        console.log(`�� Iniciando carga de: ${layerId}`)
+        console.log(`🔄 Iniciando carga de: ${layerId}`)
         const data = await getGeometries(layerId)
         
         setGeometries(prev => ({
@@ -696,6 +692,9 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
     <div className="map-container">
       {isInitialLoading ? (
         <LoadingSpinner />
+          )
+          )
+          )
       ) : (
         <>
           <MapContainer
@@ -713,23 +712,17 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
                   url={map.url}
                   attribution={map.attribution}
                 />
-              )
-            ))}
+                />
+              />)}
 
             <ScaleControl position="bottomleft" />
             
             <PaneInitializer />
             <MapUpdater 
-              layers={layers}
               geometries={geometries}
               getLayerStyle={getLayerStyle}
               onEachFeature={onEachFeature}
-            />
-            
-            {/* Integración de la capa de alarmas */}
-            {layers.sistema_alarmas && layers.sistema_alarmas.visible && (
-              <AlarmasLayer visible={layers.sistema_alarmas.visible} />
-            )}
+            {showAlarmas && <AlarmasLayer visible={showAlarmas} />}
           </MapContainer>
           {Object.values(loading).some(isLoading => isLoading) && <LoadingSpinner />}
         </>
@@ -738,4 +731,4 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   )
 })
 
-export default Map;
+export default Map; 

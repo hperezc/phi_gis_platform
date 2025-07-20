@@ -170,6 +170,15 @@ const initialLayers = {
     description: 'Rutas establecidas para evacuación',
     source: 'PHI 2023'
   },
+  sistema_alarmas: {
+    id: 'sistema_alarmas',
+    visible: false,
+    opacity: 0.9,
+    color: '#ff4444',
+    name: 'Sistema de Alerta Temprana',
+    description: 'Estaciones de monitoreo y alerta del Sistema de Alerta Temprana (SAT)',
+    source: 'PHI 2025'
+  },
   drenaje_doble: {
     id: 'drenaje_doble',
     visible: false,

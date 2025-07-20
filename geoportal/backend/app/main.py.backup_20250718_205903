@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from .core.database import engine, Base
 from .api.endpoints import spatial, geometries
 from .api.endpoints.statistics import router as statistics_router
-from .api.endpoints.alarmas import router as alarmas_router
 from .api.endpoints.geometries import router as geometries_router
 import logging
 
@@ -33,7 +32,6 @@ app.add_middleware(
 app.include_router(spatial.router, prefix="/api", tags=["spatial"])
 app.include_router(geometries_router, prefix="/api")
 app.include_router(statistics_router, prefix="/api")
-app.include_router(alarmas_router, prefix="/api")
 
 
 @app.get("/")

@@ -1,0 +1,24 @@
+[0;1;32m●[0m nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (]8;;file://ubuntu-s-2vcpu-4gb-nyc3-01/usr/lib/systemd/system/nginx.service/usr/lib/systemd/system/nginx.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Mon 2025-06-30 17:43:21 UTC; 2 weeks 5 days ago
+ Invocation: 47a297564e5f47799e28e3c6d1970cb7
+       Docs: ]8;;man:nginx(8)man:nginx(8)]8;;
+   Main PID: 333116 (nginx)
+      Tasks: 3 (limit: 4655)
+     Memory: 6M (peak: 123.3M swap: 2.9M swap peak: 3.4M)
+        CPU: 37.118s
+     CGroup: /system.slice/nginx.service
+             ├─[0;38;5;245m333116 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"[0m
+             ├─[0;38;5;245m383711 "nginx: worker process"[0m
+             └─[0;38;5;245m383712 "nginx: worker process"[0m
+
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:80, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "45.55.212.201" on 0.0.0.0:80, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:80, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:80, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:443, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "45.55.212.201" on 0.0.0.0:443, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:443, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [warn] 383709#383709: conflicting server name "aplicativosgrd.crantioquia.org.co" on 0.0.0.0:443, ignored
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 nginx[383709]: 2025/07/01 00:21:33 [notice] 383709#383709: signal process started
+Jul 01 00:21:33 ubuntu-s-2vcpu-4gb-nyc3-01 systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.

@@ -15,8 +15,7 @@ const nextConfig = {
       }
     ];
   },
-  // Agregar configuración para servir archivos estáticos
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://aplicativosgrd.crantioquia.org.co' : '',
+  // Remover assetPrefix que puede causar problemas
   basePath: '',
   trailingSlash: false
 };

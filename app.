@@ -1,0 +1,22 @@
+2025-06-06 19:06:28,436 - main - INFO - Dashboard importado exitosamente
+2025-06-06 19:06:28,436 - main - INFO - Dashboard importado exitosamente
+2025-06-06 19:06:28,437 - main - INFO - Iniciando en modo producción (WSGI)
+2025-06-06 19:06:28,437 - main - INFO - Iniciando en modo producción (WSGI)
+2025-06-06 19:06:28,522 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8050
+ * Running on http://45.55.212.201:8050
+2025-06-06 19:06:28,522 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8050
+ * Running on http://45.55.212.201:8050
+2025-06-06 19:06:28,522 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-06 19:06:28,522 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+✅ Cache Redis habilitado
+=== PHI GIS PLATFORM ===
+✅ URL Principal: http://45.55.212.201:8050
+✅ Dashboard: http://45.55.212.201:8050/dashboard
+✅ Streamlit Asistentes: http://45.55.212.201:8501
+✅ Streamlit Temporal: http://45.55.212.201:8502
+✅ Streamlit Geográfico: http://45.55.212.201:8503
+=======================

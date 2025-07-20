@@ -1,0 +1,21 @@
+[0;1;32m●[0m geoportal.service - Geoportal Next.js Application
+     Loaded: loaded (]8;;file://ubuntu-s-2vcpu-4gb-nyc3-01/etc/systemd/system/geoportal.service/etc/systemd/system/geoportal.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Mon 2025-06-30 23:11:05 UTC; 6min ago
+ Invocation: e8f82af0104a4314888d875355e89198
+   Main PID: 381548 (next-server (v1)
+      Tasks: 11 (limit: 4655)
+     Memory: 80.9M (peak: 81.4M)
+        CPU: 5.943s
+     CGroup: /system.slice/geoportal.service
+             └─[0;38;5;245m381548 "next-server (v15.1.6)"[0m
+
+Jun 30 23:13:55 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /epm-logo.png received text/html; charset=utf-8
+Jun 30 23:13:55 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /cruz-roja-logo.png received text/html; charset=utf-8
+Jun 30 23:14:32 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /cruz-roja-logo.png received text/html; charset=utf-8
+Jun 30 23:14:32 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /epm-logo.png received text/html; charset=utf-8
+Jun 30 23:15:48 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /epm-logo.png received text/html; charset=utf-8
+Jun 30 23:15:48 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /cruz-roja-logo.png received text/html; charset=utf-8
+Jun 30 23:15:54 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /epm-logo.png received text/html; charset=utf-8
+Jun 30 23:15:54 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /cruz-roja-logo.png received text/html; charset=utf-8
+Jun 30 23:16:01 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /epm-logo.png received text/html; charset=utf-8
+Jun 30 23:16:01 ubuntu-s-2vcpu-4gb-nyc3-01 node[381548]:  ⨯ The requested resource isn't a valid image for /cruz-roja-logo.png received text/html; charset=utf-8

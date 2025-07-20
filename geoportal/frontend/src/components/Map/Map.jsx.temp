@@ -49,7 +49,7 @@ const senalEvacuacionIcon = new L.DivIcon({
 
 // Componente separado para manejar la creación de panes
 const PaneInitializer = () => {
-  const map = useMap(); // Usar el hook dentro del componente
+  const map = useMap();
   
   useEffect(() => {
     if (!map) return;

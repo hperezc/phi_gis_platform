@@ -36,15 +36,6 @@ const layerFields = {
     { id: 'cod_ruta', label: 'Código' },
     { id: 'nombre_mun', label: 'Municipio' },
     { id: 'estado_rut', label: 'Estado' }
-  ],
-  sistema_alarmas: [
-    { id: 'NOMBRE_SAT', label: 'Nombre SAT' },
-    { id: 'DEPARTAMEN', label: 'Departamento' },
-    { id: 'MUNICIPIO', label: 'Municipio' },
-    { id: 'ESTADO', label: 'Estado' },
-    { id: 'ALCANCE', label: 'Alcance' },
-    { id: 'TIPO_ACTIV', label: 'Tipo Activación' },
-    { id: 'RESPONSABL', label: 'Responsable' }
   ]
 };
 
@@ -54,8 +45,7 @@ const operational_layers = [
   'veredas',
   'puntos_encuentro',
   'senales_evacuacion',
-  'rutas_evacuacion',
-'sistema_alarmas'
+  'rutas_evacuacion'
 ];
 
 export default function FilterPanel({ layers, onFilterApply, onFeatureSelect }) {
@@ -120,7 +110,7 @@ export default function FilterPanel({ layers, onFilterApply, onFeatureSelect }) 
     setNotification(null);
     
     try {
-      const baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://aplicativosGRD.crantioquia.org.co/api';
+      const baseURL = 'http://localhost:8000/api';
       const response = await fetch(
         `${baseURL}/filter/${selectedLayer}?field=${selectedField}&value=${filterValue}`,
         {
