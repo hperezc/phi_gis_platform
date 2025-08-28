@@ -247,23 +247,40 @@ const CustomStackedBarChart = ({ data }) => {
     </ResponsiveContainer>
   );
 };
+
 // Añade esta función de formateo de datos antes del return
 const formatTemporalData = (data) => {
   if (!data) return [];
-  console.log("📊 DATOS ORIGINALES:", data);
+  
+  // Agrupar por año
+  const groupedByYear = data.reduce((acc, item) => {
+    const year = new Date(item.mes).getFullYear();
+    if (!acc[year]) {
+      acc[year] = {
+        total: 0,
+        asistentes: 0
+      };
+    }
+    acc[year].total += item.total;
+    acc[year].asistentes += item.asistentes;
+    return acc;
+  }, {});
 
-  // Usar los datos directamente sin agrupar por año
-  const result = data
-    .map(item => ({
-      categoria: item.mes.split("-")[0], // Solo el año
-      total: item.total,
-      asistentes: item.asistentes
+  // Convertir a array y ordenar
+  return Object.entries(groupedByYear)
+    .map(([year, data]) => ({
+      categoria: year,
+      total: data.total,
+      asistentes: data.asistentes
     }))
     .sort((a, b) => a.categoria - b.categoria);
-
-  console.log("📊 DATOS FORMATEADOS:", result);
-  return result;
 };
+
+// Añadir este nuevo componente
+const CustomHorizontalBarChart = ({ data }) => {
+  console.log("Datos recibidos en el gráfico:", data);
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
     return <Text>No hay datos disponibles</Text>;
   }
 
