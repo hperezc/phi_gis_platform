@@ -275,7 +275,7 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   const getLayerStyle = (layerId, feature) => {
     const layer = layers[layerId]
     const isActive = activeFeature && activeFeature.id === feature.id
-    const adminLayers = ['departamentos', 'municipios', 'veredas']
+    const adminLayers = ['departamentos', 'municipios']
 
     // Estilos específicos por tipo de capa
     if (adminLayers.includes(layerId)) {
@@ -429,8 +429,8 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   }
 
   const onEachFeature = (feature, layer, layerId) => {
-    const adminLayers = ['departamentos', 'municipios', 'veredas']
-    const operationalLayers = ['puntos_encuentro', 'senales_evacuacion', 'rutas_evacuacion']
+    const adminLayers = ['departamentos', 'municipios']
+    const operationalLayers = ['puntos_encuentro', 'senales_evacuacion', 'rutas_evacuacion', 'veredas']
     
     if (adminLayers.includes(layerId)) {
         // Lógica para capas administrativas
