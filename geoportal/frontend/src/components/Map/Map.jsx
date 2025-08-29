@@ -154,7 +154,7 @@ const MapUpdater = ({ layers, geometries, getLayerStyle, onEachFeature }) => {
     <>
       {Object.entries(layers).map(([layerId, layer]) => {
         if (layer.visible && geometries[layerId] && layerId !== 'baseMaps') {
-          if (['puntos_encuentro', 'senales_evacuacion', 'veredas'].includes(layerId)) {
+          if (['puntos_encuentro', 'senales_evacuacion'].includes(layerId)) {
             return geometries[layerId].features.map((feature, index) => (
               <CircleMarker
                 key={`${layerId}-${index}`}
@@ -315,10 +315,10 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
 
         case 'veredas': // Grupos de Interés
           return {
-            radius: 10,
+            radius: 8,
             fillColor: '#dc2626',
             color: '#ffffff',
-            weight: 3,
+            weight: 2,
             opacity: 1,
             fillOpacity: 0.8,
             className: 'grupos-interes-marker'
