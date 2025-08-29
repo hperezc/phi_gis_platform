@@ -52,14 +52,14 @@ class StatisticsService:
                 # Análisis temporal
                 temporal_query = """
                     SELECT 
-                        DATE_TRUNC('year', fecha) as mes,
+                        EXTRACT(YEAR FROM fecha) as year,
                         COUNT(*) as total,
                         SUM(total_asistentes) as asistentes
                     FROM actividades
                     WHERE grupo_interes = :geometry_id
                     AND tipo_geometria = 'vereda'
-                    GROUP BY DATE_TRUNC('year', fecha)
-                    ORDER BY mes
+                    GROUP BY EXTRACT(YEAR FROM fecha)
+                    ORDER BY year
                 """
 
                 # Análisis por categoría
@@ -109,14 +109,14 @@ class StatisticsService:
                 # Análisis temporal por mes
                 temporal_query = f"""
                     SELECT 
-                        DATE_TRUNC('year', fecha) as mes,
+                        EXTRACT(YEAR FROM fecha) as year,
                         COUNT(*) as total,
                         SUM(total_asistentes) as asistentes
                     FROM {table}
                     WHERE {id_field} = :geometry_id
                     {f"AND fecha BETWEEN :start_date AND :end_date" if start_date and end_date else ""}
-                    GROUP BY DATE_TRUNC('year', fecha)
-                    ORDER BY mes
+                    GROUP BY EXTRACT(YEAR FROM fecha)
+                    ORDER BY year
                 """
 
                 # Análisis por grupo de interés

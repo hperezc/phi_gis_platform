@@ -254,7 +254,7 @@ const formatTemporalData = (data) => {
   
   // Agrupar por año
   const groupedByYear = data.reduce((acc, item) => {
-    const year = new Date(item.mes).getFullYear();
+    const year = parseInt(item.year || item.mes);
     if (!acc[year]) {
       acc[year] = {
         total: 0,

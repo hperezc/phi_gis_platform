@@ -104,7 +104,7 @@ async def get_statistics(
     # Distribución temporal
     temporal = db.execute(f"""
         SELECT 
-            DATE_TRUNC('month', fecha) as mes,
+            EXTRACT(YEAR FROM fecha) as year,
             COUNT(*) as actividades,
             SUM(total_asistentes) as asistentes
         FROM {table}
