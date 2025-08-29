@@ -1,0 +1,36 @@
+{
+  "app/page.js -> ../components/Map/Map": {
+    "id": 79866,
+    "files": [
+      "static/css/2b175b2c70618f69.css",
+      "static/chunks/d0deef33.ec1eae6cb644a9d3.js",
+      "static/chunks/866.dbad3a0ba24ce26d.js"
+    ]
+  },
+  "app/page.js -> ../components/MapTools/MapTools": {
+    "id": 35606,
+    "files": [
+      "static/chunks/606.315735209b29e470.js"
+    ]
+  },
+  "app/page.js -> ../components/Panels/FilterPanel": {
+    "id": 96230,
+    "files": [
+      "static/chunks/230.2a5b97966f772db2.js"
+    ]
+  },
+  "app/page.js -> ../components/Panels/InfoPanel": {
+    "id": 78415,
+    "files": [
+      "static/chunks/796.38cbb3907885852f.js"
+    ]
+  },
+  "app/page.js -> ../components/Panels/StatsPanel": {
+    "id": 20186,
+    "files": [
+      "static/chunks/ca377847.ff11e341064cbc5f.js",
+      "static/chunks/415.97a69917dc1f1d13.js",
+      "static/chunks/186.88f24fe879b2d397.js"
+    ]
+  }
+}

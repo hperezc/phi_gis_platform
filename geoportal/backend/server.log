@@ -1,0 +1,59 @@
+nohup: ignoring input
+2025-07-18 21:30:57,740 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-07-18 21:30:57,741 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-18 21:30:57,745 INFO sqlalchemy.engine.Engine select current_schema()
+2025-07-18 21:30:57,745 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-18 21:30:57,748 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-07-18 21:30:57,749 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-18 21:30:57,753 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-18 21:30:57,754 INFO sqlalchemy.engine.Engine SELECT 1
+2025-07-18 21:30:57,754 INFO sqlalchemy.engine.Engine [generated in 0.00060s] {}
+✅ Conexión establecida correctamente
+2025-07-18 21:30:57,758 INFO sqlalchemy.engine.Engine SELECT PostGIS_Version()
+2025-07-18 21:30:57,758 INFO sqlalchemy.engine.Engine [generated in 0.00047s] {}
+✅ PostGIS versión: 3.5 USE_GEOS=1 USE_PROJ=1 USE_STATS=1
+2025-07-18 21:30:57,777 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-07-18 21:30:58,770 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-18 21:30:58,776 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+INFO:sqlalchemy.engine.Engine:SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-07-18 21:30:58,776 INFO sqlalchemy.engine.Engine [generated in 0.00034s] {'table_name': 'sistema_alarmas', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00034s] {'table_name': 'sistema_alarmas', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2025-07-18 21:30:58,782 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:     Started server process [664639]
+INFO:     Waiting for application startup.
+INFO:app.main:Iniciando aplicación FastAPI
+INFO:app.main:Rutas registradas:
+INFO:app.main:{'HEAD', 'GET'} /openapi.json
+INFO:app.main:{'HEAD', 'GET'} /docs
+INFO:app.main:{'HEAD', 'GET'} /docs/oauth2-redirect
+INFO:app.main:{'HEAD', 'GET'} /redoc
+INFO:app.main:{'GET'} /api/geometries/{level}
+INFO:app.main:{'GET'} /api/statistics/{level}
+INFO:app.main:{'GET'} /api/test/puntos-encuentro
+INFO:app.main:{'GET'} /api/test/punto/{id}
+INFO:app.main:{'GET'} /api/test/puntos-raw
+INFO:app.main:{'GET'} /api/filter/{layer}
+INFO:app.main:{'GET'} /api/fields/{table_name}
+INFO:app.main:{'GET'} /api/values/{table_name}/{field_name}
+INFO:app.main:{'GET'} /api/test/filter/{layer}/{field}/{value}
+INFO:app.main:{'GET'} /api/test/filter-format/{layer}/{field}/{value}
+INFO:app.main:{'GET'} /api/test/filter-raw/{layer}/{field}/{value}
+INFO:app.main:{'GET'} /api/test/filter-json/{layer}/{field}/{value}
+INFO:app.main:{'GET'} /api/geometries/{level}
+INFO:app.main:{'GET'} /api/statistics/{level}/{geometry_id}
+INFO:app.main:{'GET'} /api/statistics/test
+INFO:app.main:{'GET'} /api/alarmas/sistema_alarmas
+INFO:app.main:{'GET'} /api/alarmas/sistema_alarmas/filters
+INFO:app.main:{'GET'} /api/alarmas/sistema_alarmas/count
+INFO:app.main:{'GET'} /
+INFO:app.main:{'GET'} /api/health
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): [errno 98] address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
