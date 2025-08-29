@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import { FaBars, FaDownload, FaChartLine } from 'react-icons/fa'
+import { FaBars, FaChartLine } from 'react-icons/fa'
 import Link from 'next/link'
 
 const Header = ({ isPanelOpen, onTogglePanel }) => {
@@ -56,14 +56,10 @@ const Header = ({ isPanelOpen, onTogglePanel }) => {
         </div>
         
         <div className="header-right">
-          <Link href="/dashboard" className="dashboard-button">
+          <a href="https://aplicativosgrd.crantioquia.org.co/dashboard/" className="dashboard-button" target="_blank" rel="noopener noreferrer">
             <FaChartLine size={18} className="dashboard-icon" />
             <span>Dashboard</span>
-          </Link>
-          <button className="download-button">
-            <FaDownload size={18} className="download-icon" />
-            <span>Descargar Datos</span>
-          </button>
+          </a>
         </div>
       </div>
     </header>
