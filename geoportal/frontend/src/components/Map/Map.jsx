@@ -123,6 +123,26 @@ const GeometryLayer = ({ feature, layerId, style, onEachFeature }) => {
               }}
             />
           )
+        case 'veredas': // Grupos de Interés
+          return (
+            <CircleMarker
+              center={[
+                feature.geometry.coordinates[1],
+                feature.geometry.coordinates[0]
+              ]}
+              radius={10}
+              fillColor="#dc2626"
+              color="#ffffff"
+              weight={3}
+              opacity={1}
+              fillOpacity={0.8}
+              className="grupos-interes-marker"
+              eventHandlers={{
+                click: (e) => onEachFeature(feature, e.target, layerId)
+              }}
+            />
+          )
+
         default:
           return (
             <CircleMarker 
