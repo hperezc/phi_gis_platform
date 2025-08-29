@@ -295,7 +295,7 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   const getLayerStyle = (layerId, feature) => {
     const layer = layers[layerId]
     const isActive = activeFeature && activeFeature.id === feature.id
-    const adminLayers = ['departamentos', 'municipios', 'veredas']
+    const adminLayers = ['departamentos', 'municipios']
 
     // Estilos específicos por tipo de capa
     if (adminLayers.includes(layerId)) {
@@ -331,6 +331,17 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
             opacity: 1,
             fillOpacity: layer.opacity || 0.9,
             className: 'senal-evacuacion-marker'
+          }
+
+        case 'veredas': // Grupos de Interés
+          return {
+            radius: 10,
+            fillColor: '#dc2626',
+            color: '#ffffff',
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 0.8,
+            className: 'grupos-interes-marker'
           }
         
         case 'rutas_evacuacion':
@@ -438,8 +449,9 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   }
 
   const onEachFeature = (feature, layer, layerId) => {
-    const adminLayers = ['departamentos', 'municipios', 'veredas']
+    const adminLayers = ['departamentos', 'municipios']
     const operationalLayers = ['puntos_encuentro', 'senales_evacuacion', 'rutas_evacuacion']
+    const adminPointLayers = ['veredas']
     
     if (adminLayers.includes(layerId)) {
         // Lógica para capas administrativas
@@ -498,6 +510,39 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
             }
         })
     } else if (operationalLayers.includes(layerId)) {
+    } else if (adminPointLayers.includes(layerId)) {
+        // Lógica para puntos administrativos como veredas
+        feature.id = feature.id || `${layerId}-${feature.properties.nombre}-${Math.random()}`
+        feature.layerId = layerId
+
+        const tooltipContent = `
+            <div class="custom-tooltip">
+                <strong>${feature.properties.nombre}</strong>
+                ${feature.properties.municipio ? `<br>Municipio: ${feature.properties.municipio}` : ''}
+                ${feature.properties.departamento ? `<br>Departamento: ${feature.properties.departamento}` : ''}
+            </div>
+        `
+
+        layer.bindTooltip(tooltipContent, {
+            permanent: false,
+            direction: 'top',
+            className: 'admin-point-tooltip'
+        })
+
+        layer.on({
+            click: (e) => {
+                setActiveFeature(activeFeature?.id === feature.id ? null : feature)
+                onFeatureSelect({
+                    ...feature,
+                    type: 'administrative',
+                    level: feature.layerId,
+                    properties: {
+                        ...feature.properties,
+                        id: feature.properties.nombre
+                    }
+                })
+            }
+        })
         // Tooltips personalizados para capas operativas
         switch(layerId) {
             case 'puntos_encuentro':
