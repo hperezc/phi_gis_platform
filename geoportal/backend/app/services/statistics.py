@@ -198,7 +198,7 @@ class StatisticsService:
                 "total_asistentes": result.total_asistentes or 0,
                 "temporal": [
                     {
-                        "mes": mes.strftime("%Y-%m"),
+                        "mes": str(int(mes)),
                         "total": int(total or 0),
                         "asistentes": int(asistentes or 0)
                     } for mes, total, asistentes in temporal

@@ -581,7 +581,7 @@ const StatsPanel = ({ selectedFeature, currentLevel }) => {
                             textAnchor: 'end',
                             dy: 10
                           }}
-                          tickFormatter={(value) => value.split('-')[0]}
+                          tickFormatter={(value) => value.toString()}
                           interval={0}
                           height={60}
                         />

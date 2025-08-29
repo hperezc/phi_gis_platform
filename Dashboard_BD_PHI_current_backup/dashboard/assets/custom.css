@@ -1,0 +1,1762 @@
+/* Variables de estilo globales */
+:root {
+    --primary-color: #1975FA;
+    --primary-light: #60A5FA;
+    --primary-dark: #0A2472;
+    --secondary-color: #475569;
+    --accent-color: #3b82f6;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --background-light: #f8fafc;
+    --background-white: #ffffff;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --spacing-unit: 1rem;
+    --transition-base: all 0.3s ease;
+    --header-gradient-start: #051B5F;
+    --header-gradient-end: #1975FA;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+/* Header mejorado */
+.header {
+    background: linear-gradient(135deg, 
+        var(--header-gradient-start) 0%, 
+        var(--primary-dark) 35%, 
+        var(--header-gradient-end) 100%);
+    padding: calc(var(--spacing-unit) * 2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, 
+        rgba(255,255,255,0.15) 0%, 
+        transparent 70%);
+    pointer-events: none;
+}
+
+.header-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #fff, rgba(255,255,255,0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
+}
+
+.header-description {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+}
+
+.header-actions {
+    margin-top: 1rem;
+}
+
+/* Panel de filtros */
+.filters-panel {
+    background: white;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filters-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.filter-item {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: calc(var(--spacing-unit) * 1.5);
+    border-radius: var(--border-radius);
+    transition: var(--transition-base);
+}
+
+.filter-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.filter-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* KPIs */
+.kpi-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-unit);
+    width: 100%;
+    margin: 0 auto;
+}
+
+.kpi-card {
+    flex: 0 1 calc(25% - var(--spacing-unit));
+    min-width: 200px;
+    text-align: center;
+    background: linear-gradient(145deg, var(--background-white), #f8fafc);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.kpi-card i {
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--spacing-unit);
+}
+
+.kpi-card h3 {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    margin: calc(var(--spacing-unit) * 0.5) 0;
+}
+
+.kpi-card p {
+    color: #7f8c8d;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Responsive para KPIs */
+@media (max-width: 1200px) {
+    .kpi-card {
+        flex: 0 1 calc(33.333% - var(--spacing-unit));
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-card {
+        flex: 0 1 calc(50% - var(--spacing-unit));
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-card {
+        flex: 0 1 100%;
+    }
+}
+
+/* Visualizaciones */
+.viz-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    height: auto;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.panel-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+}
+
+.card-icon i {
+    font-size: 1.25rem;
+    color: white;
+}
+
+/* Contenedor del mapa */
+.map-container {
+    flex: 1;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    height: 600px;
+    margin-bottom: 20px;
+}
+
+/* Selector de tipo de mapa */
+.map-type-selector {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+/* Ajustes para las columnas */
+.six.columns {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Tabs de gráficos */
+.dash-tabs {
+    height: 100%;
+}
+
+.dash-tab-content {
+    height: calc(100% - 40px);  /* Altura total menos la altura de los tabs */
+    overflow: auto;
+}
+
+/* Tabla de datos */
+.data-table-container {
+    background: var(--background-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-unit);
+    box-shadow: var(--shadow-sm);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.table-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Botones */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.export-button {
+    background-color: #27ae60;
+}
+
+.export-button:hover {
+    background-color: #219a52;
+}
+
+.clear-filters-button {
+    background-color: #e74c3c;
+}
+
+.clear-filters-button:hover {
+    background-color: #c0392b;
+}
+
+/* Inputs */
+.search-input {
+    padding: 0.5rem;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+    width: 200px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filters-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .table-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-card, .panel {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Notificaciones */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: white;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.notification:hover {
+    opacity: 1;
+}
+
+.notification.success {
+    background-color: #2ecc71;
+}
+
+.notification.error {
+    background-color: #e74c3c;
+}
+
+.notification.info {
+    background-color: #3498db;
+}
+
+/* Loading Overlay */
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 999;
+    display: none;
+}
+
+.loading-container._dash-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Presets de Filtros */
+.presets-container {
+    background: white;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.preset-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.preset-dropdown {
+    flex: 1;
+}
+
+.preset-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.preset-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.preset-button.delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.preset-button.delete:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .viz-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .six.columns {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .map-container {
+        height: 400px;
+    }
+}
+
+/* Contenedor de visualizaciones */
+.visualizations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 1rem;
+    width: 100%;
+}
+
+/* Tabs personalizados */
+.custom-tabs {
+    position: relative;
+    margin-bottom: var(--spacing-unit);
+    border-bottom: none;
+}
+
+/* Contenedor de pestañas */
+.custom-tabs .tab-container {
+    display: flex;
+    gap: 0.5rem;
+    padding: calc(var(--spacing-unit) * 0.5);
+    background: rgba(241, 245, 249, 0.5);
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: none; /* Para Firefox */
+}
+
+.custom-tabs .tab-container::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari y Opera */
+}
+
+/* Estilo individual de pestaña */
+.custom-tab {
+    position: relative;
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.25);
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+/* Icono en la pestaña */
+.custom-tab i {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover */
+.custom-tab:hover:not(.custom-tab--selected) {
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.custom-tab:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Pestaña seleccionada */
+.custom-tab--selected {
+    color: var(--primary-color);
+    background: white;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.custom-tab--selected i {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+/* Efecto de deslizamiento */
+.custom-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.custom-tab--selected::after {
+    width: 80%;
+}
+
+/* Animación de entrada para el contenido */
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Contenedor de las pestañas dentro de los paneles */
+.chart-panel .custom-tabs {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    padding: calc(var(--spacing-unit) * 0.5);
+    border-radius: var(--border-radius);
+    margin: -1rem -1rem 1rem -1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo específico para pestañas dentro de paneles de gráficos */
+.chart-panel .custom-tab {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de ripple al hacer clic */
+.custom-tab .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Indicador de navegación de scroll */
+.custom-tabs::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 30px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-tabs.has-scroll::after {
+    opacity: 1;
+}
+
+/* Estilos para el contenedor de contenido de las pestañas */
+.tab-content-container {
+    position: relative;
+    padding: var(--spacing-unit);
+    background: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Animación para cambio entre pestañas */
+.tab-pane {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Estilo para pestañas deshabilitadas */
+.custom-tab:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Indicador de carga para pestañas */
+.custom-tab.loading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+    animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Contenedor de análisis */
+.analysis-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+/* Layout de gráficos en filas */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: stretch;
+}
+
+.row > div {
+    flex: 1;
+    min-width: 300px;
+    height: 400px;
+}
+
+/* Estilos para gráficos */
+.js-plotly-plot {
+    height: 400px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    background: white;
+    padding: 1rem;
+    width: 100% !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .analysis-container {
+        padding: 1rem;
+    }
+    
+    .row {
+        flex-direction: column;
+    }
+    
+    .row > div {
+        width: 100%;
+    }
+}
+
+/* Tooltips y leyendas */
+.plotly .legend {
+    font-family: 'Roboto', sans-serif;
+}
+
+.plotly .tooltip {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #e1e1e1 !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Animaciones */
+.js-plotly-plot .plot-container {
+    transition: all 0.3s ease;
+}
+
+.js-plotly-plot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Ajustar la sección del mapa */
+.map-section {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-section .panel-header {
+    margin-bottom: 0.5rem;
+}
+
+.map-section .js-plotly-plot,
+.map-section .js-plotly-plot .plot-container {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 1;
+}
+
+/* Ajustar la sección de gráficos */
+.charts-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Ajustar los paneles de gráficos */
+.chart-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 1.5);
+    transition: var(--transition-base);
+}
+
+.chart-panel:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.chart-panel h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-unit);
+}
+
+/* Ajustar los gráficos dentro de los paneles */
+.chart-panel .js-plotly-plot {
+    width: 100% !important;
+    height: 400px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Asegurar que los tabs contengan sus gráficos */
+.chart-tabs {
+    width: 100%;
+}
+
+.chart-tabs .tab-content {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Ajustar el contenedor principal */
+.main-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Asegurar que cada tab contenga su gráfico */
+.dash-tab-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Ajustar el tamaño de los gráficos en los tabs */
+.dash-tab-container .js-plotly-plot {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+/* Ajustar el panel de categorías específicamente */
+.chart-panel:first-of-type {
+    height: 800px;
+}
+
+.chart-panel:first-of-type .js-plotly-plot {
+    height: 600px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Mantener el alto original para los demás paneles */
+.chart-panel {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+/* Ajustar el contenedor del mapa */
+.map-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    flex: 1;
+}
+
+/* Asegurar que el contenedor Plotly ocupe todo el espacio */
+.js-plotly-plot .plot-container.plotly {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Ajustes para el contenedor principal de visualizaciones */
+.visualizations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 1rem;
+    width: 100%;
+}
+
+/* Asegurar que el mapa ocupe todo el espacio disponible */
+.js-plotly-plot {
+    width: 100% !important;
+}
+
+/* Específicamente para el mapa */
+#mapa-actividades.js-plotly-plot {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Ajustar el contenedor del mapa */
+.map-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Asegurar que el contenedor Plotly ocupe todo el espacio */
+.js-plotly-plot .plot-container.plotly {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Nuevo estilo para la disposición de gráficos en columnas */
+.chart-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    height: 600px;
+}
+
+.chart-column {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+}
+
+.chart-column .js-plotly-plot {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/* Ajuste responsive para pantallas pequeñas */
+@media (max-width: 1200px) {
+    .chart-row {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .chart-column {
+        height: 400px;
+        width: 100%;
+    }
+}
+
+/* Estilos para el contenedor de animación */
+.animation-container {
+    width: 100%;
+    height: 1200px;
+    position: relative;
+}
+
+.animation-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ajuste para el gráfico animado */
+#grafico-animado {
+    height: 100% !important;
+}
+
+/* Sección de Análisis Dinámico */
+.dynamic-section {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.dynamic-panel {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.dynamic-panel h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.dynamic-tabs {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Ajustes específicos para los gráficos animados */
+.dynamic-panel .js-plotly-plot {
+    width: 100% !important;
+    height: 1200px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Controles de animación */
+.animation-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .dynamic-panel {
+        padding: 1rem;
+    }
+    
+    .dynamic-panel .js-plotly-plot {
+        height: 600px !important;
+    }
+}
+
+/* Estilos para los tabs dentro del panel dinámico */
+.dynamic-panel .dash-tab-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.dynamic-panel .dash-tab {
+    padding: 12px 24px;
+    font-weight: 500;
+}
+
+.dynamic-panel .dash-tab--selected {
+    color: #1975FA;
+    border-bottom: 2px solid #1975FA;
+}
+
+/* Contenedores principales */
+.filters-container, .kpi-container, .visualizations-container {
+    background: var(--background-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-unit);
+    margin: var(--spacing-unit);
+    box-shadow: var(--shadow-sm);
+}
+
+/* KPIs mejorados */
+.kpi-card {
+    background: var(--background-white);
+    padding: calc(var(--spacing-unit) * 1.5);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.kpi-card i {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-unit);
+}
+
+.kpi-card h3 {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    margin: calc(var(--spacing-unit) * 0.5) 0;
+}
+
+/* Filtros mejorados */
+.filter-item {
+    background: var(--background-white);
+    padding: var(--spacing-unit);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-item label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+}
+
+/* Gráficos y visualizaciones */
+.chart-panel {
+    background: var(--background-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-unit);
+    margin-bottom: var(--spacing-unit);
+    box-shadow: var(--shadow-sm);
+}
+
+.chart-panel h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-unit);
+}
+
+/* Tabs personalizados */
+.custom-tabs {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.custom-tab {
+    padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit);
+    color: var(--text-secondary);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    transition: all 0.3s ease;
+}
+
+.custom-tab--selected {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    background-color: rgba(25, 117, 250, 0.1);
+}
+
+/* Botones mejorados */
+.btn {
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: var(--transition-base);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border: none;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+}
+
+/* Tabla de datos mejorada */
+.data-table-container {
+    background: var(--background-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-unit);
+    box-shadow: var(--shadow-sm);
+}
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
+    background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+    font-weight: 600;
+    padding: calc(var(--spacing-unit) * 0.75);
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Mapa y controles */
+.map-container-with-controls {
+    position: relative;
+    height: 600px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: var(--spacing-unit);
+}
+
+.map-controls-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    position: absolute;
+    bottom: calc(var(--spacing-unit) * 2);
+    left: calc(var(--spacing-unit) * 2);
+    z-index: 1000;
+    padding: calc(var(--spacing-unit) * 1.5);
+    min-width: 250px;
+}
+
+.map-controls-panel .control-panel-title {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.map-controls-panel .control-panel-title i {
+    color: var(--primary-color);
+}
+
+.map-type-selector, 
+.map-level-selector,
+.basemap-selector {
+    margin-bottom: var(--spacing-unit);
+}
+
+/* Mejorar la apariencia de los radio buttons en el panel de control */
+.map-controls-panel .radio-items {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 0.5);
+}
+
+.map-controls-panel .radio-items label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: calc(var(--spacing-unit) * 0.25) 0;
+    transition: var(--transition-base);
+}
+
+.map-controls-panel .radio-items label:hover {
+    color: var(--primary-color);
+}
+
+/* Estilo para el botón de pantalla completa */
+.map-fullscreen-btn {
+    position: absolute;
+    top: var(--spacing-unit);
+    right: var(--spacing-unit);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(25, 117, 250, 0.2);
+    color: var(--primary-color);
+    padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-base);
+    z-index: 1000;
+}
+
+.map-fullscreen-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Gradientes actualizados con el nuevo esquema de azules */
+.header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.custom-tab--selected {
+    background: linear-gradient(to bottom, rgba(25, 117, 250, 0.1), rgba(25, 117, 250, 0.05));
+    border-bottom: 3px solid var(--primary-color);
+}
+
+/* Ajuste de los iconos en el panel de control */
+.map-controls-panel i {
+    width: 20px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+/* Contenedor del mapa ajustado */
+.map-container-with-controls {
+    position: relative;
+    height: 600px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: var(--spacing-unit);
+}
+
+/* Estilizar los dropdowns */
+.Select-control {
+    border-radius: var(--border-radius-sm) !important;
+    border: 1px solid #e2e8f0 !important;
+    transition: var(--transition-base);
+}
+
+.Select-control:hover {
+    border-color: var(--primary-light) !important;
+}
+
+/* Estilos para el contenedor de animación */
+.animation-container {
+    width: 100%;
+    height: 1200px;
+    position: relative;
+}
+
+.animation-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Animaciones de carga */
+.loading-container {
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--primary-light);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Tooltips mejorados */
+.tooltip {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: var(--border-radius-sm) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: calc(var(--spacing-unit) * 0.75) !important;
+}
+
+/* Efectos de hover para elementos interactivos */
+.interactive-element {
+    transition: var(--transition-base);
+}
+
+.interactive-element:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Notificaciones mejoradas */
+.notification {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+}
+
+.notification.success {
+    border-left-color: var(--success-color);
+}
+
+.notification.warning {
+    border-left-color: var(--warning-color);
+}
+
+.notification.error {
+    border-left-color: var(--danger-color);
+}
+
+/* Mejoras en el mapa */
+.map-controls-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+/* Efectos de hover para elementos interactivos */
+.interactive-element {
+    transition: var(--transition-base);
+}
+
+.interactive-element:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Notificaciones mejoradas */
+.notification {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+}
+
+.notification.success {
+    border-left-color: var(--success-color);
+}
+
+.notification.warning {
+    border-left-color: var(--warning-color);
+}
+
+.notification.error {
+    border-left-color: var(--danger-color);
+}
+
+/* Ajustes del header */
+.header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    padding: calc(var(--spacing-unit) * 2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Mantener los estilos existentes del header-content */
+.header-content {
+    flex: 1;
+}
+
+/* Estilos para el contenedor de logos */
+.header-logos {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-left: auto;
+}
+
+/* Estilos para los logos individuales */
+.header-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition-base);
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Ajustes específicos para cada logo si es necesario */
+.header-logo.cruz-roja {
+    height: 45px; /* Ajusta según necesites */
+}
+
+.header-logo.eom {
+    height: 40px; /* Ajusta según necesites */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-unit);
+    }
+    
+    .header-logos {
+        margin-top: var(--spacing-unit);
+    }
+    
+    .header-logo {
+        height: 35px;
+    }
+}
+
+/* Ajustes para dropdowns */
+.Select-menu-outer {
+    z-index: 9999 !important;
+    position: absolute !important;
+    width: 100% !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    background-color: white !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm) !important;
+    box-shadow: var(--shadow-md) !important;
+    margin-top: 0 !important;
+}
+
+.Select-menu {
+    max-height: 398px !important;
+}
+
+.Select.is-open {
+    z-index: 9999 !important;
+}
+
+/* Mejorar la visualización de las opciones */
+.Select-option {
+    padding: 12px 16px !important;
+    background-color: white !important;
+    color: var(--text-primary) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.Select-option:hover {
+    background-color: rgba(25, 117, 250, 0.1) !important;
+    color: var(--primary-color) !important;
+}
+
+.Select-option.is-selected {
+    background-color: rgba(25, 117, 250, 0.15) !important;
+    color: var(--primary-color) !important;
+    font-weight: 500 !important;
+}
+
+/* Ajuste para contenedores de filtros */
+.filter-item {
+    position: relative;
+    z-index: 10;
+}
+
+.filter-item:hover,
+.filter-item:focus-within {
+    z-index: 10000;
+}
+
+/* Estilo del scrollbar para el menú de opciones */
+.Select-menu-outer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.Select-menu-outer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.Select-menu-outer::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.Select-menu-outer::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Ajustes para los contenedores de filtros */
+.filters-container {
+    position: relative;
+    overflow: visible !important; /* Cambiamos de hidden a visible */
+}
+
+.filter-item {
+    position: relative;
+    z-index: 10;
+    overflow: visible !important; /* Aseguramos que sea visible */
+}
+
+/* Ajustes para dropdowns */
+.Select-control {
+    overflow: visible !important;
+}
+
+.Select {
+    overflow: visible !important;
+}
+
+.Select.is-open {
+    overflow: visible !important;
+    z-index: 9999 !important;
+}
+
+/* Contenedor del menú dropdown */
+.Select-menu-outer {
+    z-index: 9999 !important;
+    position: absolute !important;
+    width: 100% !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    background-color: white !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm) !important;
+    box-shadow: var(--shadow-md) !important;
+    margin-top: 0 !important;
+}
+
+/* Ajuste para paneles y cards */
+.panel, .card, .chart-panel, .map-section, .analysis-container {
+    overflow: visible !important;
+}
+
+/* Ajuste para el contenedor principal */
+.main-content {
+    overflow: visible !important;
+}
+
+/* Ajuste para el dashboard container */
+.dashboard-container {
+    overflow: visible !important;
+}
+
+/* Loader de página */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-out;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--primary-light);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.loader-text {
+    color: var(--primary-color);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Efecto de skeleton loading para cards */
+.skeleton-loading {
+    background: linear-gradient(90deg,
+        var(--background-white) 25%,
+        var(--background-light) 50%,
+        var(--background-white) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite linear;
+}
+
+/* Efecto de transición para las cards */
+.card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto de brillo en hover */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
+
+.card:hover::before {
+    left: 125%;
+}
+
+/* Efecto de focus para inputs y dropdowns */
+.Select-control:focus-within,
+input:focus {
+    box-shadow: 0 0 0 3px rgba(25, 117, 250, 0.2);
+    border-color: var(--primary-color) !important;
+}
+
+/* Efecto de scroll suave */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* Tooltip mejorado */
+.custom-tooltip {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(25, 117, 250, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+}
+
+/* Efecto de notificación flotante */
+.floating-notification {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(100%);
+    opacity: 0;
+    z-index: 1000;
+}
+
+.floating-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Estilos para el modal de análisis */
+.modal-content {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stats-summary {
+    background: var(--background-light);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+} 

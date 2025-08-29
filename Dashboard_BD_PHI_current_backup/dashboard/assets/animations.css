@@ -1,0 +1,694 @@
+/* Animaciones para entrada de elementos */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 117, 250, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(25, 117, 250, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(25, 117, 250, 0);
+    }
+}
+
+/* Efecto de entrada para KPIs */
+.kpi-card {
+    animation: fadeSlideIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--animation-order) * 0.1s);
+    opacity: 0;
+}
+
+/* Efecto de pulso para valores importantes */
+.kpi-card h3 {
+    animation: pulseGlow 2s infinite;
+}
+
+/* Efecto hover para tarjetas */
+.chart-panel, .kpi-card, .filter-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-panel:hover, .kpi-card:hover, .filter-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación para carga de datos */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.loading {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.2) 50%, 
+        rgba(255,255,255,0) 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* Efecto de ondas al hacer clic */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-effect span {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Animación para tabs */
+.custom-tabs .tab {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-tabs .tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.custom-tabs .tab:hover::after {
+    width: 100%;
+}
+
+/* Animación para gráficos */
+.chart-container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideIn 0.5s ease-out forwards;
+}
+
+/* Efecto de desvanecimiento para tooltips */
+@keyframes tooltipFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tooltip {
+    animation: tooltipFade 0.2s ease-out forwards;
+}
+
+/* Animación de rotación para iconos de carga */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-icon {
+    animation: spin 1s linear infinite;
+}
+
+/* Efecto de expansión para elementos colapsables */
+@keyframes expandCollapse {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+    to {
+        max-height: 500px;
+        opacity: 1;
+    }
+}
+
+.collapsible {
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.collapsible.expanded {
+    animation: expandCollapse 0.3s ease-out forwards;
+}
+
+/* Efecto de desenfoque al cargar datos */
+.blur-loading {
+    filter: blur(4px);
+    transition: filter 0.3s ease;
+}
+
+.blur-loading.loaded {
+    filter: blur(0);
+}
+
+/* Animación para notificaciones */
+@keyframes slideInNotification {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.notification {
+    animation: slideInNotification 5s ease-in-out forwards;
+}
+
+/* Efecto de parallax para el header */
+.header-content {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Efecto de escritura para títulos */
+@keyframes typeWriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.type-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typeWriter 2s steps(40, end);
+}
+
+/* Animación para KPIs más estable */
+.kpi-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+}
+
+.kpi-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-out;
+}
+
+/* Animación de entrada inicial para KPIs */
+@keyframes fadeInKPI {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar animación solo en la carga inicial */
+.kpi-card {
+    animation: fadeInKPI 0.5s ease-out forwards;
+    animation-fill-mode: both;
+}
+
+/* Asignar delays diferentes a cada KPI */
+.kpi-card:nth-child(1) { animation-delay: 0.1s; }
+.kpi-card:nth-child(2) { animation-delay: 0.2s; }
+.kpi-card:nth-child(3) { animation-delay: 0.3s; }
+.kpi-card:nth-child(4) { animation-delay: 0.4s; }
+.kpi-card:nth-child(5) { animation-delay: 0.5s; }
+.kpi-card:nth-child(6) { animation-delay: 0.6s; }
+.kpi-card:nth-child(7) { animation-delay: 0.7s; }
+.kpi-card:nth-child(8) { animation-delay: 0.8s; }
+
+/* Animación suave para actualización de valores */
+.kpi-card h3 {
+    transition: all 0.3s ease-out;
+}
+
+/* Efecto de actualización */
+@keyframes updatePulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Clase para aplicar cuando el valor se actualiza */
+.kpi-update {
+    animation: updatePulse 0.3s ease-out;
+}
+
+/* Mantener el efecto hover */
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto de brillo en el icono */
+.kpi-card i {
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover i {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Efecto de pulso circular para KPIs */
+@keyframes pulsatingCircle {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 117, 250, 0.7);
+        transform: scale(1);
+    }
+    40% {
+        box-shadow: 0 0 20px 10px rgba(25, 117, 250, 0.4);
+        transform: scale(1.02);
+    }
+    70% {
+        box-shadow: 0 0 20px 10px rgba(25, 117, 250, 0.4);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(25, 117, 250, 0);
+        transform: scale(1);
+    }
+}
+
+/* Contenedor del valor del KPI */
+.kpi-card h3 {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: pulsatingCircle 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 0s;
+}
+
+/* Efecto hover para pausar la animación */
+.kpi-card:hover h3 {
+    animation-play-state: paused;
+}
+
+/* Ajuste del contenedor KPI */
+.kpi-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    animation-fill-mode: both;
+}
+
+/* Icono del KPI */
+.kpi-card i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+/* Texto del KPI */
+.kpi-card p {
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Efecto de ondas al hacer clic en los botones */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Animación para la tabla de datos */
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.data-table-container {
+    animation: fadeInTable 0.5s ease-out forwards;
+}
+
+/* Efecto hover para los filtros */
+.filter-item {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: all 0.6s;
+}
+
+.filter-item:hover::before {
+    left: 100%;
+}
+
+/* Animación para los botones de acción */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn:active::after {
+    animation: ripple 1s ease-out;
+}
+
+/* Efecto para los gráficos al hacer hover */
+.chart-container {
+    transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación del gradiente del header */
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Animación para el brillo que se mueve */
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateX(200%) rotate(45deg);
+        opacity: 0.7;
+    }
+}
+
+/* Efecto de partículas flotantes */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-10px) translateX(5px);
+    }
+    50% {
+        transform: translateY(0) translateX(10px);
+    }
+    75% {
+        transform: translateY(10px) translateX(5px);
+    }
+}
+
+/* Aplicar efectos al header */
+.header {
+    background: linear-gradient(
+        135deg,
+        var(--header-gradient-start) 0%,
+        var(--primary-dark) 35%,
+        var(--header-gradient-end) 65%,
+        var(--header-gradient-start) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientFlow 30s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo que se mueve */
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 100%
+    );
+    animation: shine 20s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+/* Título y descripción estáticos */
+.header-title, 
+.header-description {
+    position: relative;
+    z-index: 2;
+}
+
+/* Logos estáticos */
+.header-logos img {
+    position: relative;
+    z-index: 2;
+}
+
+/* Partículas decorativas */
+.header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(255, 255, 255, 0.2) 0%,
+        transparent 70%);
+    background-size: 100px 100px;
+    animation: float 25s infinite linear;
+    pointer-events: none;
+}
+
+/* Animación para dropdowns */
+.Select-menu-outer {
+    animation: dropdownFadeIn 0.2s ease-out;
+    transform-origin: top center;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scaleY(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}
+
+/* Ajuste de la animación de hover para cards */
+.chart-panel, .map-section, .analysis-container, .data-table-container {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-panel:hover, 
+.map-section:hover, 
+.analysis-container:hover, 
+.data-table-container:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Nuevas animaciones */
+
+/* Animación para skeleton loading */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Animación para el loader */
+@keyframes loader-spin {
+    to { transform: rotate(360deg); }
+}
+
+.loader-spinner {
+    animation: loader-spin 1s linear infinite;
+}
+
+/* Animación para entrada de elementos */
+@keyframes slideInFromBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación para las notificaciones */
+@keyframes notificationSlideIn {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    7% {
+        transform: translateX(-10px);
+        opacity: 1;
+    }
+    93% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Efecto de partículas en hover */
+@keyframes particleEffect {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px) translateX(var(--x));
+        opacity: 0;
+    }
+}
+
+/* Animación para el scroll indicator */
+@keyframes scrollIndicator {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Efecto de destello para actualizaciones */
+@keyframes updateFlash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(25, 117, 250, 0.1); }
+    100% { background-color: transparent; }
+}
+
+/* Aplicar animaciones a elementos */
+.card {
+    animation: slideInFromBottom 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.notification {
+    animation: notificationSlideIn 5s ease-in-out forwards;
+}
+
+/* Efecto de partículas en hover para botones */
+.btn:hover::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: particleEffect 0.6s ease-out forwards;
+    --x: calc(random() * 100px);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollIndicator 2s infinite;
+}
+
+/* Efecto de actualización para datos */
+.data-update {
+    animation: updateFlash 1s ease-out;
+}
