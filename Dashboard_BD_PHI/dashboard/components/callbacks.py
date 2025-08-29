@@ -1657,65 +1657,6 @@ def register_callbacks(app):
     def update_all_components(start_date, end_date, ano, mes, zona, depto, municipio, 
                             categoria, grupo, grupo_intervencion, contrato, map_type, map_level, basemap_style, search):
         """Actualiza todos los componentes según los filtros seleccionados"""
-        
-        # ===== VALIDACIÓN DE FILTROS PARA EVITAR SOBRECARGA DE MEMORIA =====
-        # Solo cargar datos si hay al menos un filtro específico aplicado
-        has_specific_filter = any([
-            depto is not None,
-            municipio is not None, 
-            categoria is not None,
-            grupo is not None,
-            zona is not None,
-            contrato is not None,
-            ano is not None,
-            (start_date is not None and end_date is not None)
-        ])
-        
-        # Si no hay filtros específicos, retornar valores vacíos
-        if not has_specific_filter:
-            print("⚠️  SEGURIDAD: No se cargan datos sin filtros específicos para evitar sobrecarga de memoria")
-            
-            # Crear figura vacía con mensaje informativo
-            empty_fig = go.Figure()
-            empty_fig.update_layout(
-                title="🔍 Seleccione filtros para cargar datos",
-                title_x=0.5,
-                title_font_size=18,
-                annotations=[{
-                    'text': "Para optimizar el rendimiento del servidor,<br>" +
-                           "seleccione al menos uno de estos filtros:<br><br>" +
-                           "• 🏛️ Departamento<br>" +
-                           "• 🏘️ Municipio<br>" +
-                           "• 📋 Categoría<br>" +
-                           "• 👥 Grupo de Interés<br>" +
-                           "• 🌍 Zona Geográfica<br>" +
-                           "• 📄 Contrato<br>" +
-                           "• 📅 Año<br>" +
-                           "• 📆 Rango de fechas<br><br>" +
-                           "<i>Esto evita la carga de ~5000 registros simultáneamente</i>",
-                    'showarrow': False,
-                    'x': 0.5,
-                    'y': 0.5,
-                    'font': {'size': 14, 'color': '#2c3e50'},
-                    'align': 'center'
-                }],
-                height=600,
-                paper_bgcolor='#f8f9fa',
-                plot_bgcolor='white'
-            )
-            
-            # Retornar estructura completa con valores seguros
-            return (
-                # KPIs vacíos (8 elementos)
-                ["Sin filtro"] * 8 +
-                # Todas las figuras vacías (14 elementos)
-                [empty_fig] * 14 +
-                # Datos de tabla vacíos (2 elementos)
-                [[], []]
-            )
-        
-        # Si hay filtros, continuar con la carga normal
-        print(f"✅ Filtros aplicados - procediendo con carga de datos")
         try:
             print(f"Actualizando componentes con filtros: depto={depto}, municipio={municipio}")
             
@@ -1752,16 +1693,17 @@ def register_callbacks(app):
                 contrato=contrato
             )
             
+            print(f"DEBUG: kpi_data = {kpi_data}")
             # Formatear KPIs
             kpis = [
-                f"{int(kpi_data['total_actividades']):,}",
-                f"{int(kpi_data['total_asistentes']):,}",
-                f"{int(kpi_data['total_municipios']):,}",
-                f"{int(kpi_data['total_meses_activos']):,}",
-                f"{int(kpi_data['total_zonas']):,}",
-                f"{int(kpi_data['total_grupos_interes']):,}",
-                f"{float(kpi_data['promedio_asistentes']):,.0f}",
-                f"{int(kpi_data['total_contratos']):,}"
+                f"{float(kpi_data.get('total_actividades', 0)):,}",
+                f"{float(kpi_data.get('total_asistentes', 0)):,}",
+                f"{float(kpi_data.get('total_municipios', 0)):,}",
+                f"{float(kpi_data.get('total_meses_activos', 0)):,}",
+                f"{float(kpi_data.get('total_zonas', 0)):,}",
+                f"{float(kpi_data.get('total_grupos_interes', 0)):,}",
+                f"{float(kpi_data.get('promedio_asistentes', 0)):,.0f}",
+                f"{float(kpi_data.get('total_contratos', 0)):,}"
             ]
             
             # Obtener datos para análisis temporal y comparativo
