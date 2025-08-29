@@ -275,7 +275,7 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   const getLayerStyle = (layerId, feature) => {
     const layer = layers[layerId]
     const isActive = activeFeature && activeFeature.id === feature.id
-    const adminLayers = ['departamentos', 'municipios']
+    const adminLayers = ['departamentos', 'municipios', 'veredas']
 
     // Estilos específicos por tipo de capa
     if (adminLayers.includes(layerId)) {
@@ -311,17 +311,6 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
             opacity: 1,
             fillOpacity: layer.opacity || 0.9,
             className: 'senal-evacuacion-marker'
-          }
-
-        case 'veredas': // Grupos de Interés
-          return {
-            radius: 8,
-            fillColor: '#dc2626',
-            color: '#ffffff',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.8,
-            className: 'grupos-interes-marker'
           }
         
         case 'rutas_evacuacion':
@@ -429,8 +418,8 @@ const Map = forwardRef(({ layers, onFeatureSelect, currentLevel, isPanelOpen }, 
   }
 
   const onEachFeature = (feature, layer, layerId) => {
-    const adminLayers = ['departamentos', 'municipios']
-    const operationalLayers = ['puntos_encuentro', 'senales_evacuacion', 'rutas_evacuacion', 'veredas']
+    const adminLayers = ['departamentos', 'municipios', 'veredas']
+    const operationalLayers = ['puntos_encuentro', 'senales_evacuacion', 'rutas_evacuacion']
     
     if (adminLayers.includes(layerId)) {
         // Lógica para capas administrativas
