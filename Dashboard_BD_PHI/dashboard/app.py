@@ -19,8 +19,9 @@ def create_dash_app():
     """Crea y configura la aplicación Dash"""
     app = Dash(
         __name__,
-        requests_pathname_prefix='/dashboard/',
+        # requests_pathname_prefix removed for Dash 4.0 compatibility
         suppress_callback_exceptions=True,
+        external_scripts=['https://cdn.plot.ly/plotly-3.3.1.min.js'],
         external_stylesheets=[
             dbc.themes.BOOTSTRAP,
             'https://use.fontawesome.com/releases/v5.15.4/css/all.css'

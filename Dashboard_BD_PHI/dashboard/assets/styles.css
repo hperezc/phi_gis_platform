@@ -720,3 +720,20 @@ p {
 .card-icon.analysis {
     background: linear-gradient(45deg, #9C27B0, #E91E63);
 } 
+/* FIX: Allow scrolling in Dashboard tab while keeping geoportal contained */
+#main-content {
+    height: auto !important;
+    min-height: calc(100vh - 60px);
+    overflow: visible !important;
+}
+
+.dash-tab-content {
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Keep geoportal tab fixed height with no scroll */
+.geoportal-container {
+    height: calc(100vh - 100px);
+    overflow: hidden;
+}

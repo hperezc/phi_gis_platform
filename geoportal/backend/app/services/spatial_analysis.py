@@ -59,19 +59,29 @@ class SpatialAnalysisService:
                 if level == 'departamentos':
                     query = """
                         SELECT 
-                            departamento as nombre,
-                            ST_AsGeoJSON(ST_SimplifyPreserveTopology(geometry, 0.001))::json as geom
-                        FROM actividades_departamentos
-                        GROUP BY departamento, geometry;
+                            d.departamento as nombre,
+                            ST_AsGeoJSON(ST_SimplifyPreserveTopology(d.geometry, 0.005))::json as geom
+                        FROM actividades_departamentos d
+                        INNER JOIN (
+                            SELECT departamento, MIN(id) as min_id
+                            FROM actividades_departamentos
+                            GROUP BY departamento
+                        ) sub ON d.id = sub.min_id
+                        ORDER BY d.departamento;
                     """
                 elif level == 'municipios':
                     query = """
                         SELECT 
-                            municipio as nombre,
-                            departamento,
-                            ST_AsGeoJSON(ST_SimplifyPreserveTopology(geometry, 0.001))::json as geom
-                        FROM actividades_municipios
-                        GROUP BY municipio, departamento, geometry;
+                            m.municipio as nombre,
+                            m.departamento,
+                            ST_AsGeoJSON(ST_SimplifyPreserveTopology(m.geometry, 0.005))::json as geom
+                        FROM actividades_municipios m
+                        INNER JOIN (
+                            SELECT municipio, departamento, MIN(id) as min_id
+                            FROM actividades_municipios
+                            GROUP BY municipio, departamento
+                        ) sub ON m.id = sub.min_id
+                        ORDER BY m.municipio;
                     """
                 else:  # veredas
                     query = """

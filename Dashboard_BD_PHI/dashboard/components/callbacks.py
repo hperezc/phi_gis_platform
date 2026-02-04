@@ -388,7 +388,7 @@ def create_charts(df):
         # 4. Gráfico de Departamentos: Mapa de calor
         df_dept = df.pivot_table(
             index='departamento',
-            columns=pd.Grouper(key='fecha', freq='M'),
+            columns=pd.Grouper(key='fecha', freq='ME'),
             values='id',
             aggfunc='count',
             fill_value=0
@@ -1181,7 +1181,7 @@ def create_trend_chart(df):
     try:
         # Preparar los datos
         df['fecha'] = pd.to_datetime(df['fecha'])
-        df_mensual = df.groupby(pd.Grouper(key='fecha', freq='M')).agg({
+        df_mensual = df.groupby(pd.Grouper(key='fecha', freq='ME')).agg({
             'id': 'count',
             'total_asistentes': 'sum'
         }).reset_index()
