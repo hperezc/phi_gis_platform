@@ -1,0 +1,54 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/phi_gis_platform/main_repo
+            
+            # Pull latest changes
+            git pull origin main
+            
+            # Activate virtual environment
+            source /opt/phi_gis_platform/venv/bin/activate
+            
+            # Install/update Python dependencies if requirements changed
+            if git diff HEAD~1 --name-only | grep -q 'Dashboard_BD_PHI/requirements.txt'; then
+              pip install -r Dashboard_BD_PHI/requirements.txt
+            fi
+            if git diff HEAD~1 --name-only | grep -q 'geoportal/backend/requirements.txt'; then
+              pip install -r geoportal/backend/requirements.txt
+            fi
+            
+            # Rebuild geoportal frontend if frontend files changed
+            if git diff HEAD~1 --name-only | grep -q 'geoportal/frontend/'; then
+              cd geoportal/frontend
+              npm install
+              npm run build
+              cd /opt/phi_gis_platform/main_repo
+            fi
+            
+            # Restart services
+            sudo systemctl restart dashboard
+            sudo systemctl restart geoportal-backend
+            sudo systemctl restart geoportal
+            
+            # Verify services are running
+            sleep 3
+            sudo systemctl is-active dashboard
+            sudo systemctl is-active geoportal-backend
+            sudo systemctl is-active geoportal
+            
+            echo '✅ Deployment complete!'
