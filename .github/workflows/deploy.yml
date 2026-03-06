@@ -37,6 +37,9 @@ jobs:
               cd geoportal/frontend
               npm install
               npm run build
+              # Copy public/ and static assets into standalone output (required for Next.js standalone mode)
+              cp -r public/ .next/standalone/public/ 2>/dev/null || true
+              cp -r .next/static/ .next/standalone/.next/static/ 2>/dev/null || true
               cd /opt/phi_gis_platform/main_repo
             fi
             
