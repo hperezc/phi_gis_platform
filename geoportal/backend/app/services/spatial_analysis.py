@@ -83,15 +83,22 @@ class SpatialAnalysisService:
                         ) sub ON m.id = sub.min_id
                         ORDER BY m.municipio;
                     """
-                else:  # veredas
+                else:  # veredas (Grupos de Interés)
+                    # Red de seguridad: incluir solo actividades cuya geometría caiga
+                    # dentro de algún municipio de interés. Evita mostrar puntos mal
+                    # georreferenciados (fuera del área de influencia del PHI).
                     query = """
                         SELECT DISTINCT ON (grupo_interes, municipio)
                             grupo_interes as nombre,
                             municipio,
                             departamento,
-                            ST_AsGeoJSON(ST_Union(geometry))::json as geom
-                        FROM actividades
-                        WHERE tipo_geometria = 'vereda'
+                            ST_AsGeoJSON(ST_Union(a.geometry))::json as geom
+                        FROM actividades a
+                        WHERE a.tipo_geometria = 'vereda'
+                          AND EXISTS (
+                              SELECT 1 FROM actividades_municipios m
+                              WHERE ST_Intersects(m.geometry, a.geometry)
+                          )
                         GROUP BY grupo_interes, municipio, departamento;
                     """
             
