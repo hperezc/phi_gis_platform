@@ -1503,6 +1503,14 @@ input[type="range"]::-webkit-slider-thumb {
   /* Removemos las transformaciones */
 }
 
+/* Marcador de "Grupos de Interés" (pin SVG).
+   Neutraliza el fondo/borde que leaflet.css aplica por defecto a .leaflet-div-icon. */
+.grupos-interes-marker {
+  background: transparent !important;
+  border: none !important;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+}
+
 /* Mejorar el estilo del tooltip */
 .custom-tooltip {
   background: rgba(255, 255, 255, 0.95) !important;

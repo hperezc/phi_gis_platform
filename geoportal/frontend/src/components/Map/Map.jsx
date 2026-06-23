@@ -15,10 +15,12 @@ import "leaflet/dist/images/marker-icon-2x.png"
 
 // Corregir el problema de los íconos por defecto de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
+// En Next.js, require('...png').default devuelve un objeto StaticImageData ({src, height, width, ...}),
+// NO una URL. Leaflet necesita la cadena .src; sin ella asigna "[object Object]" y el ícono se rompe.
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
-  iconUrl: require('leaflet/dist/images/marker-icon.png').default,
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default.src,
+  iconUrl: require('leaflet/dist/images/marker-icon.png').default.src,
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png').default.src,
 });
 
 // Definir íconos personalizados
@@ -45,6 +47,19 @@ const senalEvacuacionIcon = new L.DivIcon({
   iconSize: [28, 28],
   iconAnchor: [14, 28],
   popupAnchor: [0, -28]
+})
+
+// Ícono de pin clásico para la capa de "Grupos de Interés".
+// SVG inline => no depende de assets PNG, robusto en producción (basePath/standalone/proxy).
+const gruposInteresIcon = new L.DivIcon({
+  html: `<svg viewBox="0 0 24 36" width="26" height="39" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 8.25 12 24 12 24s12-15.75 12-24C24 5.373 18.627 0 12 0z" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="12" cy="12" r="4.5" fill="#ffffff"/>
+  </svg>`,
+  className: 'grupos-interes-marker',
+  iconSize: [26, 39],
+  iconAnchor: [13, 39],
+  popupAnchor: [0, -39]
 })
 
 // Componente separado para manejar la creación de panes
@@ -187,6 +202,11 @@ const MapUpdater = ({ layers, geometries, getLayerStyle, onEachFeature }) => {
               data={geometries[layerId]}
               style={(feature) => getLayerStyle(layerId, feature)}
               onEachFeature={(feature, layer) => onEachFeature(feature, layer, layerId)}
+              pointToLayer={
+                layerId === 'veredas'
+                  ? (feature, latlng) => L.marker(latlng, { icon: gruposInteresIcon, pane: 'markerPane' })
+                  : undefined
+              }
               pane="vias"
             />
           );
