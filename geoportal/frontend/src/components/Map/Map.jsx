@@ -52,14 +52,14 @@ const senalEvacuacionIcon = new L.DivIcon({
 // Ícono de pin clásico para la capa de "Grupos de Interés".
 // SVG inline => no depende de assets PNG, robusto en producción (basePath/standalone/proxy).
 const gruposInteresIcon = new L.DivIcon({
-  html: `<svg viewBox="0 0 24 36" width="26" height="39" xmlns="http://www.w3.org/2000/svg">
+  html: `<svg viewBox="0 0 24 36" width="18" height="27" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 0C5.373 0 0 5.373 0 12c0 8.25 12 24 12 24s12-15.75 12-24C24 5.373 18.627 0 12 0z" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"/>
     <circle cx="12" cy="12" r="4.5" fill="#ffffff"/>
   </svg>`,
   className: 'grupos-interes-marker',
-  iconSize: [26, 39],
-  iconAnchor: [13, 39],
-  popupAnchor: [0, -39]
+  iconSize: [18, 27],
+  iconAnchor: [9, 27],
+  popupAnchor: [0, -27]
 })
 
 // Componente separado para manejar la creación de panes
